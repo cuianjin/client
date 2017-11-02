@@ -1,0 +1,718 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    现金管理类工具申请
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 现金管理类工具管理</a></li>
+		<li class="active">现金管理类工具申请</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="targetApplyGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">现金管理类工具列表</h3>
+					<div class="box-tools">
+						<button id="cashToolAdd" class="btn btn-default btn-sm">
+							<i class="fa fa-plus"></i> 新建
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="cashToolSearchForm" name="cashToolSearchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>基金代码</label>
+									<input name="ticker" type="text" class="form-control input-sm" placeholder="搜索基金代码">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>基金名称</label>
+									<input name="secShortName" type="text" class="form-control input-sm" placeholder="搜索基金名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>基金类型</label>
+									<select name="etfLof" class="form-control input-sm" data-enum-fetch="CASHTOOLTYPE" data-enum-text="全部">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>基金状态</label>
+									<select name="state" class="form-control input-sm" data-enum-fetch="cashtoolStatesView" data-enum-text="全部">
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="cashToolApplyTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>基金代码</th>
+								<th>基金名称</th>
+								<th>基金类型</th>
+								<th>分红方式</th>
+								<th>流通份额</th>
+								<th>业绩比较基准</th>
+								<th>风险等级</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建现金管理类工具弹窗 -->
+<div id="addCashToolModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建现金管理类工具</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addCashToolForm" name="addCashToolForm" method="post">
+					<p class="form-header">现金管理类工具概况</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金代码</label>
+								<input name="ticker" type="text" class="form-control input-sm" placeholder="基金代码" required data-error="基金代码不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金名称</label>
+								<input name="secShortName" type="text" class="form-control input-sm" placeholder="基金名称" required data-error="基金名称不能为空" maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金类型</label>
+								<select name='etfLof' class="form-control input-sm" data-enum-fetch="CASHTOOLTYPE">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资对象</label>
+								<input name="investee" type="text" class="form-control input-sm" placeholder="投资对象" maxlength="64">
+							</div>
+						</div>-->
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>运作模式</label>
+								<input name="operationMode" type="text" class="form-control input-sm" placeholder="运作模式" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>业绩比较基准</label>
+								<input name="perfBenchmark" type="text" class="form-control" placeholder="业绩比较基准" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>申赎确认日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa">T+</i>
+									</div>
+									<input name="confirmDays" type="text" class="form-control" placeholder="申赎确认日" required data-validint="0-999" maxlength="3" data-error="申赎确认日不能为空且必须为小于1000的整数">
+									<span class="input-group-addon">工作日以内</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<!--<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否QDII</label>
+								<select name='isQdii' class="form-control input-sm">
+									<option value="Y">是</option>
+									<option value="N">否</option>
+                				</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否FoF</label>
+								<select name='isFof' class="form-control input-sm">
+									<option value="Y">是</option>
+									<option value="N">否</option>
+                				</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否分级基金</label>
+								<select name='isClass' class="form-control input-sm">
+										<option value="Y">是</option>
+										<option value="N">否</option>
+            						</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>流通份额</label>
+								<input name="circulationShares" type="text" class="form-control input-sm" placeholder="流通份额" data-validint="1-99999999999" data-error="流通份额必须为正整数">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否保本</label>
+								<select id="addIsGuarFund" name='isGuarFund' class="form-control input-sm">
+										<option value="Y">是</option>
+										<option value="N">否</option>
+            						</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>保本周期</label>
+								<div class="input-group input-group-sm">
+									<input id="addGuarPeriod" name="guarPeriod" type="text" class="form-control input-sm" placeholder="保本周期" data-validint='1-99999' data-error="保本周期必须为正整数">
+									<span class="input-group-addon">月</span>
+								</div>
+							</div>
+						</div>						
+					</div>
+					-->
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益结转方式</label>
+								<select name='incomeSchedule' class="form-control input-sm" data-enum-fetch="incomeSchedule" placeholder="收益结转方式" required data-error="收益结转方式不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>保本比例</label>
+								<div class="input-group input-group-sm">
+									<input id="addGuarRatio" name="guarRatio" type="text" class="form-control" placeholder="保本比例" data-validpositive="non-zero" data-validfloat="12.2" data-error="保本比例最多支持2位小数数字且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>-->
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>交易所代码</label>
+								<input name="exchangeCd" type="text" class="form-control input-sm" placeholder="交易所代码" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人编码</label>
+								<input name="managementCompany" type="text" class="form-control input-sm" placeholder="基金管理人编码" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人名称</label>
+								<input name="managementFullName" type="text" class="form-control input-sm" placeholder="基金管理人名称" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人编码</label>
+								<input name="custodian" type="text" class="form-control input-sm" placeholder="基金托管人编码" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人名称</label>
+								<input name="custodianFullName" type="text" class="form-control input-sm" placeholder="基金托管人名称" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资领域</label>
+								<input name="investField" type="text" class="form-control input-sm" placeholder="投资领域" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资目标</label>
+								<input name="investTarget" type="text" class="form-control input-sm" placeholder="投资目标" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金经理</label>
+								<input name="managerName" type="text" class="form-control input-sm" placeholder="基金经理" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>持有目的</label>
+								<select name='holdPorpush' class="form-control input-sm" data-enum-fetch="CASHTOOLHOLDPORPUSH" required data-error="持有目的不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+							</div>
+						</div>
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>分红方式</label>
+								<input name="dividendType" type="text" class="form-control input-sm" placeholder="分红方式" maxlength="1024">
+							</div>
+						</div>-->
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="saveCashTool" type="button" class="btn btn-primary btn-submit addCashToolSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑现金管理类工具弹窗 -->
+<div id="editCashToolModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑现金管理类工具</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="editCashToolForm" name="editCashToolForm" method="post">
+					<input type="hidden" name="oid" value="" />
+					<p class="form-header">现金管理类工具概况</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金代码</label>
+								<input name="ticker" type="text" class="form-control input-sm" placeholder="基金代码" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金名称</label>
+								<input name="secShortName" type="text" class="form-control input-sm" placeholder="基金名称" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金类型</label>
+								<select name='etfLof' class="form-control input-sm" data-enum-fetch="CASHTOOLTYPE">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资对象</label>
+								<input name="investee" type="text" class="form-control input-sm" placeholder="投资对象" maxlength="64">
+							</div>
+						</div>-->
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>运作模式</label>
+								<input name="operationMode" type="text" class="form-control input-sm" placeholder="运作模式" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>业绩比较基准</label>
+								<input name="perfBenchmark" type="text" class="form-control" placeholder="业绩比较基准" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>申赎确认日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa">T+</i>
+									</div>
+									<input name="confirmDays" type="text" class="form-control" placeholder="申赎确认日" required data-validint="0-999" maxlength="3" data-error="申赎确认日不能为空且必须为小于1000的整数">
+									<span class="input-group-addon">工作日以内</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益结转方式</label>
+								<select name='incomeSchedule' class="form-control input-sm" data-enum-fetch="incomeSchedule" placeholder="收益结转方式" required data-error="收益结转方式不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否QDII</label>
+								<select name='isQdii' class="form-control input-sm">
+									<option value="Y">是</option>
+									<option value="N">否</option>
+                				</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否FoF</label>
+								<select name='isFof' class="form-control input-sm">
+									<option value="Y">是</option>
+									<option value="N">否</option>
+                				</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否分级基金</label>
+								<select name='isClass' class="form-control input-sm">
+										<option value="Y">是</option>
+										<option value="N">否</option>
+            						</select>
+							</div>
+						</div>-->
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>流通份额</label>
+								<input name="circulationShares" type="text" class="form-control input-sm" placeholder="流通份额" data-validint="1-99999999999" data-error="流通份额必须为正整数">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>是否保本</label>
+								<select id='editIsGuarFund' name='isGuarFund' class="form-control input-sm">
+										<option value="Y">是</option>
+										<option value="N">否</option>
+            						</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>保本周期</label>
+								<div class="input-group input-group-sm">
+									<input id='editGuarPeriod' name="guarPeriod" type="text" class="form-control input-sm" placeholder="保本周期" data-validint='1-99999' data-error="保本周期必须为正整数">
+									<span class="input-group-addon">月</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>保本比例</label>
+								<div class="input-group input-group-sm">
+									<input id='editGuarRatio' name="guarRatio" type="text" class="form-control" placeholder="保本比例" ata-validpositive="non-zero" data-validfloat="12.2" data-error="保本比例最多支持2位小数数字且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>-->
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>交易所代码</label>
+								<input name="exchangeCd" type="text" class="form-control input-sm" placeholder="交易所代码" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人编码</label>
+								<input name="managementCompany" type="text" class="form-control input-sm" placeholder="基金管理人编码" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人名称</label>
+								<input name="managementFullName" type="text" class="form-control input-sm" placeholder="基金管理人名称" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人编码</label>
+								<input name="custodian" type="text" class="form-control input-sm" placeholder="基金托管人编码" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人名称</label>
+								<input name="custodianFullName" type="text" class="form-control input-sm" placeholder="基金托管人名称" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资领域</label>
+								<input name="investField" type="text" class="form-control input-sm" placeholder="投资领域" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资目标</label>
+								<input name="investTarget" type="text" class="form-control input-sm" placeholder="投资目标" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金经理</label>
+								<input name="managerName" type="text" class="form-control input-sm" placeholder="基金经理" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>持有目的</label>
+								<select name='holdPorpush' class="form-control input-sm" data-enum-fetch="CASHTOOLHOLDPORPUSH" required data-error="持有目的不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+							</div>
+						</div>
+						<!--<div class="col-sm-4">
+							<div class="form-group">
+								<label>分红方式</label>
+								<input name="dividendType" type="text" class="form-control input-sm" placeholder="分红方式">
+							</div>
+						</div>-->
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editCashTool" type="button" class="btn btn-primary btn-submit editCashToolSubmit">修 改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 现金管理类工具详情弹窗 -->
+<form id="detCashToolForm" name="detCashToolForm" method="post">
+	<div id="cashToolDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">现金管理类工具详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">现金管理类工具概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金代码:</dt>
+								<dd>
+									<div data-detail-fetch="ticker"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金名称:</dt>
+								<dd>
+									<div data-detail-fetch="secShortName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金类型:</dt>
+								<dd>
+									<div data-detail-fetch="etfLof" data-enum-transform="CASHTOOLTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>运作模式:</dt>
+								<dd>
+									<div data-detail-fetch="operationMode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>业绩比较基准:</dt>
+								<dd>
+									<div data-detail-fetch="perfBenchmark"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>申赎确认日:</dt>
+								<dd>
+									<div data-detail-fetch="confirmDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益结转方式:</dt>
+								<dd>
+									<div data-detail-fetch="incomeSchedule" data-enum-transform="incomeSchedule"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易所代码:</dt>
+								<dd>
+									<div data-detail-fetch="exchangeCd"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人编码:</dt>
+								<dd>
+									<div data-detail-fetch="managementCompany"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人名称:</dt>
+								<dd>
+									<div data-detail-fetch="managementFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人编码:</dt>
+								<dd>
+									<div data-detail-fetch="custodian"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人名称:</dt>
+								<dd>
+									<div data-detail-fetch="custodianFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金经理:</dt>
+								<dd>
+									<div data-detail-fetch="managerName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="CASHTOOLHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>风险等级:</dt>
+								<dd>
+									<div data-detail-fetch="riskLevel"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资目标:</dt>
+								<dd>
+									<div data-detail-fetch="investTarget"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资领域:</dt>
+								<dd>
+									<div data-detail-fetch="investField"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

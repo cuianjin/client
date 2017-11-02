@@ -1,0 +1,182 @@
+<link href="assets/js/jstree/themes/default/style.min.css" rel="stylesheet">
+<style>
+    .left {
+        float: left;
+        width: 25%;
+    }
+
+    .right {
+        float: right;
+        width: 70%;
+        padding: 0 0;
+        margin: 0 0;
+        margin-right: 5%;
+    }
+
+    .div1 {
+        height: 60px;
+        background-color: #fafafa;
+    }
+
+    .p-line {
+        line-height: 40px;
+        float: left;
+    }
+
+    .p-select {
+        margin-top: 15px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .div2 {
+        border: 1px solid #eeeeee;
+        margin-top: 20px;
+    }
+
+    .span {
+        color: red;
+    }
+
+    .theader {
+        background-color: #fafafa;
+    }
+    section.content .table{min-width: 0;text-align: inherit;}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+     表单管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> 动态表单管理</li>
+		<li class="active">表单管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="box box-primary clearfix">
+		<div class="container-fluid">
+        <table class="table table-bordered table-striped table-hover" style="margin-top: 20px;">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>表单CODE</th>
+                <th>表单名称</th>
+                <th>创建时间</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>REG_FORM</td>
+                <td>个人会员</td>
+                <td>2016年9月24日14:26:50</td>
+                <td>2016年9月24日14:27:00</td>
+                <td>
+                    <a data-toggle="modal" data-target=".bs-example-modal-sm">属性组分配</a>
+                    &nbsp;
+                    &nbsp;
+                    <a>表单预览</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>COMP_FORM</td>
+                <td>企业会员	</td>
+                <td>2016年9月24日14:26:50</td>
+                <td>2016年9月24日14:27:00</td>
+                <td>
+                    <a data-toggle="modal" data-target=".bs-example-modal-sm">属性组分配</a>
+                    &nbsp;
+                    &nbsp;
+                    <a>表单预览</a>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>OPEN_MCHT</td>
+                <td>代开户</td>
+                <td>2016年9月24日14:26:50</td>
+                <td>2016年9月24日14:27:00</td>
+                <td>
+                    <a data-toggle="modal" data-target=".bs-example-modal-sm">属性组分配</a>
+                    &nbsp;
+                    &nbsp;
+                    <a>表单预览</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>4</td>
+                <td>BASE_REG_FORM</td>
+                <td>会员基础表单</td>
+                <td>2016年9月24日14:26:50</td>
+                <td>2016年9月24日14:27:00</td>
+                <td>
+                    <a data-toggle="modal" data-target=".bs-example-modal-sm">属性组分配</a>
+                    &nbsp;
+                    &nbsp;
+                    <a>表单预览</a>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>REG_OPET_FORM</td>
+                <td>操作员表单</td>
+                <td>2016年9月24日14:26:50</td>
+                <td>2016年9月24日14:27:00</td>
+                <td>
+                    <a data-toggle="modal" data-target=".bs-example-modal-sm">属性组分配</a>
+                    &nbsp;
+                    &nbsp;
+                    <a>表单预览</a>
+                </td>
+            </tr>
+
+
+            </tbody>
+
+        </table>
+        <nav style="float: right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#">«</a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">»</a></li>
+            </ul>
+        </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">属性组分配</h4>
+            </div>
+
+            <div class="modal-body">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

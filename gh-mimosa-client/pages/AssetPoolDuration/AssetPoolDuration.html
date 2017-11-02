@@ -1,0 +1,4303 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    资产池存续期管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-home"></i> 运营管理</a></li>
+		<li class="active">资产池存续期管理</li>
+	</ol>
+	<form id="searchForm" name="searchForm" method="post" style="position: absolute; top: 12px; left: 200px;">
+		<select name="assetPoolName" class="form-control input-sm"></select>
+	</form>
+</section>
+
+<!-- =========================================主要内容 start============================================================ -->
+<section class="content">
+	<!-- tabs区域 -->
+	<div class="nav-tabs-custom">
+		<!-- tabs头部 -->
+		<ul id="mainTab" class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#tabpanel1" role="tab" data-toggle="tab">资管计划详情</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel2" role="tab" data-toggle="tab">资产配置综合视图</a>
+			</li>
+		</ul>
+		<!-- tabs panels -->
+		<div class="tab-content">
+			<!-- tabpanel1 start -->
+			<div role="tabpanel" class="tab-pane active" id="tabpanel1">
+				<!-- tabpanel1 area one start -->
+				<div class="row">
+					<div class="col-md-6">
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-title">
+									<i class="fa fa-list-alt"></i> 资产池详情
+								</div>
+							</div>
+							<div class="box-body">
+								<div style="height: 200px; position: relative;">
+									<div class="row">
+										<div class="col-xs-6" style="padding-right: 0;">
+                                            <ul class="list-group list-group-unbordered" style="font-size: 14px;">
+                                                <li class="list-group-item" style="padding-right: 10px;">
+                                                    <b>总净值(万元):</b> <a id="marketValue" class="text-black pull-right">0</a>
+                                                </li>
+                                                <li class="list-group-item" style="padding-right: 10px;">
+                                                    <b>未分配收益(万元):</b> <a id="unDistributeProfit" class="text-black pull-right">0</a>
+                                                </li>
+                                                <li class="list-group-item" style="padding-right: 10px;">
+                                                    <b>应付托管费(万元):</b> <a id="trusteeFee" class="text-black pull-right">0</a>
+                                                </li>
+                                                <li class="list-group-item" style="padding-right: 10px;">
+                                                    <b>发行人所有者权益(万元):</b> 
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-xs-6" style="padding-left: 0;">
+                                            <ul class="list-group list-group-unbordered" style="font-size: 14px;">
+                                                <!--<li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>净值(万元):</b> <a id="netValue" class="text-black pull-right">0</a>
+                                                </li>-->
+                                                <li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>基准日:</b> <a id="baseDate" class="text-black pull-right">0</a>
+                                                </li>
+                                                <!--<li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>应付费金(万元):</b> <a id="payFeigin" class="text-black pull-right">0</a>
+                                                </li>-->
+                                                <li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>应付管理费(万元):</b> <a id="manageFee" class="text-black pull-right">0</a>
+                                                </li>
+                                                <li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>投资者所有权益(万元):</b> <a id="investorProfit" class="text-black pull-right">0</a>
+                                                </li>
+                                                <li class="list-group-item" style="padding-left: 10px;">
+                                                    <b>&nbsp;</b><a id="spvProfit" class="text-black pull-left">0</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+									</div>
+									<div style="width: 100%; position: absolute; bottom: 0;">
+										<div class="row">
+											<!--<div class="col-xs-4" style="padding-right: 0;">
+						                        <button id="feeDetail" class="btn btn-default btn-block btn-sm">
+						                          <i class="fa fa-shopping-cart"></i> 费用明细
+						                        </button>
+						                    </div>-->
+											<div class="col-xs-4" style="padding-right: 0;">
+												<button id="marketAdjsut" class="btn btn-default btn-block btn-sm">
+													<i class="fa fa-shopping-cart"></i> 净值校准
+												</button>
+											</div>
+											<div class="col-xs-4" style="padding-left: 5px; padding-right: 5px;">
+												<button id="profitDistribute" class="btn btn-default btn-block btn-sm">
+													<i class="fa fa-pencil"></i> 收益分配
+												</button>
+											</div>
+											<!--<div class="col-xs-4" style="padding-left: 0;">
+						                        <button class="btn btn-default btn-block btn-sm">
+						                          <i class="fa fa-pencil"></i> 费金提取
+						                        </button>
+						                    </div>-->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-title">
+									<i class="fa fa-line-chart"></i> 收益率
+								</div>
+							</div>
+							<div class="box-body">
+								<div id="lineChart" style="height: 200px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- tabpanel1 area one end -->
+				<!-- tabpanel1 area two start -->
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#panel1" role="tab" data-toggle="tab">净值校准记录</a>
+						</li>
+						<li role="presentation">
+							<a href="#panel2" role="tab" data-toggle="tab">收益分配记录</a>
+						</li>
+						<!--<li role="presentation">
+			              <a href="#panel3" role="tab" data-toggle="tab">费金提取记录</a>
+			            </li>-->
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" role="tabpanel" id="panel1">
+							<!-- 净值校准记录数据表格 -->
+							<table id="marketAdjustTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>基准日</th>
+										<th>份额(万份)</th>
+										<th>单位净值</th>
+										<th>申购额(万元)</th>
+										<th>赎回额(万元)</th>
+										<th>净交易额(万元)</th>
+										<th>收益率(%)</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="tab-pane" role="tabpanel" id="panel2">
+							<!-- 收益分配记录数据表格 -->
+							<table id="profitDistributeTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>收益分配日</th>
+										<th>产品名称</th>
+										<th>产品规模(元)</th>
+										<th>收益分配类型</th>
+										<th>分配收益(元)</th>
+										<th>基础收益(元)</th>
+										<th>奖励收益(元)</th>
+										<th>发放基础收益(元)</th>
+										<th>发放奖励收益(元)</th>
+										<th>年化收益率(%)</th>
+										<!--
+										<th>申请人</th>
+										<th>申请时间</th>
+										<th>审批人</th>
+										<th>审批时间</th>
+										-->
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<!-- 费金提取记录数据表格 -->
+						<!--<div class="tab-pane" role="tabpanel" id="panel3">
+			              <table id="commissionExtractTable" class="table table-bordered table-striped">
+			                <thead>
+			                  <tr>
+			                    <th></th>
+			                    <th>基准日</th>
+			                    <th>份额</th>
+			                    <th>单位净值</th>
+			                    <th>申购额(万元)</th>
+			                    <th>赎回额(万元)</th>
+			                    <th>净交易额(万元)</th>
+			                    <th>收益率(%)</th>
+			                    <th>状态</th>
+			                    <th>操作</th>
+			                  </tr>
+			                </thead>
+			              </table>
+			            </div>-->
+					</div>
+				</div>
+				<!-- tabpanel1 area two end -->
+				<!-- tabpanel1 area three start -->
+				<div id="feeDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="nav-tabs-custom">
+								<ul class="nav nav-tabs" role="tablist">
+									<li role="presentation" class="active">
+										<a href="#panel3" role="tab" data-toggle="tab">资产池历史估值</a>
+									</li>
+									<li role="presentation">
+										<a href="#panel4" role="tab" data-toggle="tab">费率配置</a>
+									</li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" role="tabpanel" id="panel3">
+										<!-- 资产池历史估值数据表格 -->
+										<table id="historyDetailTable" class="table table-bordered table-striped">
+											<thead>
+												<tr>
+													<th>序号</th>
+													<th>基准日</th>
+													<th>估值(万元)</th>
+													<th>费用(万元)</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+									<div class="tab-pane" role="tabpanel" id="panel4">
+										<!-- 费率配置数据表格 -->
+										<table id="feeDetailTable" class="table table-bordered table-striped">
+											<thead>
+												<tr>
+													<th>序号</th>
+													<th>金额</th>
+													<th>适配费率</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- tabpanel1 area three end -->
+			</div>
+			<!-- tabpanel1 end -->
+			<!-- tabpanel2 start -->
+			<div role="tabpanel" class="tab-pane " id="tabpanel2">
+				<!-- tabpanel2 area one start -->
+				<div class="row">
+					<!-- 资产池详情区域 start -->
+					<div class="col-md-3">
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-title">
+									<i class="fa fa-list-alt"></i> 资产池详情
+								</div>
+							</div>
+							<div class="box-body">
+								<div style="height: 240px; position: relative;">
+									<ul class="list-group list-group-unbordered" style="font-size: 14px;">
+										<li class="list-group-item">
+											<b>总估值(万):</b> <a id="detailPoolScale" class="text-black pull-right">0</a>
+										</li>
+										<li class="list-group-item">
+											<b>总净值(万):</b> <a id="netValue" class="text-black pull-right">0</a>
+										</li>
+										<li class="list-group-item">
+											<b>可用现金(万):</b> <a id="detailPoolCash" class="text-black pull-right">0</a>
+										</li>
+										<li class="list-group-item">
+											<b>偏离损益(万):</b> <a id="detailPoolProfit" class="text-black pull-right">0</a>
+										</li>
+									</ul>
+									<div style="width: 100%; position: absolute; bottom: 0;">
+										<div class="row">
+											<div class="col-xs-12">
+												<button id="buyAsset" class="btn btn-default btn-block btn-sm">
+													<i class="fa fa-shopping-cart"></i> 资产申购
+												</button>
+											</div>
+										</div>
+										<div class="row" style="margin-top: 5px;">
+											<div class="col-xs-6" style="padding-right: 3px;">
+												<button id="updateAccount" class="btn btn-default btn-block btn-sm">
+													<i class="fa fa-pencil"></i> 现金校准
+												</button>
+											</div>
+											<div class="col-xs-6" style="padding-left: 2px;">
+												<button id="updateProfit" class="btn btn-default btn-block btn-sm">
+													<i class="fa fa-pencil"></i> 损益校准
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 资产池详情区域 end -->
+					<!-- 资金构成区域 start -->
+					<div class="col-md-5">
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-title">
+									<i class="fa fa-bar-chart-o"></i> 资金构成
+								</div>
+								<div class="box-tools">
+									<button id="showRepayment" class="btn btn-default btn-sm">
+										<i class="fa fa-list"></i> 还款计划
+									</button>
+									<button id="showAccountDetail" class="btn btn-default btn-sm">
+										<i class="fa fa-list"></i> 出入金明细
+									</button>
+								</div>
+							</div>
+							<div class="box-body">
+								<div id="barChart" style="height: 240px;"></div>
+							</div>
+						</div>
+					</div>
+					<!-- 资金构成区域 end -->
+					<!-- 投资占比区域 start -->
+					<div class="col-md-4">
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-title">
+									<i class="fa fa-pie-chart"></i> 投资占比
+								</div>
+							</div>
+							<div class="box-body">
+								<div id="pieChart" style="height: 240px;"></div>
+							</div>
+						</div>
+					</div>
+					<!-- 投资占比区域 end -->
+				</div>
+				<!-- tabpanel2 area one end -->
+				<!-- tabpanel2 area two start -->
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#fundpanel1" role="tab" data-toggle="tab">预约中现金管理类工具</a>
+						</li>
+						<li role="presentation">
+							<a href="#fundpanel2" role="tab" data-toggle="tab">持仓中现金管理类工具</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" role="tabpanel" id="fundpanel1">
+							<!-- 预约中现金管理类工具数据表格 -->
+							<table id="orderingToolTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>类型</th>
+										<th>万份收益(元)</th>
+										<th>7日年化收益(%)</th>
+										<!--<th>起息日</th>-->
+										<th>申请金额(万元)</th>
+										<th>操作类型</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="tab-pane" role="tabpanel" id="fundpanel2">
+							<!-- 现金管理类工具数据表格 -->
+							<table id="toolTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>类型</th>
+										<th>万份收益(元)</th>
+										<th>7日年化收益(%)</th>
+										<th>起息日</th>
+										<th>持有额度(万元)</th>
+										<th>冻结额度(万元)</th>
+										<th>每日收益(万元)</th>
+										<!--<th>总收益(万元)</th>-->
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- tabpanel2 area two end -->
+				<!-- tabpanel2 area three start -->
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#trustpanel1" role="tab" data-toggle="tab">预约中信托计划</a>
+						</li>
+						<li role="presentation">
+							<a href="#trustpanel2" role="tab" data-toggle="tab">持仓中信托计划</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" role="tabpanel" id="trustpanel1">
+							<!-- 预约中信托计划数据表格 -->
+							<table id="orderingTrustTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>预计年化收益(%)</th>
+										<!--<th>起息日</th>-->
+										<th>付息方式</th>
+										<th>授信额度(万元)</th>
+										<th>预约额度(万份)</th>
+										<th>预约金额(万元)</th>
+										<th>主题评级</th>
+										<th>类型</th>
+										<th>收益方式</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="tab-pane" role="tabpanel" id="trustpanel2">
+							<!-- 信托计划数据表格 -->
+							<table id="trustTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>名称</th>
+										<th>预计年化收益(%)</th>
+										<th>起息日</th>
+										<th>付息方式</th>
+										<th>授信额度(万元)</th>
+										<th>持有额度(万份)</th>
+										<th>冻结额度(万份)</th>
+										<th>主题评级</th>
+										<th>收益方式</th>
+										<th>每日收益(万元)</th>
+										<th>总收益(万元)</th>
+										<th>状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- tabpanel2 area three end -->
+			</div>
+		</div>
+	</div>
+</section>
+<!-- =========================================主要内容 end============================================================== -->
+<!-- =========================================tabpanel1 弹层区域 start================================================== -->
+<!-- 净值校准 按钮弹窗 start-->
+<div id="marketAdjustModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">净值校准录入</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>前一基准日:</dt>
+					<dd>
+						<div data-detail-fetch="lastBaseDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>前一日单位净值:</dt>
+					<dd>
+						<div data-detail-fetch="lastNav"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>前一日份额:</dt>
+					<dd>
+						<div data-detail-fetch="lastShares"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>净申购额:</dt>
+					<dd>
+						<div data-detail-fetch="purchase"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>净赎回额:</dt>
+					<dd>
+						<div data-detail-fetch="redemption"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>净交易额:</dt>
+					<dd>
+						<div data-detail-fetch="lastOrders"></div>
+					</dd>
+				</dl>
+				<form id="marketAdjustForm" name="marketAdjustForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="aversion" type="hidden" />
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>基准日</label>
+								<div class="input-group input-group-sm">
+									<input name="baseDate" type="text" class="form-control" readonly="readonly">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>份额</label>
+								<div class="input-group input-group-sm">
+									<input name="shares" type="text" class="form-control" 
+										placeholder="0" 
+                     					maxlength="17"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单位净值</label>
+								<input name="nav" type="text" class="form-control input-sm" 
+									placeholder="0" 
+                     				maxlength="17"
+									data-validfloat="10.6" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>净值增长额</label>
+								<div class="input-group input-group-sm">
+									<input name="profit" type="text" class="form-control" 
+										placeholder="0" 
+                     					maxlength="17"
+										data-validfloat="10.6" readonly="readonly">
+									<span class="input-group-addon">万</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>净值增长率</label>
+								<div class="input-group input-group-sm ratioShow">
+									<input name="ratio" type="text" class="form-control" 
+										placeholder="0" 
+                     					maxlength="17"
+										data-validfloat="10.6" readonly="readonly">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="input-group input-group-sm ratioMsg" style="display: none;">
+									<span class="input-group-addon" style="color: red;">暂无净值增长率，因为前一日总资产净值没有!</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doMarketAdjust" type="button" class="btn btn-primary btn-submit marketAdjustSubmit">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 净值校准 按钮弹窗 end-->
+
+<!-- 净值校准录入 审核弹窗 start -->
+<div id="marketAdjustAuditModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">净值校准录入审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>基准日:</dt>
+					<dd>
+						<div data-detail-fetch="baseDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>单位净值:</dt>
+					<dd>
+						<div data-detail-fetch="nav"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>份额:</dt>
+					<dd>
+						<div data-detail-fetch="shares"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>净值增长额:</dt>
+					<dd>
+						<div data-detail-fetch="profit"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>净值增长率:</dt>
+					<dd>
+						<div data-detail-fetch="ratio"></div>
+					</dd>
+				</dl>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="marketAdjustDoCheck">
+				<button id="doMarketAdjustUnCheck" type="button" class="btn btn-warning">驳 回</button>
+				<button id="doMarketAdjustCheck" type="button" class="btn btn-primary">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 净值校准录入 审核弹窗 end -->
+
+<!-- =========================================tabpanel1 弹层区域 end =================================================== -->
+
+<!-- =========================================tabpanel2 弹层区域 start================================================== -->
+<!-- 资产申购弹窗 start -->
+<div id="buyAssetModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">资产申购</h4>
+			</div>
+			<!-- 模态窗内容体 start -->
+			<div class="modal-body">
+				<form id="buyAssetForm" name="buyAssetForm" method="post">
+					<input name="type" type="hidden" value="assetPool" />
+					<input name="passUrl" type="hidden" value="fund" />
+					<div class="form-group">
+						<label>申购类型</label>
+						<div class="row form-style">
+							<div class="col-sm-4">
+								<input name="buyType" type="radio" value="fund" class="icheck" checked> 现金管理工具
+							</div>
+							<div class="col-sm-4">
+								<input name="buyType" type="radio" value="trust" class="icheck"> 信托计划
+							</div>
+							<div class="col-sm-4">
+								<input name="buyType" type="radio" value="trans" class="icheck"> 信托计划转入
+							</div>
+						</div>
+					</div>
+					<!-- 现金管理工具申购 start -->
+					<div id="buyAssetShowFund">
+						<div class="form-group">
+							<label>标的名称</label>
+							<select id="fundTargetName" name="cashtoolOid" class="form-control input-sm"></select>
+							<input name="cashtoolName" type="hidden" />
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>标的类型</label>
+									<input name="cashtoolType" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>每万份收益(元)</label>
+									<input name="netRevenue" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>每万份收益(元)</label>
+									<div id="netRevenue_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>7日年化收益(%)</label>
+									<input name="yearYield7" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>风险等级</label>
+									<input name="riskLevel" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 现金管理工具申购 end -->
+					<!-- 投资标的申购 start -->
+					<div id="buyAssetShowTrust" style="display: none;">
+						<div class="form-group">
+							<label>标的名称</label>
+							<select id="trustTargetName" name="targetOid" class="form-control input-sm"></select>
+							<input name="targetName" type="hidden" />
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>标的类型</label>
+									<input name="targetType" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none">
+									<label>标的规模(万元)</label>
+									<input name="raiseScope" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>标的规模(万元)</label>
+									<div id="raiseScope_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group" style="display: none">
+									<label>授信额度(万元)</label>
+									<input name="trustAmount" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>授信额度(万元)</label>
+									<div id="trustAmount_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none">
+									<label>剩余额度(万元)</label>
+									<input id="restTrustAmount" name="restTrustAmount" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>剩余额度(万元)</label>
+									<div id="restTrustAmount_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>付息方式</label>
+									<input name="accrualType" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>预计年化收益(%)</label>
+									<input name="expAror" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>标的限期</label>
+									<input name="lifeView" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>合同年天数</label>
+									<input name="contractDays" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>募集起始日</label>
+									<input name="collectStartDate" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>募集截止日</label>
+									<input name="collectEndDate" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>募集期收益率(%)</label>
+									<input name="collectIncomeRate" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>起购额度(万元)</label>
+									<input name="floorVolume" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>起购额度(万元)</label>
+									<div id="floorVolume_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>主体评级</label>
+									<input name="subjectRating" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 投资标的申购 end -->
+					<!-- 投资标的转入 start -->
+					<div id="buyAssetShowTrans" style="display: none;">
+						<div class="form-group">
+							<label>标的名称</label>
+							<select id="transTargetName" name="t_targetOid" class="form-control input-sm"></select>
+							<input name="t_targetName" type="hidden" />
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>标的类型</label>
+									<input name="t_targetType" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>标的规模(万元)</label>
+									<input name="t_raiseScope" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>标的规模(万元)</label>
+									<div id="t_raiseScope_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>授信额度(万元)</label>
+									<input name="t_trustAmount" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>授信额度(万元)</label>
+									<div id="t_trustAmount_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>剩余额度(万元)</label>
+									<input name="t_restTrustAmount" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>剩余额度(万元)</label>
+									<div id="t_restTrustAmount_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>付息方式</label>
+									<input name="t_accrualType" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>年化收益率(%)</label>
+									<input name="yield" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>标的限期</label>
+									<input name="t_lifeView" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>合同年天数</label>
+									<input name="t_contractDays" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>成立日</label>
+									<input name="t_setDate" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group" style="display: none;">
+									<label>起购额度(万元)</label>
+									<input id="t_floorVolume" name="t_floorVolume" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+								<div class="form-group">
+									<label>起购额度(万元)</label>
+									<div id="t_floorVolume_s" type="text" class="form-control input-sm" readonly="readonly"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>主体评级</label>
+									<input name="t_subjectRating" type="text" class="form-control input-sm" readonly="readonly">
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 投资标的转入 end -->
+					<!-- 申购表单信息区域 start -->
+					<div class="row">
+						<div id="transVolumeDiv" class="col-md-6" style="display: none;">
+							<div class="form-group">
+								<label>申请额度</label>
+								<div class="input-group input-group-sm">
+									<input name="applyVolume" type="text" class="form-control" 
+										placeholder="申请额度，整数位不可超过10位" data-validfloat="10.6" 
+                     					maxlength="17"
+										data-validpurchaseamountfortrust="true" 
+										data-validpurchasecashfortrust="true" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div id="transCashDiv" class="col-md-6">
+							<div class="form-group">
+								<label>申请金额</label>
+								<div class="input-group input-group-sm">
+									<input id="applyCash" name="applyCash" type="text" class="form-control" 
+										placeholder="申请金额，整数位不可超过10位" 
+										data-validfloat="10.6" 
+                     					maxlength="17"
+										data-validpurchaseamount="true" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<input type="hidden" name="assetPoolOid" />
+					<div id="profitType" style="display: none;" class="form-group">
+						<label>收益方式</label>
+						<select name="profitType" class="form-control input-sm" disabled="disabled">
+							<option value="amortized_cost" selected>摊余成本法</option>
+							<option value="book_value" selected>账面价值法</option>
+						</select>
+					</div>
+					<!-- 申购表单信息区域 end -->
+				</form>
+			</div>
+			<!-- 模态窗内容体 end -->
+			<!-- 模态窗底部 start -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doBuyAsset" type="button" class="btn btn-primary btn-submit buyAssetSubmit">提交审核</button>
+			</div>
+			<!-- 模态窗底部 end -->
+		</div>
+	</div>
+</div>
+<!-- 资产申购弹窗 end -->
+
+<!-- 修改资产池可用现金弹窗 start -->
+<div id="updateAssetPoolCashModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金校准</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>原可用现金:</dt>
+					<dd>
+						<div data-detail-fetch="cashPosition"></div>
+					</dd>
+				</dl>
+				<!-- 编辑表单 -->
+				<form id="updateAssetPoolCashForm" name="updateAssetPoolCashForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<label>可用现金(万元)</label>
+						<input name="cashPosition" type="text" class="form-control input-sm" 
+							placeholder="请输入可用现金，整数位不可超过10位" 
+                     		maxlength="17"
+							data-validfloat="10.6" required>
+					</div>
+					<div class="help-block with-errors text-red"></div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doUpdateAssetPoolCash" type="button" class="btn btn-primary updateAssetPoolCashSubmit">确 定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改资产池可用现金弹窗 end -->
+
+<!-- 修改资产池偏离损益弹窗 start -->
+<div id="updateAssetPoolProfitModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">损益校准</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>原偏离损益:</dt>
+					<dd>
+						<div data-detail-fetch="deviationValue"></div>
+					</dd>
+				</dl>
+				<!-- 编辑表单 -->
+				<form id="updateAssetPoolProfitForm" name="updateAssetPoolProfitForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<label>偏离损益</label>
+						<input name="deviationValue" type="text" class="form-control input-sm" 
+							placeholder="请输入偏离损益，整数位不可超过10位" 
+                     		maxlength="17"
+							data-validfloat="10.6" required>
+					</div>
+					<div class="help-block with-errors text-red"></div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doUpdateAssetPoolProfit" type="button" class="btn btn-primary updateAssetPoolProfitSubmit">确 定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改资产池偏离损益弹窗 end -->
+
+<!-- 修改现金管理工具偏离损益弹窗 start -->
+<div id="updateFundVolumeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">额度校准</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>原持有额度:</dt>
+					<dd>
+						<div data-detail-fetch="amount"></div>
+					</dd>
+				</dl>
+				<!-- 编辑表单 -->
+				<form id="updateFundVolumeForm" name="updateFundVolumeForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<label>持有额度(万元)</label>
+						<input name="amount" type="text" class="form-control input-sm" 
+							placeholder="请输入持有额度，整数位不可超过10位" 
+                     		maxlength="17"
+							data-validfloat="10.6" required>
+					</div>
+					<div class="help-block with-errors text-red"></div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doUpdateFundVolume" type="button" class="btn btn-primary updateFundVolumeSubmit">确 定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改现金管理工具偏离损益弹窗 end -->
+
+<!-- 修改信托标的偏离损益弹窗 start -->
+<div id="updateTrustVolumeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">额度校准</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>原持有额度:</dt>
+					<dd>
+						<div data-detail-fetch="holdAmount"></div>
+					</dd>
+				</dl>
+				<!-- 编辑表单 -->
+				<form id="updateTrustVolumeForm" name="updateTrustVolumeForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<label>持有额度(万元)</label>
+						<input name="holdAmount" type="text" class="form-control input-sm" 
+							placeholder="请输入持有额度，整数位不可超过10位" 
+                     		maxlength="17"
+							data-validfloat="10.6" required>
+					</div>
+					<div class="help-block with-errors text-red"></div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doUpdateTrustVolume" type="button" class="btn btn-primary updateTrustVolumeSubmit">确 定
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改信托标的偏离损益弹窗 end -->
+
+<!-- 现金管理工具 申购 审核/预约/确认弹窗 start -->
+<div id="fundCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金管理工具申购审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>每万份收益:</dt>
+					<dd>
+						<div data-detail-fetch="netRevenue"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>7日年化收益:</dt>
+					<dd>
+						<div data-detail-fetch="yearYield7"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>风险等级:</dt>
+					<dd>
+						<div data-detail-fetch="riskLevel"></div>
+					</dd>
+				</dl>
+				<!--<dl class="dl-horizontal">
+          <dt>分红方式:</dt>
+          <dd>
+            <div data-detail-fetch="dividendType"></div>
+          </dd>
+        </dl>-->
+				<!--<dl class="dl-horizontal">
+          <dt>起息日:</dt>
+          <dd>
+            <div data-detail-fetch="incomeDate"></div>
+          </dd>
+        </dl>-->
+				<dl class="dl-horizontal">
+					<dt>申请额度:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveVolume"></div>
+					</dd>
+				</dl>
+				<form id="fundCheckForm" name="fundCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="applyCash" type="hidden" />
+					<input name="cashtoolOid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="form-group" style="display: none;">
+						<label>审核额度</label>
+						<div class="input-group input-group-sm">
+							<input name="auditVolume" type="text" class="form-control" placeholder="审核额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+						<div id="auditMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>预约额度</label>
+						<div class="input-group input-group-sm">
+							<input name="reserveVolume" type="text" class="form-control" placeholder="预约额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+						<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>确认额度</label>
+						<div class="input-group input-group-sm">
+							<input name="investVolume" type="text" class="form-control" placeholder="确认额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+						<div id="investMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doFundUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doFundCheck" type="button" class="btn btn-primary btn-submit fundCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 现金管理工具 申购 审核/预约/确认弹窗 end -->
+
+<!-- 现金管理工具 赎回 审核/预约/确认弹窗 start -->
+<div id="fundRedeemCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金管理工具赎回审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>每万份收益:</dt>
+					<dd>
+						<div data-detail-fetch="netRevenue"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>7日年化收益:</dt>
+					<dd>
+						<div data-detail-fetch="yearYield7"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>风险等级:</dt>
+					<dd>
+						<div data-detail-fetch="riskLevel"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>赎回额度:</dt>
+					<dd>
+						<div data-detail-fetch="returnVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveVolume"></div>
+					</dd>
+				</dl>
+				<form id="fundRedeemCheckForm" name="fundRedeemCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="cashtoolOid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="form-group" style="display: none;">
+						<label>审核额度</label>
+						<div class="input-group input-group-sm">
+							<input name="auditVolume" type="text" class="form-control" placeholder="审核额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>预约额度</label>
+						<div class="input-group input-group-sm">
+							<input name="reserveVolume" type="text" class="form-control" placeholder="预约额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>确认额度</label>
+						<div class="input-group input-group-sm">
+							<input name="investVolume" type="text" class="form-control" placeholder="确认额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doFundRedeemUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doFundRedeemCheck" type="button" class="btn btn-primary btn-submit fundRedeemCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 现金管理工具 赎回 审核/预约/确认弹窗 end -->
+
+<!-- 现金管理工具订单详情 start -->
+<div id="fundOrderDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">订单详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>每万份收益:</dt>
+					<dd>
+						<div data-detail-fetch="netRevenue"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>7日年化收益:</dt>
+					<dd>
+						<div data-detail-fetch="yearYield7"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>风险等级:</dt>
+					<dd>
+						<div data-detail-fetch="riskLevel"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl id="orderPurchaseArea" class="dl-horizontal" style="display: none;">
+					<dt>申请金额:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl id="orderRedeemArea" class="dl-horizontal" style="display: none;">
+					<dt>赎回金额:</dt>
+					<dd>
+						<div data-detail-fetch="returnVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>审核金额:</dt>
+					<dd>
+						<div data-detail-fetch="auditVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>预约金额 :</dt>
+					<dd>
+						<div data-detail-fetch="reserveVolume"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 现金管理工具订单详情 end -->
+
+<!-- 现金管理类工具 - 申购弹窗 start -->
+<div id="purchaseModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">申购</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="purchaseForm" name="purchaseForm" method="post">
+					<input type="hidden" name="oid" />
+					<input type="hidden" name="cashtoolOid" />
+					<input type="hidden" name="assetPoolOid" />
+					<input type="hidden" name="type" value="order" />
+					<div class="form-group">
+						<label>标的名称</label>
+						<input name="cashtoolName" type="text" class="form-control input-sm" readonly="readonly">
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>标的类型</label>
+								<input name="cashtoolType" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>每万份收益(元)</label>
+								<input name="netRevenue" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>7日年化收益(%)</label>
+								<input name="yearYield7" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>申请额度</label>
+						<div class="input-group input-group-sm">
+							<input name="applyCash" type="text" class="form-control" 
+								placeholder="申请额度" 
+                     			maxlength="18"
+								data-validfloat="10.6" required>
+							<span class="input-group-addon">万</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doPurchase" type="button" class="btn btn-primary btn-submit purchaseSubmit">提交审核</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 现金管理类工具 - 申购弹窗 end -->
+
+<!-- 现金管理类工具 - 赎回弹窗 start -->
+<div id="redeemModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">赎回</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="redeemForm" name="redeemForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<label>标的名称</label>
+						<input name="cashtoolName" type="text" class="form-control input-sm" readonly="readonly">
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>标的类型</label>
+								<input name="cashtoolType" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>每万份收益(元)</label>
+								<input name="netRevenue" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>7日年化收益(%)</label>
+								<input name="yearYield7" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>持有额度(万元)</label>
+								<input name="amount" type="text" class="form-control" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>起息日</label>
+								<input name="incomeDate" type="text" class="form-control" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>赎回额度</label>
+						<div class="input-group input-group-sm">
+							<input id="returnVolume" name="returnVolume" type="text" class="form-control" 
+								placeholder="赎回额度，整数位不可超过10位" 
+                     			maxlength="17"
+								data-validfloat="10.6" required>
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>是否全部赎回</label>
+						<div class="form-style">
+							<div class="row">
+								<div class="col-md-3">
+									<input type="radio" name="allFlag" value="no" class="icheck" checked/> 否
+								</div>
+								<div class="col-md-3">
+									<input type="radio" name="allFlag" value="yes" class="icheck" /> 是
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doRedeem" type="button" class="btn btn-primary btn-submit redeemSubmit">提交审核</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 现金管理类工具 - 赎回弹窗 end -->
+
+<!-- 信托计划 申购 审核/预约/确认弹窗 start -->
+<div id="trustCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">信托计划申购审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>预计年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起购额度:</dt>
+					<dd>
+						<div data-detail-fetch="floorVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>授信额度:</dt>
+					<dd>
+						<div data-detail-fetch="trustAmount"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集起始日:</dt>
+					<dd>
+						<div data-detail-fetch="collectStartDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集截止日:</dt>
+					<dd>
+						<div data-detail-fetch="collectEndDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectIncomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>申请额度:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>收益方式:</dt>
+					<dd>
+						<div data-detail-fetch="profitType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAudit" style="display: none;">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>确认额度:</dt>
+					<dd>
+						<div data-detail-fetch="investCash"></div>
+					</dd>
+				</dl>
+				<form id="trustCheckForm" name="trustCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="form-group" style="display: none;">
+						<label>审核额度</label>
+						<div class="input-group input-group-sm">
+							<input name="auditCash" type="text" class="form-control" placeholder="审核额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+							<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>预约额度</label>
+						<div class="input-group input-group-sm">
+							<input name="reserveCash" type="text" class="form-control" placeholder="预约额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+						<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>确认额度</label>
+						<div class="input-group input-group-sm">
+							<input name="investCash" type="text" class="form-control" placeholder="确认额度，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+								data-validfloat="10.6" 
+                     			maxlength="17"
+								data-validauditamount="true" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+						<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="trustDoCheck">
+				<button id="doTrustUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doTrustCheck" type="button" class="btn btn-primary btn-submit trustCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划 申购 审核/预约/确认弹窗 end -->
+
+<!-- 信托计划 转入 审核/预约/确认弹窗 start -->
+<div id="trustTransCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">信托计划转入审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起购额度:</dt>
+					<dd>
+						<div data-detail-fetch="floorVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>授信额度:</dt>
+					<dd>
+						<div data-detail-fetch="trustAmount"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>收益方式:</dt>
+					<dd>
+						<div data-detail-fetch="profitType"></div>
+					</dd>
+				</dl>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请额度:</dt>
+							<dd>
+								<div data-detail-fetch="applyVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请金额:</dt>
+							<dd>
+								<div data-detail-fetch="applyCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row labelForAudit" style="display: none;">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核额度:</dt>
+							<dd>
+								<div data-detail-fetch="auditVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核金额:</dt>
+							<dd>
+								<div data-detail-fetch="auditCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row labelForOrdering" style="display: none;">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预约额度:</dt>
+							<dd>
+								<div data-detail-fetch="reserveVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预约金额:</dt>
+							<dd>
+								<div data-detail-fetch="reserveCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row labelForAccept" style="display: none;">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认额度:</dt>
+							<dd>
+								<div data-detail-fetch="investVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认金额:</dt>
+							<dd>
+								<div data-detail-fetch="investCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<form id="trustTransCheckForm" name="trustTransCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="row" style="display: none;">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>审核额度</label>
+								<div class="input-group input-group-sm">
+									<input name="auditVolume" type="text" class="form-control" placeholder="审核额度，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>审核金额</label>
+								<div class="input-group input-group-sm">
+									<input name="auditCash" type="text" class="form-control" placeholder="审核金额，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+										data-validfloat="10.6" 
+                     					maxlength="17"
+										data-validauditamount="true" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+								<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="display: none;">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>预约额度</label>
+								<div class="input-group input-group-sm">
+									<input name="reserveVolume" type="text" class="form-control" placeholder="预约额度，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>预约金额</label>
+								<div class="input-group input-group-sm">
+									<input name="reserveCash" type="text" class="form-control" placeholder="预约金额，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+										data-validfloat="10.6" 
+                     					maxlength="17"
+										data-validauditamount="true" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+								<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="display: none;">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>确认额度</label>
+								<div class="input-group input-group-sm">
+									<input name="investVolume" type="text" class="form-control" placeholder="确认额度，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>确认金额</label>
+								<div class="input-group input-group-sm">
+									<input name="investCash" type="text" class="form-control" placeholder="确认金额，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+										data-validfloat="10.6" 
+                     					maxlength="17"
+										data-validauditamount="true" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+								<div id="reserveMessage" style="display: none; color: red;">请根据实际情况录入金额，录入不恰当的金额可能造成现金余额不准确</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="trustDoCheck">
+				<button id="doTrustTransUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doTrustTransCheck" type="button" class="btn btn-primary btn-submit trustTransCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划转入审核/预约/确认弹窗 end -->
+<!-- 信托计划本息兑付弹窗 start-->
+<div id="trustIncomeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">本息兑付</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="trustIncomeForm" name="trustIncomeForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>期数</label>
+								<input name="seq" type="text" class="form-control" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>本息兑付日</label>
+								<input name="incomeDate" type="text" class="form-control" readonly="readonly" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>兑付本金</label>
+								<div class="input-group input-group-sm">
+									<input id="capitalInput" name="capital" type="text" class="form-control" readonly="readonly">
+									<span class="input-group-addon">万</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>募集期年化收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="collectRate" id="collectRate" type="text" class="form-control" placeholder="募集期年化收益率" data-validfloat="4.4" readonly="readonly" required>
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>存续期年化收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="incomeRate" id="incomeRate" type="text" class="form-control" placeholder="存续期年化收益率" data-validfloat="4.4" readonly="readonly" required>
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>逾期年化收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="overdueRate" id="overdueRate" type="text" class="form-control" placeholder="逾期年年化收益率" data-validfloat="4.4" readonly="readonly" required>
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>本息收益</label>
+								<div class="input-group input-group-sm">
+									<input name="income" id="income" type="text" class="form-control" 
+										placeholder="本息收益" 
+                     					maxlength="18"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>本金返还</label>
+						<div class="form-style">
+							<div class="row">
+								<div class="col-md-2 col-xs-3">
+									<input type="radio" name="capitalFlag" value="0" class="icheck" /> 否
+								</div>
+								<div class="col-md-2 col-xs-3">
+									<input type="radio" name="capitalFlag" value="1" class="icheck" checked/> 是
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doTrustIncome" type="button" class="btn btn-primary btn-submit trustIncomeSubmit">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划本息兑付弹窗 end-->
+<!-- 本息兑付审核/预约/确认弹窗 start -->
+<div id="trustIncomeCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">本息兑付审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>期数:</dt>
+					<dd>
+						<div data-detail-fetch="seq"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>存续期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="incomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>逾期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="overdueRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本金:</dt>
+					<dd>
+						<div data-detail-fetch="capital"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本息兑付日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="income"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>审核本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="auditIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>确认本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="investIncome"></div>
+					</dd>
+				</dl>
+				<form id="trustIncomeCheckForm" name="trustIncomeCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="seq" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<!--<div class="row" style="display: none;">-->
+					<div class="form-group" style="display: none;">
+						<label>审核收益</label>
+						<div class="input-group input-group-sm">
+							<input name="auditCash" type="text" class="form-control" placeholder="审核收益，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<!--</div>-->
+					<!--<div class="row" style="display: none;">-->
+					<div class="form-group" style="display: none;">
+						<label>确认收益</label>
+						<div class="input-group input-group-sm">
+							<input name="investCash" type="text" class="form-control" placeholder="确认收益，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="trustDoCheck">
+				<button id="doIncomeUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doIncomeCheck" type="button" class="btn btn-primary btn-submit trustIncomeCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 本息兑付审核/预约/确认弹窗 end -->
+<!-- 信托计划退款弹窗 start-->
+<div id="trustBackModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">退款</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="trustBackForm" name="trustBackForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>投资金额</label>
+								<div class="input-group input-group-sm">
+									<input name="investVolume" type="text" class="form-control" readonly="readonly">
+									<span class="input-group-addon">万元</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>募集期收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="incomeRate" type="text" class="form-control" readonly="readonly">
+									<span class="input-group-addon">%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>退款金额</label>
+								<div class="input-group input-group-sm">
+									<input name="income" type="text" class="form-control" required="required" 
+										data-validfloat="10.6" 
+                     					maxlength="17"
+										data-error="退款金额只能为前10位后6位小数" 
+										data-validpositive="non-zero" />
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doTrustBack" type="button" class="btn btn-primary btn-submit trustBackSubmit">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划退款弹窗 end-->
+<!-- 退款审核/预约/确认弹窗 start -->
+<div id="trustBackCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">退款审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>募集期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="incomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>退款金额:</dt>
+					<dd>
+						<div data-detail-fetch="income"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering" style="display: none;">
+					<dt>审核金额:</dt>
+					<dd>
+						<div data-detail-fetch="auditIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>确认金额:</dt>
+					<dd>
+						<div data-detail-fetch="investIncome"></div>
+					</dd>
+				</dl>
+
+				<form id="trustBackCheckForm" name="trustBackCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<!--<div class="row" style="display: none;">-->
+					<div class="form-group" style="display: none;">
+						<label>审核金额</label>
+						<div class="input-group input-group-sm">
+							<input name="auditCash" type="text" class="form-control" placeholder="审核收益，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+
+					<div class="form-group" style="display: none;">
+						<label>确认金额</label>
+						<div class="input-group input-group-sm">
+							<input name="investCash" type="text" class="form-control" placeholder="确认收益，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="backDoCheck">
+				<button id="doBackUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doBackCheck" type="button" class="btn btn-primary btn-submit trustBackCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退款审核/预约/确认弹窗 end -->
+<!-- 信托计划订单详情 start -->
+<div id="trustOrderDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">订单详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>预计年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的规模:</dt>
+					<dd>
+						<div data-detail-fetch="raiseScope"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起购额度:</dt>
+					<dd>
+						<div data-detail-fetch="floorVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>授信额度:</dt>
+					<dd>
+						<div data-detail-fetch="trustAmount"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集起始日:</dt>
+					<dd>
+						<div data-detail-fetch="collectStartDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集截止日:</dt>
+					<dd>
+						<div data-detail-fetch="collectEndDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectIncomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>申请额度:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>确认额度:</dt>
+					<dd>
+						<div data-detail-fetch="investCash"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划订单详情 end -->
+<!-- 信托计划转让弹窗 start-->
+<div id="trustTransferModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">转让</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>预计年化收益:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>付息方式:</dt>
+					<dd>
+						<div data-detail-fetch="accrualType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集起始日:</dt>
+					<dd>
+						<div data-detail-fetch="collectStartDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集截止日:</dt>
+					<dd>
+						<div data-detail-fetch="collectEndDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectIncomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>持有额度:</dt>
+					<dd>
+						<div data-detail-fetch="holdAmount"></div>
+					</dd>
+				</dl>
+				<form id="trustTransferForm" name="trustTransferForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="tmpHoldAmount" type="hidden" />
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让类型</label>
+								<select name="transType" class="form-control input-sm" data-enum-fetch="TRANSTYPE"></select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>受让方名称</label>
+								<input name="transferee" type="text" class="form-control" 
+									maxlength="30"
+									placeholder="受让方名称" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让额度</label>
+								<div class="input-group input-group-sm">
+									<input name="tranVolume" type="text" class="form-control" placeholder="转让额度，整数位不可超过10位" 
+										data-validtransamount="true" 
+                     					maxlength="17"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让金额</label>
+								<div class="input-group input-group-sm">
+									<input name="tranCash" type="text" class="form-control" 
+										placeholder="转让金额，整数位不可超过10位" 
+                     					maxlength="17"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doTrustTransfer" type="button" class="btn btn-primary btn-submit trustTransferSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划转让弹窗 end-->
+<!-- 信托计划转让审核/预约/确认弹窗 start -->
+<div id="transCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">信托计划转让审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>付息方式:</dt>
+					<dd>
+						<div data-detail-fetch="accrualType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的规模:</dt>
+					<dd>
+						<div data-detail-fetch="raiseScope"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>转让类型:</dt>
+					<dd>
+						<div data-detail-fetch="transType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>受让方名称:</dt>
+					<dd>
+						<div data-detail-fetch="transferee"></div>
+					</dd>
+				</dl>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请额度:</dt>
+							<dd>
+								<div data-detail-fetch="applyVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请金额:</dt>
+							<dd>
+								<div data-detail-fetch="applyCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row labelForAudit" style="display: none;">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核额度:</dt>
+							<dd>
+								<div data-detail-fetch="auditVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核金额:</dt>
+							<dd>
+								<div data-detail-fetch="auditCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row labelForAccept" style="display: none;">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认额度:</dt>
+							<dd>
+								<div data-detail-fetch="investVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认金额:</dt>
+							<dd>
+								<div data-detail-fetch="investCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<form id="transCheckForm" name="transCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="row" style="display: none;">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>审核额度</label>
+								<div class="input-group input-group-sm">
+									<input name="auditVolume" type="text" class="form-control" placeholder="审核额度，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>审核金额</label>
+								<div class="input-group input-group-sm">
+									<input name="auditCash" type="text" class="form-control" placeholder="审核金额，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="display: none;">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>确认额度</label>
+								<div class="input-group input-group-sm">
+									<input name="investVolume" type="text" class="form-control" placeholder="确认额度，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>确认金额</label>
+								<div class="input-group input-group-sm">
+									<input name="investCash" type="text" class="form-control" placeholder="确认金额，整数位不可超过10位" 
+										data-validpositive="non-zero" 
+                     					maxlength="17"
+										data-validfloat="10.6" required disabled="disabled">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="trustDoCheck">
+				<button id="doTransUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doTransCheck" type="button" class="btn btn-primary btn-submit transCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划转让审核/预约/确认弹窗 end -->
+<!-- 信托计划 逾期转让 弹窗 start-->
+<div id="trustOverdueTransferModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">逾期转让</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>逾期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="overdueRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>持有额度:</dt>
+					<dd>
+						<div data-detail-fetch="holdAmount"></div>
+					</dd>
+				</dl>
+				<form id="trustOverdueTransferForm" name="trustOverdueTransferForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="tmpHoldAmount" type="hidden" />
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让类型</label>
+								<select name="transType" class="form-control input-sm" data-enum-fetch="TRANSTYPE"></select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>受让方名称</label>
+								<input name="transferee" type="text" class="form-control" placeholder="受让方名称" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让额度</label>
+								<div class="input-group input-group-sm">
+									<input name="tranVolume" type="text" class="form-control" placeholder="转让额度，整数位不可超过10位" 
+										data-validtransamount="true" 
+										readonly="readonly" 
+										maxlength="17"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>转让金额</label>
+								<div class="input-group input-group-sm">
+									<input name="tranCash" type="text" class="form-control" 
+										placeholder="转让金额，整数位不可超过10位" 
+                     					maxlength="17"
+										data-validfloat="10.6" required>
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doTrustOverdueTransfer" type="button" class="btn btn-primary btn-submit trustOverdueTransferSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划 逾期转让 弹窗 end-->
+<!-- 信托计划 逾期转让 审核/预约/确认弹窗 start -->
+<div id="transOverdueCheckModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">逾期转让审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>逾期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="overdueRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>持有额度:</dt>
+					<dd>
+						<div data-detail-fetch="holdAmount"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>转让类型:</dt>
+					<dd>
+						<div data-detail-fetch="transType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>受让方名称:</dt>
+					<dd>
+						<div data-detail-fetch="transferee"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>申请金额:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAudit" style="display: none;">
+					<dt>审核金额:</dt>
+					<dd>
+						<div data-detail-fetch="auditCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept" style="display: none;">
+					<dt>确认金额:</dt>
+					<dd>
+						<div data-detail-fetch="investCash"></div>
+					</dd>
+				</dl>
+				<form id="transOverdueCheckForm" name="transOverdueCheckForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="opType" type="hidden" />
+					<input name="assetPoolOid" type="hidden" />
+					<input name="type" type="hidden" />
+					<input name="state" type="hidden" />
+					<div class="form-group" style="display: none;">
+						<label>审核金额</label>
+						<div class="input-group input-group-sm">
+							<input name="auditCash" type="text" class="form-control" placeholder="审核金额，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group" style="display: none;">
+						<label>确认金额</label>
+						<div class="input-group input-group-sm">
+							<input name="investCash" type="text" class="form-control" placeholder="确认金额，整数位不可超过10位" 
+								data-validpositive="non-zero" 
+                     			maxlength="17"
+								data-validfloat="10.6" required disabled="disabled">
+							<span class="input-group-addon">万</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="trustDoCheck">
+				<button id="doOverdueTransUnCheck" type="button" class="btn btn-warning">不通过</button>
+				<button id="doOverdueTransCheck" type="button" class="btn btn-primary btn-submit transOverdueCheckSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信托计划 逾期转让 审核/预约/确认弹窗 end -->
+<!-- 还款计划弹窗 start -->
+<div id="repaymentScheduleModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">还款计划</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 还款计划Grid -->
+						<div class="box box-primary">
+							<div class="box-body">
+								<!-- 还款计划数据表格 -->
+								<table id="repaymentScheduleTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>投资标的名称</th>
+											<th>还款日期</th>
+											<th>还款金额(万元)</th>
+											<th>类型</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 还款计划弹窗 end -->
+<!-- 出入金明细弹窗 start -->
+<div id="accountDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">出入金明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 出入金明细Grid -->
+						<div class="box box-primary">
+							<div class="box-body">
+								<!-- 出入金明细数据表格 -->
+								<table id="accountDetailTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>事件</th>
+											<th>创建日期</th>
+											<th>操作类型</th>
+											<th>金额(万元)</th>
+											<th>状态</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 出入金明细弹窗 end -->
+<!-- 信托计划转让订单详情 start -->
+<div id="trustTransOrderDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">订单详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>成立日:</dt>
+					<dd>
+						<div data-detail-fetch="setDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>付息方式:</dt>
+					<dd>
+						<div data-detail-fetch="accrualType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的规模:</dt>
+					<dd>
+						<div data-detail-fetch="raiseScope"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请额度:</dt>
+							<dd>
+								<div data-detail-fetch="applyVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请金额:</dt>
+							<dd>
+								<div data-detail-fetch="applyCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核额度:</dt>
+							<dd>
+								<div data-detail-fetch="auditVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核金额:</dt>
+							<dd>
+								<div data-detail-fetch="auditCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预约额度:</dt>
+							<dd>
+								<div data-detail-fetch="reserveVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预约金额:</dt>
+							<dd>
+								<div data-detail-fetch="reserveCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认额度:</dt>
+							<dd>
+								<div data-detail-fetch="investVolume"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>确认金额:</dt>
+							<dd>
+								<div data-detail-fetch="investCash"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 信托计划转让订单详情 end -->
+<!-- 本息兑付订单详情 start -->
+<div id="trustIncomeOrderDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">本息兑付详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>期数:</dt>
+					<dd>
+						<div data-detail-fetch="seq"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>存续期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="incomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>逾期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="overdueRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本金:</dt>
+					<dd>
+						<div data-detail-fetch="capital"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本息兑付日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="income"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>审核本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="auditIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>确认本息收益:</dt>
+					<dd>
+						<div data-detail-fetch="investIncome"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 本息兑付订单详情 end -->
+<!-- 退款订单详情 start -->
+<div id="trustBackOrderDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="trustTitleName">退款详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>募集期年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="incomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>退款金额:</dt>
+					<dd>
+						<div data-detail-fetch="income"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>审核金额:</dt>
+					<dd>
+						<div data-detail-fetch="auditIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>确认金额:</dt>
+					<dd>
+						<div data-detail-fetch="investIncome"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退款订单详情 end -->
+<!-- 出入金明细 现金管理类工具弹窗 start -->
+<div id="fundDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">出入金详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="cashtoolType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>每万份收益:</dt>
+					<dd>
+						<div data-detail-fetch="netRevenue"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>7日年化收益:</dt>
+					<dd>
+						<div data-detail-fetch="yearYield7"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>风险等级:</dt>
+					<dd>
+						<div data-detail-fetch="riskLevel"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal" id="investDate">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal" id="redeemDate">
+					<dt>赎回日:</dt>
+					<dd>
+						<div data-detail-fetch="redeemDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal" id="applyVolume">
+					<dt>申请额度:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal" id="redeemVolume">
+					<dt>赎回额度:</dt>
+					<dd>
+						<div data-detail-fetch="returnVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept">
+					<dt>确认额度:</dt>
+					<dd>
+						<div data-detail-fetch="investVolume"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 出入金明细 现金管理类工具弹窗 start -->
+<!-- 出入金明细 信托计划弹窗 start-->
+<div id="trustDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">信托计划详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>标的名称:</dt>
+					<dd>
+						<div data-detail-fetch="targetName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的类型:</dt>
+					<dd>
+						<div data-detail-fetch="targetType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>预计年化收益率:</dt>
+					<dd>
+						<div data-detail-fetch="expAror"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起息日:</dt>
+					<dd>
+						<div data-detail-fetch="incomeDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>付息方式:</dt>
+					<dd>
+						<div data-detail-fetch="accrualType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>合同年天数:</dt>
+					<dd>
+						<div data-detail-fetch="contractDays"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>标的限期:</dt>
+					<dd>
+						<div data-detail-fetch="life"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>起购额度:</dt>
+					<dd>
+						<div data-detail-fetch="floorVolume"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>授信额度:</dt>
+					<dd>
+						<div data-detail-fetch="trustAmount"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>主体评级:</dt>
+					<dd>
+						<div data-detail-fetch="subjectRating"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集起始日:</dt>
+					<dd>
+						<div data-detail-fetch="collectStartDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集截止日:</dt>
+					<dd>
+						<div data-detail-fetch="collectEndDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>募集期收益率:</dt>
+					<dd>
+						<div data-detail-fetch="collectIncomeRate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>申请额度:</dt>
+					<dd>
+						<div data-detail-fetch="applyCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAudit">
+					<dt>审核额度:</dt>
+					<dd>
+						<div data-detail-fetch="auditCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForOrdering">
+					<dt>预约额度:</dt>
+					<dd>
+						<div data-detail-fetch="reserveCash"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal labelForAccept">
+					<dt>确认额度:</dt>
+					<dd>
+						<div data-detail-fetch="investCash"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 出入金明细 信托计划弹窗 end -->
+<!-- =========================================tabpanel2 弹层区域 end==================================================== -->
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定删除此条数据？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
+    作者：star
+    时间：2016-06-20
+    描述：消息提示框
+-->
+<div id="showMessageModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">净值校准</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p id="marketAdjustMessage">已进行净值校准，待审核！</p>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
+    作者：star
+    时间：2016-06-20
+    描述：消息提示框-当初始资产池未空的时候弹出，并指向到新增资产池页面
+-->
+<div id="nullAssetPoolModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">资产池</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p>当前系统还没有创建资产池，是否现在创建！</p>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="nullAssetPoolButton" type="button" class="btn btn-default btn-sm" data-dismiss="modal">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 收益分配弹窗 -->
+<div id="profitDistributeModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">收益分配</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 订单审核确定事件表单 -->
+				<form id="profitDistributeForm" name="profitDistributeForm" method="post">
+					<input name="assetpoolOid" type="hidden" />
+					<input name="productOid" type="hidden" />
+					<input name="apUndisIncome" type="hidden" />
+					<input name="incomeCalcBasis" type="hidden" />
+					<input name="incomeLastDistrDate" type="hidden" />
+					<input name="incomeDistrDate" type="hidden" />
+					<p class="form-header">资产池范畴</p>
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-10">
+							<dl class="dl-horizontal">
+								<dt>投资资产(元):</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="investmentAssets"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-10">
+							<dl class="dl-horizontal">
+								<dt>未分配收益(元):</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="apUndisIncome"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-10">
+							<dl class="dl-horizontal">
+								<dt>应收投资收益(元):</dt>
+								<dd>
+									<div (元)class="currency" data-detail-fetch="apReceiveIncome"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="incomeLastDateRowDiv">
+						<div class="col-sm-10">
+							<dl class="dl-horizontal">
+								<dt>上一收益分配日:</dt>
+								<dd>
+									<div data-detail-fetch="lastIncomeDate"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="incomeLatestDateRowDiv">
+						<div class="col-sm-10">
+							<dl class="dl-horizontal">
+								<dt>收益分配日:</dt>
+								<dd>
+									<div data-detail-fetch="incomeDate"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div id="incomeFirstDateRowDiv">
+						<div class="row">
+							<div class="col-sm-8">
+								<dl class="dl-horizontal">
+									<dt>收益首分配日<span id="valierr" style="color:#dd4b39;font-size:16px;position:absolute;">＊</span>:</dt>
+									<dd>
+										<div class="form-group">
+											<div class="input-group input-group-sm">
+												<input id="incomeFirstDate" name="incomeFirstDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请选择收益首分配日" data-date-format="YYYY-MM-DD">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">产品范畴</p>
+					<div class="row" id="productTotalScale">
+						<div class="col-sm-8">
+							<dl class="dl-horizontal">
+								<dt>产品总规模:</dt>
+								<dd>
+									<div class="form-group">
+										<div class="input-group input-group-sm">
+											<input name="productTotalScale" type="text" class="form-control" readonly="readonly">
+											<span class="input-group-addon">元</span>
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="productRewardBenefit">
+						<div class="col-sm-8">
+							<dl class="dl-horizontal">
+								<dt>奖励收益:</dt>
+								<dd>
+									<div class="form-group">
+										<div class="input-group input-group-sm">
+											<input name="productRewardBenefit" type="text" class="form-control" readonly="readonly">
+											<span class="input-group-addon">元</span>
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="feeValue">
+						<div class="col-sm-8">
+							<dl class="dl-horizontal">
+								<dt>计提费用:</dt>
+								<dd>
+									<div class="form-group">
+										<div class="input-group input-group-sm">
+											<input name="feeValue" type="text" class="form-control" readonly="readonly">
+											<span class="input-group-addon">元</span>
+										</div>
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="productTotalScaleStr">
+						<dl class="dl-horizontal">
+							<dt>产品总规模(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="productTotalScale"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="row" id="productRewardBenefitStr">
+						<dl class="dl-horizontal">
+							<dt>奖励收益(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="productRewardBenefit"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="row" id="feeValueStr">
+						<dl class="dl-horizontal">
+							<dt>计提费用(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="feeValue"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div id="productDistributionIncomeDiv" class="form-group">
+								<label>分配收益</label>
+								<div class="input-group input-group-sm">
+									<input id="productDistributionIncome" name="productDistributionIncome" type="text" 
+										class="form-control" required="required" 
+										data-validfloat="12.2" 
+                     					maxlength="15"
+										data-error="可分配收益只能为前12位后2位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div id="productDistributionIncomeError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div id="productAnnualYieldDiv" class="form-group">
+								<label>年化收益率</label>
+								<div class="input-group input-group-sm">
+									<input id="productAnnualYield" name="productAnnualYield" type="text" 
+										class="form-control" required="required" 
+										data-validfloat="4.2" 
+                     					maxlength="7"
+										data-error="预期年化收益只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div id="productAnnualYieldError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">试算结果</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>未分配收益</label>
+								<div class="input-group input-group-sm">
+									<input id="undisIncome" name="undisIncome" readonly="readonly" type="text" 
+										class="form-control" required="required" 
+										data-validfloat="12.2" 
+                     					maxlength="15"
+										data-error="未分配收益只能为前12位后2位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>应收投资收益</label>
+								<div class="input-group input-group-sm">
+									<input id="receiveIncome" name="receiveIncome" readonly="readonly" type="text" 
+										class="form-control" required="required" 
+										data-validfloat="12.2" 
+                     					maxlength="15"
+										data-error="应收投资收益只能为前12位后2位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>产品总规模</label>
+								<div class="input-group input-group-sm">
+									<input id="totalScale" name="totalScale" readonly="readonly" type="text" 
+										class="form-control" required="required" 
+										data-validfloat="12.2" 
+                     					maxlength="15"
+										data-error="产品总规模只能为前12位后2位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>产品年化收益率</label>
+								<div class="input-group input-group-sm">
+									<input id="annualYield" name="annualYield" type="text" readonly="readonly" 
+										class="form-control" required="required" 
+										data-validfloat="4.2" 
+                     					maxlength="7"
+										data-error="预期年化收益只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>产品万份收益</label>
+								<div class="input-group input-group-sm">
+									<input id="millionCopiesIncome" name="millionCopiesIncome" readonly="readonly" 
+										type="text" class="form-control" 
+										required="required" 
+										data-validfloat="8.4" 
+                     					maxlength="13"
+										data-error="应付费金只能为前8位后4位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="profitDistributeSubmit" type="button" class="btn btn-primary btn-submit profitDistributeSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 收益分配录入 审核弹窗 start -->
+<div id="profitDistributeAuditModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="incomeDisAuditTitleName">收益分配录入审核详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>资产池名称:</dt>
+					<dd>
+						<div data-detail-fetch="assetPoolName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>产品名称:</dt>
+					<dd>
+						<div data-detail-fetch="productName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>收益分配日:</dt>
+					<dd>
+						<div data-detail-fetch="baseDate"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>总分配收益(元):</dt>
+					<dd>
+						<div class="currency" data-detail-fetch="totalAllocateIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>产品总规模(元):</dt>
+					<dd>
+						<div class="currency" data-detail-fetch="capital"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>分配收益(元):</dt>
+					<dd>
+						<div class="currency" data-detail-fetch="allocateIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>奖励收益(元):</dt>
+					<dd>
+						<div class="currency" data-detail-fetch="rewardIncome"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>年化收益率(%):</dt>
+					<dd>
+						<div data-detail-fetch="ratio"></div>
+					</dd>
+				</dl>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="profitDistributeAuditFail" type="button" class="btn btn-warning">驳 回</button>
+				<button id="profitDistributeAuditPass" type="button" class="btn btn-primary">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 收益分配录入 审核弹窗 end -->
+
+<!-- 再次发送收益分配弹窗 start -->
+<div id="profitDistributeAgainModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="incomeDisDetailTitleName">收益分配详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>资产池名称:</dt>
+							<dd>
+								<div data-detail-fetch="assetPoolName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品名称:</dt>
+							<dd>
+								<div data-detail-fetch="productName"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>收益分配日:</dt>
+							<dd>
+								<div data-detail-fetch="baseDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>总分配收益(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="totalAllocateIncome"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品总规模(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="capital"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>分配收益(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="allocateIncome"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>奖励收益(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="rewardIncome"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>年化收益率(%):</dt>
+							<dd>
+								<div data-detail-fetch="ratio"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>成功奖励收益	(元):</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="successAllocateRewardIncome"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>成功分配收益(元)	:</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="successAllocateIncome"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>剩余分配收益:(元)</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="leftAllocateIncome"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>成功分配投资者数(人):</dt>
+							<dd>
+								<div class="decimal0" data-detail-fetch="successAllocateInvestors"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>失败分配投资者数(人):</dt>
+							<dd>
+								<div class="decimal0" data-detail-fetch="failAllocateInvestors"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="box box-primary"></div>
+				<!-- 收益分配人记录数据表格 -->
+				<table id="profitDistributeOrderTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>投资人ID</th>
+							<th>收益分配日</th>
+							<th>计息份额(份)</th>
+							<th>基础收益(元)</th>
+							<th>奖励收益(元)</th>
+							<th>收益总额(元)</th>
+						</tr>
+					</thead>
+				</table>				
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" id="doProfitDistributeAudit">
+				<button id="profitDistributeCancel" type="button" class="btn btn-warning">取消</button>
+				<button id="profitDistributeAgain" type="button" class="btn btn-primary">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 再次发送收益分配弹窗 end -->
+	
+<!-- 提示信息弹窗 -->
+<div id="alertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body" id="alertMessage">
+			</div>
+		</div>
+	</div>
+</div>

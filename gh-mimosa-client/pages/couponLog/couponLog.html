@@ -1,0 +1,72 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>体验金投资日志</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 体验金投资日志</a>
+		</li>
+		<li class="active">体验金投资日志</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<h3 class="box-title">体验金投资日志</h3>
+					<div class="box-header">
+						<!-- 统计数据 -->
+						<form id="searchForm" name="searchForm" method="post">
+							<div class="row">
+								<div class="col-sm-3 pcacha-input-1">
+									<div class="form-group">
+										<label>创建时间:</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="start" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD" data-date-end="finish">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="input-group daterange input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="finish" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD" data-date-begin="start">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>状态</th>
+								<th>类型</th>
+								<th>已发送次数</th>
+								<th>最多发送次数</th>
+								<th>下次调用时间</th>
+								<th>用户ID</th>
+								<th>创建时间</th>
+								<th>修改时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

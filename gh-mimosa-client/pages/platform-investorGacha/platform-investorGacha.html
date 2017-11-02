@@ -1,0 +1,508 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		投资人-平台轧差
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 资金管理</a></li>
+		<li class="active">投资人-平台轧差</li>
+	</ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">&nbsp;</h3>
+					<div class="box-tools">
+						<button id="refresh" class="btn btn-default btn-sm">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+				<div class="box-header with-border">
+					<div class="row">
+						<div class="col-sm-2">
+							平台余额(元)：<div><span id="balance" class="currency" style="font-size: x-large;"></span></div>
+						</div>
+						<!--<div id="superAccBorrowAmount" class="col-sm-2"></div>
+						<div id="statusDisp" class="col-sm-2"></div>
+						<div id="totalTradeAmount" class="col-sm-2"></div>-->
+						<div class="col-sm-2">
+							累计借款总额(元)：<div><span id="totalLoanAmount" class="currency" style="font-size: x-large;"></span></div>
+						</div>
+						<!--<div id="totalReturnAmount" class="col-sm-2"></div>-->
+						<div class="col-sm-2">
+							累计付息总额(元)：<div><span id="totalInterestAmount" class="currency" style="font-size: x-large;"></span></div>
+						</div>
+						<!--<div id="investorTotalDepositAmount" class="col-sm-2"></div>
+						<div id="investorTotalWithdrawAmount" class="col-sm-2"></div>
+						<div id="publisherTotalDepositAmount" class="col-sm-2"></div>
+						<div id="publisherTotalWithdrawAmount" class="col-sm-2"></div>
+						<div id="registerAmount" class="col-sm-2"></div>
+						<div id="investorAmount" class="col-sm-2"></div>
+						<div id="investorHoldAmount" class="col-sm-2"></div>-->
+						<div class="col-sm-2">
+							累计逾期次数(次)：<div><span id="overdueTimes" class="quantity" style="font-size: x-large;"></span></div>
+						</div>
+						<div class="col-sm-2">
+							发行产品总数(个)：<div><span id="productAmount" class="quantity" style="font-size: x-large;"></span></div>
+						</div>
+						<!--<div id="closedProductAmount" class="col-sm-2"></div>
+						<div id="toCloseProductAmount" class="col-sm-2"></div>
+						<div id="onSaleProductAmount" class="col-sm-2"></div>
+						<div id="publisherAmount" class="col-sm-2"></div>
+						<div id="verifiedInvestorAmount" class="col-sm-2"></div>
+						<div id="activeInvestorAmount" class="col-sm-2"></div>
+						<div id="createTime" class="col-sm-2"></div>
+						<div id="updateTime" class="col-sm-2"></div>-->
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#tabcon1" aria-controls="快速轧差" role="tab" data-toggle="tab">快速轧差</a></li>
+							<li role="presentation"><a href="#tabcon2" aria-controls="普通轧差" role="tab" data-toggle="tab">普通轧差</a></li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tabcon1">
+								<form id="searchForm1" name="searchForm1" method="post" class="">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>轧差批次</label>
+												<input name="offsetCode" type="text"
+													   class="form-control"
+													   placeholder="搜索轧差批次">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>开始日期</label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="offsetDateBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD" data-date-end="offsetDateEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>结束日期</label>
+												<div class="input-group daterange">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="offsetDateEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD" data-date-begin="offsetDateBegin">
+												</div>
+											</div>
+										</div>
+										<!--<div class="col-sm-3">
+											<div class="form-group">
+												<label>头寸方向</label>
+												<select name="" class="form-control">
+													<option value="" selected>全部</option>
+													<option value="">多</option>
+													<option value="">空</option>
+													<option value="">零</option>
+												</select>
+											</div>
+										</div>-->
+									</div>
+								</form>
+								<table id="dataTable1" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<!--<th>业务日期</th>-->
+											<th>轧差批次</th>
+											<th>赎回总额(元)</th>
+											<th>创建时间</th>
+											<th>清算状态</th>
+											<th>结算状态</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="tabcon2">
+								<form id="searchForm2" name="searchForm2" method="post" class="">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>轧差批次</label>
+												<input name="offsetCode" type="text"
+													   class="form-control"
+													   placeholder="搜索轧差批次">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>开始日期</label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="offsetDateBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD" data-date-end="offsetDateEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>结束日期</label>
+												<div class="input-group daterange">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="offsetDateEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD" data-date-begin="offsetDateBegin">
+												</div>
+											</div>
+										</div>
+										<!--<div class="col-sm-3">
+											<div class="form-group">
+												<label>头寸方向</label>
+												<select name="" class="form-control">
+													<option value="" selected>全部</option>
+													<option value="">多</option>
+													<option value="">空</option>
+													<option value="">零</option>
+												</select>
+											</div>
+										</div>-->
+									</div>
+								</form>
+								<table id="dataTable2" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<!--<th>业务日期</th>-->
+											<th>轧差批次</th>
+											<th>赎回总额(元)</th>
+											<th>创建时间</th>
+											<th>清算状态</th>
+											<th>结算状态</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document" style="width: 1500px;">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">订单明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<form id="searchForm3" name="searchForm3" method="post" class="">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>订单号</label>
+												<input name="orderCode" type="text"
+													   class="form-control"
+													   placeholder="搜索订单号">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>订单类型</label>
+												<select name="orderType" class="form-control">
+													<option value="" selected="selected">全部</option>
+													<option value="invest">申购</option>
+													<option value="normalRedeem">赎回</option>
+													<option value="clearRedeem">清盘赎回</option>
+													<option value="cash">还本付息</option>
+													<option value="cashFailed">募集失败退款</option>
+													<option value="expGoldInvest">体验金投资</option>
+													<option value="expGoldRedeem">体验金赎回</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>订单状态</label>
+												<select name="orderStatus" class="form-control">
+													<option value="" selected>全部</option>
+													<option value="submitted">已提交</option>
+													<option value="submitFailed">提交失败</option>
+													<option value="toPay">待支付</option>
+													<option value="payFailed">支付失败</option>
+													<option value="paySuccess">已支付</option>
+													<option value="refused">已拒绝</option>
+													<option value="accepted">已受理</option>
+													<option value="confirmed">已确认</option>
+													<option value="confirmFailed">份额确认失败</option>
+													<!--<option value="done">成交</option>
+													<option value="toRefund">等待退款</option>
+													<option value="refunded">已退款</option>
+													<option value="abandoned">已作废</option>
+													<option value="payExpired">已过期</option>-->
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>创建时间</label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="createTimeEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>&nbsp;</label>
+												<div class="input-group daterange">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="createTimeBegin">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="dataTable3" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>订单号</th>
+											<th>订单金额(元)</th>
+											<th>卡券类型</th>
+											<th>奖励</th>
+											<th>实付金额(元)</th>
+											<th>订单类型</th>
+											<th>订单状态</th>
+											<!--<th>产品编号</th>-->
+											<th>产品名称</th>
+											<th>创建时间</th>
+											<th>创建人</th>
+											<!--<th>投资人清算状态</th>
+											<th>投资人结算状态</th>-->
+											<th>发行人清算状态</th>
+											<th>发行人确认状态</th>
+											<th>发行人结算状态</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="gachaDetailModal" class="modal fade item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">轧差明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="gachaDetailArea">
+							<dl class="dl-horizontal">
+								<dt>日结批次：</dt>
+								<dd>
+									<div data-detail-fetch="offsetCode"></div>
+								</dd>
+							</dl>
+							<!--<dl class="dl-horizontal">
+								<dt>日头寸：</dt>
+								<dd>
+									<div data-detail-fetch="netPosition"></div>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>申购总额：</dt>
+								<dd>
+									<div data-detail-fetch="buyAmount"></div>
+								</dd>
+							</dl>-->
+							<dl class="dl-horizontal">
+								<dt>赎回总额：</dt>
+								<dd>
+									<div data-detail-fetch="redeemAmount"></div>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>结算状态：</dt>
+								<dd>
+									<div data-detail-fetch="offsetStatusDisp"></div>
+								</dd>
+							</dl>
+							<dl class="dl-horizontal">
+								<dt>结算用户：</dt>
+								<dd>
+									<div data-detail-fetch="closeMan"></div>
+								</dd>
+							</dl>
+							<!--<dl class="dl-horizontal">
+								<dt>逾期状态：</dt>
+								<dd>
+									<div data-detail-fetch="">待提供</div>
+								</dd>
+							</dl>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="clearConfirm" class="popover func-delete-popover item_box">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 订单支付日志模态窗 默认大小 -->
+<div id="orderLogModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">订单支付日志明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<form id="orderLogSearchForm" name="orderLogSearchForm" method="post" class="box-header">
+									<div class="row">
+										<div class="col-sm-4 pcacha-input-1">
+											<div class="form-group">
+												<label>接口名称</label>
+												<input name="interfaceName" type="text" class="form-control input-sm" placeholder="搜索接口名称">
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="orderLogDataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>接口名称</th>
+											<th>订单号</th>
+											<th>支付流水号</th>
+											<th>交易类型</th>
+											<th>接口返回码</th>
+											<th>已发送次数</th>
+											<th>最多发送次数</th>
+											<th>下次调用时间</th>
+											<th>&nbsp;&nbsp;创建时间&nbsp;&nbsp;</th>
+											<th>&nbsp;&nbsp;更新时间&nbsp;&nbsp;</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 接口日志详情弹窗 -->
+<div id="interfaceDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">接口日志详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">结算系统接口日志详情</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>发送消息内容:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="content"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>接口错误消息:</dt>
+							<dd class="modal-break">
+								<div id="errorMessage"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

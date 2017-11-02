@@ -1,0 +1,49 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    app接口日志管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 账户管理</a></li>
+		<li class="active">app接口日志管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="" class="box box-primary">
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户oid</label>
+									<input name="uid" type="text" class="form-control input-sm" placeholder="搜索用户oid">
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="journalTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>接口返回码</th>
+								<th>接口错误消息</th>
+								<th>用户oid</th>
+								<th>请求URL</th>
+								<th>参数</th>
+								<th>创建时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

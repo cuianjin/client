@@ -1,0 +1,1224 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    投资标的备选库
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 投资标的管理</a></li>
+		<li class="active">投资标的备选库</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">投资标的列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的名称</label>
+									<input name="name" type="text" class="form-control input-sm" placeholder="搜索标的名称" maxlength="32">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的类型</label>
+									<select name="type" class="form-control input-sm" data-enum-fetch="TARGETTYPE" data-enum-text="全部">
+										<option value="" selected>不限</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的规模</label>
+									<select name="raiseScope" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-1000000">小于100万</option>
+										<option value=":1000000-10000000">100万 - 1000万</option>
+										<option value=":10000000-100000000">1000万 - 1亿</option>
+										<option value=":100000000-1000000000">1亿 - 10亿</option>
+										<option value=":1000000000-">大于10亿</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>持仓金额</label>
+									<select name="holdAmount" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-1000000">小于100万</option>
+										<option value=":1000000-10000000">100万 - 1000万</option>
+										<option value=":10000000-100000000">1000万 - 1亿</option>
+										<option value=":100000000-1000000000">1亿 - 10亿</option>
+										<option value=":1000000000-">大于10亿</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>申请中份额</label>
+									<select name="applyAmount" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-1000000">小于100万</option>
+										<option value=":1000000-10000000">100万 - 1000万</option>
+										<option value=":10000000-100000000">1000万 - 1亿</option>
+										<option value=":100000000-1000000000">1亿 - 10亿</option>
+										<option value=":1000000000-">大于10亿</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的期限</label>
+									<select name="lifed" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-30">小于1个月</option>
+										<option value=":30-90">1 - 3个月</option>
+										<option value=":90-180">3 - 6个月</option>
+										<option value=":180-360">6 - 12个月</option>
+										<option value=":360-">大于12个月</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>预期年化收益</label>
+									<select name="expAror" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-0.03">小于3%</option>
+										<option value=":0.03-0.06">3% - 6%</option>
+										<option value=":0.06-0.1">6% - 10%</option>
+										<option value=":0.10-0.15">10% - 15%</option>
+										<option value=":0.15-">大于15%</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>标的编号</th>
+								<th>标的名称</th>
+								<th>标的类型</th>
+								<th>预期年化收益率</th>
+								<th>标的规模</th>
+								<th>期限</th>
+								<th>状态</th>
+								<th>持仓金额</th>
+								<th>申请中份额</th>
+								<th>风险等级</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 成立模态窗 默认大小 -->
+<div id="establishModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">成立</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑表单 -->
+				<p class="form-header">标的概况</p>
+				<div class="row" id="targetDetailEstablish">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集起始日:</dt>
+								<dd>
+									<div data-detail-fetch="collectStartDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集截止日:</dt>
+								<dd>
+									<div data-detail-fetch="collectEndDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+
+				<form id="establishForm" name="establishForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>风控</label>
+								<textarea name="risk" rows="3" class="form-control input-sm" placeholder="请输入内容" maxlength="1024" required data-error="风控不能为空"></textarea>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>成立日期</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<!--<input name="setDate" type="text" class="form-control datepicker" 
+										data-date-format="YYYY-MM-DD" 
+										data-error="成立日期不能为空且必须不小于募集截止日" 
+										data-validdateafter="#collectEndDate"
+										placeholder="成立日期" required >-->
+									<input name="setDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="成立日期" required>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+								<!--<input type="hidden" id="collectEndDate" name="collectEndDate" />-->
+							</div>
+						</div>
+						<div class="col-sm-6"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>收益起始日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<!--<input name="incomeStartDate" type="text" 
+										class="form-control datepicker" 
+										data-date-format="YYYY-MM-DD" 
+										placeholder="" required 
+										data-error="收益起始日不能为空且必须不小于募集截止日" 
+										data-validdateafter="#collectEndDate">-->
+									<input name="incomeStartDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="" data-date-end="incomeEndDate" required>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>收益截止日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<!--<input name="incomeEndDate" type="text" 
+										class="form-control datepicker" 
+										data-date-format="YYYY-MM-DD" 
+										placeholder="" required 
+										data-error="收益起始日不能为空且必须不小于收益起始日" 
+										data-validdateafter="#incomeStartDate">-->
+									<input name="incomeEndDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="" data-date-begin="incomeStartDate" required>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<!--<div class="col-sm-6">
+							<div class="form-group">
+								<label>首付息日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="arorFirstDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="首付息日" required data-error="首付息日不能为空且必须不小于收益起始日" data-validdateafter="#incomeStartDate">
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>-->
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>付息日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa">T+</i>
+									</div>
+									<select name="accrualDate" class="form-control input-sm" required data-error="付息日不能为空">
+									</select>
+									<span class="input-group-addon">工作日以内</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+
+					<!--<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>募集期收益</label>
+								<div class="input-group input-group-sm">
+									<input name="collectIncomeRate" type="text" class="form-control input-sm" placeholder="募集期收益" required data-validpositive="non-zero" data-validfloat="3.4" data-error="募集期收益必须为前2位后4位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>付息周期方式</label>
+								<select name='accrualCycleType' class="form-control input-sm" data-enum-fetch="accrualCycleType" required data-error="付息周期方式不能为空">
+                				</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>-->
+
+					<!--<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>合同年天数</label>
+								<div class="row">
+									<div class="col-sm-4">
+										<input name="contractDays" type="radio" value="365" class="icheck" checked> 365/年
+									</div>
+									<div class="col-sm-4">
+										<input name="contractDays" type="radio" value="360" class="icheck"> 360/年
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+
+					<input name="oid" type="hidden" data-detail-fetch="oid">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="establishSubmit" type="button" class="btn btn-primary btn-submit establishSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 不成立模态窗 默认大小 -->
+<div id="unEstablishModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">成立失败</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑表单 -->
+				<p class="form-header">标的概况</p>
+				<div class="row" id="targetDetailUnEstablish">
+					<div class="row">
+						<input type="hidden" id="unEstablishModalAssetPoolOid" />
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集起始日:</dt>
+								<dd>
+									<div data-detail-fetch="collectStartDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集截止日:</dt>
+								<dd>
+									<div data-detail-fetch="collectEndDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="unEstablishSubmit" type="button" class="btn btn-primary">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 本息兑付 默认大小 -->
+<div id="targetIncomeModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">本息兑付</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<table id="incomeTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>兑付期数</th>
+							<th>实际收益</th>
+							<th>收益支付日</th>
+							<th>录入时间</th>
+							<th>操作员</th>
+						</tr>
+					</thead>
+				</table>
+				<p class="form-header"></p>
+				<div class="row" id="targetDetailIncome">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的名称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>付息方式:</dt>
+							<dd>
+								<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>预期收益率:</dt>
+							<dd>
+								<div data-detail-fetch="expAror" class="decimal2"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>付息日:</dt>
+							<dd>
+								<div data-detail-fetch="accrualDate"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- 编辑表单 -->
+				<form id="targetIncomeForm" name="targetIncomeForm" method="post">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>付息周期</label>
+								<input name="seq" type="text" class="form-control input-sm" placeholder="付息周期" required data-validint="1-999" data-error="付息周期必须为1到999的整数">
+							</div>
+							<div class="help-block with-errors text-red"></div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>实际收益</label>
+								<div class="input-group input-group-sm">
+									<input name="incomeRate" type="text" class="form-control input-sm" placeholder="实际收益" required data-validpositive="non-zero" data-validfloat="3.4" data-error="实际收益必须为前2位后4位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>收益支付日</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="incomeDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="收益支付日" required data-error="收益支付日不能为空">
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+
+					</div>
+
+					<input name="targetOid" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="targetIncomeSubmit" type="button" class="btn btn-primary btn-submit targetIncomeSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 逾期模态窗 默认大小 -->
+<div id="overdueModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">逾期</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">标的概况</p>
+				<div class="row" id="targetDetailOverdue">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的编号:</dt>
+							<dd>
+								<div data-detail-fetch="sn"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的名称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的类型:</dt>
+							<dd>
+								<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的规模(万):</dt>
+							<dd>
+								<div data-detail-fetch="raiseScope" class="decimal4"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>年化收益率:</dt>
+							<dd>
+								<div data-detail-fetch="expAror" class="decimal2"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>标的期限:</dt>
+							<dd>
+								<div data-detail-fetch="life"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>成立日期:</dt>
+							<dd>
+								<div data-detail-fetch="setDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>收益起始日:</dt>
+							<dd>
+								<div data-detail-fetch="incomeStartDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>收益截止日:</dt>
+							<dd>
+								<div data-detail-fetch="incomeEndDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<!--<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>首付息日:</dt>
+							<dd>
+								<div data-detail-fetch="arorFirstDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>付息日:</dt>
+							<dd>
+								<div data-detail-fetch="accrualDate"></div>
+							</dd>
+						</dl>
+					</div>-->
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>募集期:</dt>
+							<dd>
+								<div data-detail-fetch="collectDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>募集期收益:</dt>
+							<dd>
+								<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>风控:</dt>
+							<dd>
+								<div data-detail-fetch="risk"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- 编辑表单 -->
+				<form id="overdueForm" name="overdueForm" method="post">
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>逾期日期</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="overdueDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="逾期日期" required data-error="逾期日期不能为空">
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>逾期天数</label>
+								<div class="input-group input-group-sm">
+									<input name="overdueDays" type="text" class="form-control input-sm" placeholder="逾期天数" required maxlength="10" data-validint="1-1000000000" data-error="逾期天数必须为10位以内整数">
+									<span class="input-group-addon">天</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>逾期利率</label>
+								<div class="input-group input-group-sm">
+									<input name="overdueRate" type="text" class="form-control input-sm" placeholder="逾期利率" data-validpositive="non-zero" data-validfloat="2.4" data-error="逾期利率必须为前2位后4位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<!--
+          	<div class="col-sm-6">
+	          	<div class="form-group">
+			          <label>逾期滞纳金</label>
+			          <div class="input-group input-group-sm">			            
+			            <input name="overdueFine" type="text"
+			                   class="form-control input-sm"
+			                   placeholder="逾期滞纳金" >
+			          </div>
+			        </div>
+		        </div>
+	        -->
+					</div>
+
+					<input name="oid" type="hidden" data-detail-fetch="oid">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="overdueSubmit" type="button" class="btn btn-primary btn-submit overdueSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 财务数据 弹窗 -->
+<div id="financialDataModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">财务数据</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 主体Grid -->
+						<div id="assetGrid" class="box box-primary">
+							<!-- Grid头部 -->
+							<div class="box-header">
+								<h3 class="box-title"></h3>
+								<div class="box-tools">
+									<button id="projectAdd" class="btn btn-default btn-sm">
+										<i class="fa fa-plus"></i> 财务数据
+									</button>
+								</div>
+							</div>
+							<!-- Grid内容体 -->
+							<div class="box-body">
+								<!-- 搜索项表单 
+								<form id="projectSearchForm" name="projectSearchForm" method="post" class="search-body">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>项目名称</label>
+												<input name="projectName" type="text" class="form-control input-sm" placeholder="搜索项目名称">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>项目经理</label>
+												<input name="projectManager" type="text" class="form-control input-sm" placeholder="搜索项目经理">
+											</div>
+										</div>
+									</div>
+								</form>-->
+								<!-- 主体数据表格 -->
+								<table id="projectTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>编号</th>
+											<th>名称</th>
+											<th>项目经理</th>
+											<th>类型</th>
+											<th>城市</th>
+											<th>创建时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 标的详情弹窗 -->
+<div id="targetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="detTargetForm" name="detTargetForm" method="post">
+					<p class="form-header">标的概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资方向:</dt>
+								<dd>
+									<div data-detail-fetch="investment"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息周期方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualCycleType" data-enum-transform="accrualCycleType"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="TARGETHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="trustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>剩余授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="restTrustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>逾期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="overdueRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起购金额(万):</dt>
+								<dd>
+									<div data-detail-fetch="floorVolume" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>拟成立日:</dt>
+								<dd>
+									<div data-detail-fetch="expSetDate"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="collectDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>主体评级:</dt>
+								<dd>
+									<div data-detail-fetch="subjectRating"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级机构:</dt>
+								<dd>
+									<div data-detail-fetch="ratingAgency"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级时间:</dt>
+								<dd>
+									<div data-detail-fetch="ratingTime"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>内部评级:</dt>
+								<dd>
+									<div data-detail-fetch="irb"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>优先级:</dt>
+								<dd>
+									<div data-detail-fetch="prior"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益说明:</dt>
+								<dd>
+									<div data-detail-fetch="expArorDesc"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的状态:</dt>
+								<dd>
+									<div data-detail-fetch="state" data-enum-transform="targetStates"></div>
+								</dd>
+							</dl>
+						</div>
+						<div id="rejectDesc" class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>驳回理由:</dt>
+								<dd>
+									<div data-detail-fetch="rejectDesc"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">优势说明</p>
+					<dl class="dl-horizontal">
+						<dt>优势说明:</dt>
+						<dd>
+							<div data-detail-fetch="superiority"></div>
+						</dd>
+					</dl>
+					<p class="form-header">标的实力</p>
+					<dl class="dl-horizontal">
+						<dt>融资方:</dt>
+						<dd>
+							<div data-detail-fetch="financer"></div>
+						</dd>
+						<dt>融资方简介:</dt>
+						<dd>
+							<div data-detail-fetch="financerDesc"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>担保方:</dt>
+						<dd>
+							<div data-detail-fetch="warrantor"></div>
+						</dd>
+						<dt>担保简介:</dt>
+						<dd>
+							<div data-detail-fetch="warrantorDesc"></div>
+						</dd>
+					</dl>
+					<p class="form-header">资金用途</p>
+					<dl class="dl-horizontal">
+						<dt>资金用途:</dt>
+						<dd>
+							<div data-detail-fetch="usages"></div>
+						</dd>
+					</dl>
+					<p class="form-header">还款说明</p>
+					<dl class="dl-horizontal">
+						<dt>还款说明:</dt>
+						<dd>
+							<div data-detail-fetch="repayment"></div>
+						</dd>
+					</dl>
+					<p class="form-header">风控措施</p>
+					<dl class="dl-horizontal">
+						<dt>风控措施:</dt>
+						<dd>
+							<div data-detail-fetch="risk"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>风控风险等级:</dt>
+						<dd>
+							<div data-detail-fetch="riskRate"></div>
+						</dd>
+					</dl>
+				</form>
+				<div id="meetingDet">
+					<p class="form-header">过会信息</p>
+					<div class="row">
+						<form id='meetingDetForm'>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>会议编号:</dt>
+									<dd>
+										<div data-detail-fetch="sn"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>会议名称:</dt>
+									<dd>
+										<div data-detail-fetch="title"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>会议时间:</dt>
+									<dd>
+										<div data-detail-fetch="conferenceTime"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>会议状态:</dt>
+									<dd>
+										<div data-detail-fetch="state" data-enum-transform="meetingStates"></div>
+									</dd>
+								</dl>
+							</div>
+						</form>
+						<div class="col-sm-12">
+							过会表决概况
+							<table id="detVoteTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>表决人</th>
+										<th>表决意见</th>
+										<th>表决时间</th>
+										<th>附件</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div id="assetPoolDet">
+					<p class="form-header">资产池信息</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="assetPoolTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>编号</th>
+										<th>资产池名称</th>
+										<th>资产价值</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

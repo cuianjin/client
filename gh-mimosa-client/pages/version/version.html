@@ -1,0 +1,507 @@
+<!-- 页面头部 -->
+<section class="content-header">
+  <h1>
+    版本管理
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+    <li class="active">版本管理</li>
+  </ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="bannerGrid" class="box box-primary">
+        <div class="box-header">
+        	<h3 class="box-title">版本列表</h3>
+          <div class="box-tools">
+            <button id="createVersion" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建增量升级
+            </button>
+            <button id="createVersionTypeIOS" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建IOS版本
+            </button>
+            <button id="createVersionTypeAndroid" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建Android版本
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+        	<form id="searchForm" name="searchForm" method="post">
+	          <div class="row">
+	            <div class="col-sm-3">
+	              <div class="form-group">
+	                <label>版本号</label>
+	                <input name="versionNo" type="text"
+	                       class="form-control input-sm"
+	                       placeholder="搜索版本号">
+	              </div>
+	            </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>状态</label>
+                  <select name="status" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="on">已发布</option>
+                    <option value="reviewed">待发布</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>发布时间</label>
+	                  <div class="input-group">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="publishTimeBegin" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="从"
+	                           data-date-format="YYYY-MM-DD " data-date-end="publishTimeEnd">
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>&nbsp;</label>
+	                  <div class="input-group daterange">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="publishTimeEnd" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="到"
+	                           data-date-format="YYYY-MM-DD " data-date-begin="publishTimeBegin">
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>分类</label>
+                  <select name="system" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="ios">ios</option>
+                    <option value="android">安卓</option>
+                    <option value="increment">增量</option>
+                  </select>
+                </div>
+              </div>
+	          </div>
+	        </form>
+        	
+          <table id="versionTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>版本号</th>
+                <th>分类</th>
+                <th>发布日期</th>
+                <th>版本描述</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+	时间：2016-06-14
+	描述：新建版本升级--增量
+-->
+<div id="createModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createForm1" name="createForm" method="post"  style="min-height: 185px;overflow: hidden;">
+          <div class="form-group">
+                          现有版本号：<label id="incrementVerionNo"></label>
+          </div>
+          <div class="form-group col-sm-12">
+            <label>预计发布日期</label>
+            <input name="expectPublishTime" type="text" id="expectPublishTime"
+                    class=" datepicker form-control"
+                    placeholder="请输入预计发布日期"
+	                  data-date-format="YYYY-MM-DD">
+          </div>
+          
+          <div class="form-group col-sm-12">
+            <label>版本号</label>
+            <input name="versionNo" type="text" 
+            	     class="form-control"
+                   placeholder="请输入版本号,例如1.0.0" required maxlength="8">
+          </div>
+         
+
+          
+         <div class="form-group col-sm-12">
+        		<label>版本描述：</label>
+        	  <textarea name="description" rows="3" cols="78"
+		                   class="form-control"
+		                   placeholder="请输入版本描述" required maxlength="300"></textarea>
+        	</div>
+         
+          <input name="oid" type="hidden" />
+			    <input name="fileUrl" type="hidden" />
+			    <input name="system" type="hidden" value="increment"/>
+			    <input name="upgradeType" type="hidden" value="increment"/>
+			    <input name="fileName" type="hidden" />
+        </form>
+        <!-- 增量上传表单 -->
+        <form id="wgtForm" name="wgtForm" method="post" enctype="multipart/form-data">
+          <div class="form-group col-sm-12">
+            <label>版本：</label>
+            <input name="picFile" type="file" class="form-control" required>
+            <p class="help-block">文件格式仅限wgt</p>
+          </div>
+        </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+         <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        <div id="refreshDivWgt">
+              <i id="refreshIWgt"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+	时间：2016-06-14
+	描述：新建版本升级--IOS
+-->
+<div id="createModalbyVersionIOS" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createbyVersionIOSFrom" name="createFormbyVersionIOS" method="post">
+        	<div class="form-group">
+            IOS现有版本号：<label id="verionNoIOS"></label>
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>版本号</label>
+            <input name="versionNo" type="text"
+            	     class="form-control"
+                   placeholder="请输入版本号,例如1.0.0" required maxlength="8">
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>预计发布日期</label>
+            <input name="expectPublishTime" type="text"  id="expectPublishTimeIOS"
+                    class="datepicker form-control"
+                    placeholder="请输入预计发布日期"
+	                  data-date-format="YYYY-MM-DD">
+          </div>
+          <div class="form-group col-sm-6">
+            <label>IOS发布地址</label>
+            <input name="fileUrl" type="text" 
+                   class="form-control"
+                   placeholder="例如：http://www.baidu.com" required maxlength="100">
+          </div>
+          
+			    <div class="form-group col-sm-6">
+			    	<label>是否强制升级</label>
+         	  <select name="compulsory" class="form-control">
+                        <option value="1" selected>是</option>
+                        <option value="0" >否</option>
+            </select>
+          </div>
+          
+          <div class="form-group col-sm-6">
+          	<label>提醒更新频率</label>
+          	<div class="input-group input-group-sm">
+	          	<input name="checkInterval" type="text" id="iosCheckInterval"
+	                   class="form-control"
+	                   placeholder="请输入提醒更新频率">
+	            <span class="input-group-addon">天</span>
+	          </div>
+            <div style="color: red;">
+            	 <label >注：0天为每次启动都提示</label>
+            </div>
+          </div>
+          
+          <div class="form-group col-sm-12">
+        		<label>版本描述：</label>
+        	  <textarea name="description" rows="3" cols="78"
+		                   class="form-control"
+		                   placeholder="请输入版本描述" required maxlength="300"></textarea>
+        	</div>
+          
+         
+         <input name="oid" type="hidden" />
+			    <input name="system" type="hidden" value="ios"/>
+			    <input name="upgradeType" type="hidden" value="version"/>
+			    <input name="fileName" type="hidden" />
+         </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmitByIOS" type="button" class="btn btn-primary btn-submit createbyVersionIOSSubmit">确 定</button>
+         <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        <div id="refreshDivios">
+              <i id="refreshIios"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+	时间：2016-06-14
+	描述：新建版本升级--android
+-->
+<div id="createModalbyVersionAndroid" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+         <form id="createbyVersionAndroidForm" name="createFormbyVersionAndroid" method="post" style="overflow: hidden;">
+        	<div class="form-group">
+            Android现有版本号：<label id="verionNoAndroid"></label>
+          </div>
+        	
+          <div class="form-group col-sm-6">
+            <label>版本号</label>
+            <input name="versionNo" type="text"
+                   class="form-control"
+                   placeholder="请输入版本号,例如1.0.0" required maxlength="8">
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>预计发布日期</label>
+            <input name="expectPublishTime" type="text"  id="expectPublishTimeAndroid"
+                    class="datepicker form-control"
+                    placeholder="请输入预计发布日期"
+	                  data-date-format="YYYY-MM-DD ">
+          </div>
+          <div class="form-group col-sm-6">
+			    	<label>是否强制升级</label>
+         	  <select name="compulsory" class="form-control">
+                        <option value="1" selected>是</option>
+                        <option value="0" >否</option>
+            </select>
+          </div>
+          
+          <div class="form-group col-sm-6">
+          	<label>提醒更新频率</label>
+          	<div class="input-group input-group-sm">
+	          	<input name="checkInterval" type="text" id="androidCheckInterval"
+	                   class="form-control"
+	                   placeholder="请输入提醒更新频率">
+	            <span class="input-group-addon">天</span>
+	          </div>
+            <div style="color: red;">
+            	 <label >注：0天为每次启动都提示</label>
+            </div>
+          </div>
+          
+          <div class="form-group col-sm-12">
+        		<label>版本描述：</label>
+        	  <textarea name="description" rows="3" cols="78"
+		                   class="form-control"
+		                   placeholder="请输入版本描述" required maxlength="300"></textarea>
+        	</div>
+         
+         
+         
+          <input name="oid" type="hidden" />
+			    <input name="fileUrl" type="hidden" />
+			    <input name="system" type="hidden" value="android"/>
+			    <input name="upgradeType" type="hidden" value="version"/>
+			     <input name="fileName" type="hidden" />
+         </form>
+        <!-- 图片上传表单 -->
+        <form id="apkForm" name="apkForm" method="post" enctype="multipart/form-data">
+          <div class="form-group col-sm-12">
+            <label>安卓版本apk包</label>
+            <input name="picFile" type="file" id="picFileByAndroid"
+            	     class="form-control" required>
+            <p class="help-block">文件格式仅限apk</p>
+          </div>
+         </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmitByAndroid" type="button" class="btn btn-primary btn-submit createbyVersionAndroidSubmit">确 定</button>
+         <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        <div id="refreshDivandroid">
+              <i id="refreshIandroid"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">版本详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createFormDetail" name="createFormDetail" method="post">
+        	<div class="row">
+		        	<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>版本号</dt>
+										<dd>
+											<div data-detail-fetch="versionNo"></div>
+										</dd>
+									</dl>
+							</div>
+		          
+		          <div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>预计发布日期</dt>
+										<dd>
+											<div id="expectPublishTimeDetail"></div>
+										</dd>
+									</dl>
+							</div>
+		          <div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>版本描述</dt>
+										<dd>
+											<div><textarea id="descriptionDetail" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+										</dd>
+									</dl>
+							</div>
+		    
+						  <div class="col-sm-12" id="iosUrlDetail" style="display:'none';">
+									<dl class="dl-horizontal">
+										<dt>url地址</dt>
+										<dd>
+											<div class="break" data-detail-fetch="fileUrl"></div>
+										</dd>
+									</dl>
+							</div>
+				      <div id='appVersionShow'>
+						  	<div class="col-sm-6">
+										<dl class="dl-horizontal">
+											<dt>是否强制升级:</dt>
+											<dd>
+												<div data-detail-fetch="compulsory" data-enum-transform="topInfoStatus"></div>
+											</dd>
+										</dl>
+								</div>
+								
+							  <div class="col-sm-6">
+										<dl class="dl-horizontal">
+											<dt>提醒更新频率:</dt>
+											<dd>
+												<div id="checkInterval"></div>
+											</dd>
+										</dl>
+						   	</div>
+		          </div>
+		        	<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>编辑人</dt>
+										<dd>
+											<div data-detail-fetch="creator"></div>
+										</dd>
+									</dl>
+							</div>
+		
+	      			<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>编辑时间</dt>
+									<dd>
+										<div id="createTimeDetail"></div>
+									</dd>
+								</dl>
+							</div>
+		
+	      			
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>发布人</dt>
+									<dd>
+										<div data-detail-fetch="publisher"></div>
+									</dd>
+								</dl>
+							</div>
+	
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>发布时间</dt>
+									<dd>
+										<div id="publishTimeDetail"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+        	</form>
+       </div> 	
+    </div>
+  </div>
+</div>
+
+<div id="deleteConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定删除此条数据？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="publishConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定发布此版本？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>

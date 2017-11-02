@@ -1,0 +1,448 @@
+<!-- 页面头部 -->
+<section class="content-header">
+  <h1>
+    银行卡管理
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+    <li class="active">银行卡管理</li>
+  </ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="bannerGrid" class="box box-primary">
+        <div class="box-header">
+        	<h3 class="box-title">银行卡列表</h3>
+          <div class="box-tools">
+            <button id="createBanner" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建银行卡
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+        	<form id="searchForm" name="searchForm" method="post">
+	          <div class="row">
+	            <div class="col-sm-3">
+	              <div class="form-group">
+	                <label>银行名称</label>
+	                <input name="bankName" type="text" class="form-control input-sm" placeholder="搜索银行名称">
+	              </div>
+	            </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>状态</label>
+                  <select name="status" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="toApprove">待审批</option>
+                    <option value="pass">通过</option>
+                    <option value="refused">驳回</option>
+                  </select>
+                </div>
+              </div>
+	          </div>
+	        </form>
+	        
+          <table id="bannerTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>银行code</th>
+                <th>银行名称</th>
+                <th>人行编码</th>
+                <th>背景颜色</th>   
+                <th>银行logo</th>  
+                <th>银行长logo</th> 
+                <th>单笔提现限额（元）</th>
+                <th>单笔支付限额（元）</th>
+                <th>单日提现限额（元）</th> 
+                <th>单日支付限额（元）</th>   
+                <th>单月提现限额（元）</th> 
+                <th>单月支付限额（元）</th> 
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>                    
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="createModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createForm" name="createForm" method="post">
+          <div class="form-group col-sm-6">
+            <label>银行Code</label>
+            <input name="bankCode" id="bankCode" type="text" class="form-control" placeholder="请输入银行Code" maxlength="30" required>
+            <div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>银行名称</label>
+            <input name="bankName" type="text" class="form-control" placeholder="请输入银行名称" maxlength="30" required>
+            <div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>人行编码</label>
+            <input name="peopleBankCode" type="text" class="form-control" placeholder="请输入人行编码" maxlength="30" required>
+            <div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>背景颜色</label>
+            <input name="bgColor" type="text" class="form-control" placeholder="请输入背景颜色代码(例：linear-gradient(-126deg, #4f83be 0%, #3c5ea9 99%))" maxlength="60" required>
+            <div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单笔提现限额（元）</label>
+            <input name="withdrawOneLimit" type="text" class="form-control" placeholder="请输入单笔提现限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单笔提现限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单笔支付限额（元）</label>
+            <input name="payOneLimit" type="text" class="form-control" placeholder="请输入单笔支付限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单笔支付限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单日提现限额（元）</label>
+            <input name="withdrawDayLimit" type="text" class="form-control" placeholder="请输入单日提现限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单日提现限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单日支付限额（元）</label>
+            <input name="payDayLimit" type="text" class="form-control" placeholder="请输入单日支付限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单日支付限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单月提现限额（元）</label>
+            <input name="withdrawMoonLimit" type="text" class="form-control" placeholder="请输入单月提现限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单月提现限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>单月支付限额（元）</label>
+            <input name="payMoonLimit" type="text" class="form-control" placeholder="请输入单月支付限额（整数）（0为无限额）" maxlength="11" data-validint="0-99999999999" data-error="单月支付限额必须为11位以内的正整数" >
+          	<div class="help-block with-errors text-red"></div>
+          </div>
+          <input name="oid" type="hidden" />          
+			    <input name="bankLogo" type="hidden" />	
+			    <input name="bankBigLogo" type="hidden" />			   
+        </form>
+        <!-- 图片上传表单 -->
+        <form id="picForm" name="picForm" method="post" enctype="multipart/form-data">
+          <div class="form-group col-sm-6" id="picDiv1">
+            <label>上传银行Logo</label>
+            <input name="pic1" type="file"
+            			 class="form-control"
+									 data-validjpgpng="jpgpng"
+									 data-validjpgpng-error="图片格式仅限JPG、PNG,只可上传一张，建议像素：750*282 或者 375*141">
+									 <div class="help-block with-errors text-red"></div>
+						<p>格式仅限JPG、PNG，只可上传一张</p>
+          </div>
+          <div class="form-group col-sm-6" id="picDiv2">
+            <label>上传银行长Logo</label>
+            <input name="pic2" type="file"
+            			 class="form-control"
+									 data-validjpgpng="jpgpng"
+									 data-validjpgpng-error="图片格式仅限JPG、PNG,只可上传一张，建议像素：750*282 或者 375*141">
+									 <div class="help-block with-errors text-red"></div>
+						<p>格式仅限JPG、PNG，只可上传一张</p>
+          </div>
+          
+           <table id="bankCardPicTable1" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>图片银行Logo</th>
+								<th>操作</th>
+							</tr>
+							<tr>
+								<th><img id="editImageUrl1" src="" width="220" height="90"/></th>
+								<th><button class="btn btn-default btn-xs" id="picDelButton1">删除</button></th>
+							</tr>
+						</thead>
+					</table>
+					
+					<table id="bankCardPicTable2" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>图片银行长Logo</th>
+								<th>操作</th>
+							</tr>
+							<tr>
+								<th><img id="editImageUrl2" src="" width="220" height="90"/></th>
+								<th><button class="btn btn-default btn-xs" id="picDelButton2">删除</button></th>
+							</tr>
+						</thead>
+					</table>
+          
+        </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+        <button id="createReset" type="button" class="btn btn-default">重 置</button>
+        <div id="refreshDiv">
+              <i id="refreshI"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="confirmDiv" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p></p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">审核提示</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+          <form id="approveForm" name="approveForm" method="post">
+	          <div class="form-group">
+	            <label>审核<span id="bannerTitle"></span></label>
+	            <textarea name="remark" class="form-control"placeholder="请输入审核意见" rows="3" required></textarea>	            
+	          </div>
+	          <input name="oid" type="hidden">	
+	          <input name="approveStatus" type="hidden">
+	        </form> 
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" id="refusedBut" class="btn btn-primary btn-submit approveSubmit">驳回</button>
+        <button type="button" id="passBut" class="btn btn-primary btn-submit approveSubmit">通过</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<form id="detailForm" name="detailForm" method="post">					
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行名称</dt>
+								<dd>
+									<div data-detail-fetch="bankName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行Code</dt>
+								<dd>
+									<div data-detail-fetch="bankCode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>人行编码</dt>
+								<dd>
+									<div data-detail-fetch="peopleBankCode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔提现限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="withdrawOneLimit" class="decimal0"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔支付限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="payOneLimit" class="decimal0"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单日提现限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="withdrawDayLimit" class="decimal0"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单日支付限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="payDayLimit" class="decimal0"> </div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单月提现限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="withdrawMoonLimit" class="decimal0"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单月支付限额（元）</dt>
+								<dd>
+									<div data-detail-fetch="payMoonLimit" class="decimal0"> </div>
+								</dd>
+							</dl>
+						</div>
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>背景颜色</dt>
+								<dd>
+									<div data-detail-fetch="bgColor" ></div>
+								</dd>
+							</dl>
+						</div>
+      			<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>银行Logo</dt>
+								<dd>
+									<div><img id="detailImageUrl1" src="" width="200" height="90"/></div>
+								</dd>
+							</dl>
+						</div>
+      			<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>银行长Logo</dt>
+								<dd>
+									<div><img id="detailImageUrl2" src="" width="200" height="50"/></div>
+								</dd>
+							</dl>
+						</div>
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑人</dt>
+								<dd>
+									<div data-detail-fetch="creator"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑时间</dt>
+								<dd>
+									<div data-detail-fetch="updateTime"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核状态</dt>
+								<dd>
+									<div data-detail-fetch="status" data-enum-transform="approveStatus"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核人</dt>
+								<dd>
+									<div data-detail-fetch="approver"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>审核意见</dt>
+								<dd>
+									<div><textarea id="detailRemark" data-detail-fetch="approveRemark" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核时间</dt>
+								<dd>
+									<div data-detail-fetch="approveTime"></div>
+								</dd>
+							</dl>
+						</div>
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>
+</div>
+<!--  图片模态窗 默认大小 -->
+<div id="viewModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">图片预览</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<img src="" id="viewImage" style="max-width: 570px;margin: auto;display: block;"/>
+      </div>
+      <!-- 模态窗底部 -->
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+	  </div>
+  </div>
+ </div>
+</div>

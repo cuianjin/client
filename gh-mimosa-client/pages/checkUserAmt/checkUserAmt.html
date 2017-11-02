@@ -1,0 +1,280 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>平台账户总额对账</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 对账管理</a></li>
+		<li class="active">平台账户总额对账</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">账户总额对账列表</h3>
+					<div class="box-tools">
+						<button id="checkUserAmtBtn" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 对账
+						</button>
+						<div id="checkRefreshDiv">
+				         	 <i id="checkRefreshI"></i>
+				    	</div>
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资者账户</label>
+									<input name="phone" type="text" class="form-control input-sm" placeholder="搜索投资者账户">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>对账状态</label>
+									<select name="checkStatus" class="form-control input-sm">
+					                    <option value="" selected>全部</option>
+					                    <option value="ok">对账成功</option>
+					                    <option value="failed">对账失败</option>
+					                    <option value="ignore">对账忽略</option>
+					                </select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户状态</label>
+									<select name="userStatus" class="form-control input-sm">
+					                    <option value="" selected>全部</option>
+					                    <option value="isLock">已锁定</option>
+					                    <option value="isok">未锁定</option>
+					                </select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					平台资金总额(元)<span id="moneyAmt" class="currency">0.00</span>
+					平台资产总额(元)<span id="capitalAmt" class="currency">0.00</span>
+					<table id="checkUserAmtTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>日期</th>
+								<th>投资者账户</th>
+								<!--<th>投资者OID</th>-->
+								<th>资金总额(元)</th>
+								<th>资产总额(元)</th>
+								<th>对账状态</th>
+								<!--<th>补登金额</th>-->
+								<th>账户状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>		
+	</div>
+</section>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 资金变动明细 -->
+<div id="moneyChangeDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">资金变动记录</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<!-- Grid头部 -->
+			<div class="box-header with-border">
+				<!-- 统计数据 -->
+				<form id="monChangeDetailSearchForm" name="monChangeDetailSearchForm" method="post">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>开始时间</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="createTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD " data-date-end="createTimeEnd">
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>结束时间</label>
+								<div class="input-group daterange">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="createTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD" data-date-begin="createTimeBegin">
+								</div>
+							</div>
+						</div>	
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>补登类型</label>
+								<select name="recorrectType" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="balance">账户余额</option>
+				                    <option value="orderDetailChange">资金明细变动</option>
+				                </select>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Grid内容体 -->
+			<div class="box-body">
+				<table id="moneyChangeDetailTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>日期</th>
+							<th>投资者账户</th>
+							<th>前一日资产总额</th>
+							<th>可提现金额</th>
+							<th>提现冻结金额</th>
+							<th>活期申购冻结</th>
+							<th>活期持有</th>
+							<th>定期申购冻结</th>
+							<th>定期持有</th>
+							<th>补登记录</th>
+							<th>补登原因</th>
+							<th>补登提交人</th>
+							<th>资产总额</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<form id="detailForm" name="detailForm" method="post">					
+			<div class="row">
+      			<div class="col-sm-6">
+					<dl class="dl-horizontal">
+						<dt>日期</dt>
+						<dd>
+							<div data-detail-fetch="checkTime"></div>
+						</dd>
+					</dl>
+				</div>
+      	
+      			<div class="col-sm-6">
+					<dl class="dl-horizontal">
+						<dt>投资者账户</dt>
+						<dd>
+							<div data-detail-fetch="phone"></div>
+						</dd>
+					</dl>
+				</div>
+      	
+      			<div class="col-sm-12">
+					资金总额(元)：<br/>
+					资金总额=已充值-已成功提现+定期累计收益+活期累计收益+卡券红包金额
+					<table border="1" align="center" width="100%">
+						<thead>
+							<tr>
+								<th width="16%" height="40px">已充值</th>
+								<th width="16%">已成功提现</th>
+								<th width="16%">定期累计收益</th>
+								<th width="16%">活期累计收益</th>
+								<th width="16%">卡券红包金额</th>
+								<th width="17%">资金总额</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td data-detail-fetch="recharge" height="40px" class="currency">&nbsp;</td>
+								<td data-detail-fetch="withdraw" class="currency">&nbsp;</td>
+								<td data-detail-fetch="tnInterest" class="currency">&nbsp;</td>
+								<td data-detail-fetch="t0Interest" class="currency">&nbsp;</td>
+								<td data-detail-fetch="couponAmt" class="currency">&nbsp;</td>
+								<td data-detail-fetch="moneyAmount" class="currency">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="col-sm-12">
+					资产总额(元)：<br/>
+					资产总额=申购可用金额+提现申请中金额+活期持有+活期申购冻结+定期持有+定期申购冻结
+					<table border="1" align="center" width="100%">
+						<thead>
+							<tr>
+								<th width="15%" height="40px">前一日资产总额</th>
+								<th width="10%">申购可用金额</th>
+								<th width="15%">提现申请中金额</th>
+								<th width="10%">活期持有</th>
+								<th width="10%">活期申购冻结</th>
+								<th width="10%">定期持有</th>
+								<th width="10%">定期申购冻结</th>
+								<th width="10%">资产总额</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td data-detail-fetch="yesterdayCapitalAmt" height="40px" class="currency">&nbsp;</td>
+								<td data-detail-fetch="balance" class="currency">&nbsp;</td>
+								<td data-detail-fetch="applyBalance" class="currency">&nbsp;</td>
+								<td data-detail-fetch="t0HoldAmt" class="currency">&nbsp;</td>
+								<td data-detail-fetch="t0ApplyAmt" class="currency">&nbsp;</td>
+								<td data-detail-fetch="tnHoldlAmt" class="currency">&nbsp;</td>
+								<td data-detail-fetch="tnApplyAmt" class="currency">&nbsp;</td>
+								<td data-detail-fetch="capitalAmount" class="currency">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+            </div>
+        </form>
+    </div>
+  </div>
+ </div>
+</div>

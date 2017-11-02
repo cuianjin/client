@@ -1,0 +1,173 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    未确认持有人订单管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 运营管理</a></li>
+		<li class="active">未确认持有人订单管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="productAuditGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">未确认订单列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品名称</label>
+									<input name="productName" type="text" class="form-control input-sm" placeholder="搜索产品名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>渠道名称</label>
+									<input name="channelName" type="text" class="form-control input-sm" placeholder="搜索渠道名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>交易类型</label>
+									<select name="orderType" class="form-control input-sm" >
+										<option value="" selected="selected">全部</option>
+										<option value="invest">申购</option>
+										<option value="normalRedeem">赎回</option>
+										<option value="clearRedeem">清盘赎回</option>
+										<option value="cash">还本付息</option>
+										<option value="cashFailed">募集失败退款</option>
+										<option value="expGoldInvest">体验金投资</option>
+										<option value="expGoldRedeem">体验金赎回</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- 主体数据表格 -->
+					<table id="inputOrderTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>订单号</th>
+								<th>投资人账号</th>
+								<!--<th>产品编号</th>-->
+								<th>产品名称</th>
+								<th>渠道名称</th>
+								<th>交易类型</th>
+								<th>订单金额(元)</th>
+								<th>卡券类型</th>
+								<th>奖励</th>
+								<th>订单时间</th>
+								<th>清算状态</th>
+								<th>交收状态</th>
+								<th>结算状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 订单支付日志模态窗 默认大小 -->
+<div id="orderLogModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">订单支付日志明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<form id="orderLogSearchForm" name="orderLogSearchForm" method="post" class="box-header">
+									<div class="row">
+										<div class="col-sm-4 pcacha-input-1">
+											<div class="form-group">
+												<label>接口名称</label>
+												<input name="interfaceName" type="text" class="form-control input-sm" placeholder="搜索接口名称">
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="orderLogDataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>接口名称</th>
+											<th>订单号</th>
+											<th>支付流水号</th>
+											<th>交易类型</th>
+											<th>接口返回码</th>
+											<th>已发送次数</th>
+											<th>最多发送次数</th>
+											<th>下次调用时间</th>
+											<th>&nbsp;&nbsp;创建时间&nbsp;&nbsp;</th>
+											<th>&nbsp;&nbsp;更新时间&nbsp;&nbsp;</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 接口日志详情弹窗 -->
+<div id="interfaceDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">接口日志详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">结算系统接口日志详情</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>发送消息内容:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="content"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>接口错误消息:</dt>
+							<dd class="modal-break">
+								<div id="errorMessage"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

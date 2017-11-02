@@ -1,0 +1,166 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>协议管理</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+		<li class="active">协议管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">协议列表</h3>
+					<div class="box-tools">
+						<button id="addProtocol" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建协议
+						</button>
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>协议类型</label>
+									<select name="typeId" class="form-control input-sm" data-enum-fetch="protocolTypes" data-enum-text="全部"></select>
+								</div>
+							</div>							
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="protocolTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>协议类型</th>
+								<th>创建时间</th>
+								<th>修改时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新增模态窗 默认大小窗体 -->
+<div id="addProtocolModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建协议</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addProtocolForm" name="addProtocolForm" method="post">
+					<div class="form-group">
+				        <label>协议类型</label>
+				          	<select name="typeId" class="form-control input-sm" data-enum-fetch="protocolTypes" required></select>
+				        <div class="help-block with-errors text-red"></div>
+			        </div>
+					<div class="form-group">
+						<label>协议内容</label>
+						<div><textarea name="content" class="form-control" placeholder="请输入协议内容" rows="15" required></textarea></div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<input name="oid" type="hidden" />   
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addProtocolSubmit" type="button" class="btn btn-primary btn-submit addProtocolSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定删除此条数据？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+        <div class="modal-body">
+      		<form id="detailForm" name="detailForm" method="post">					
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>协议类型</dt>
+							<dd>
+								<div data-detail-fetch="typeId" data-enum-transform="protocolTypes"></div>
+							</dd>
+						</dl>
+					</div>
+
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>协议内容</dt>
+							<dd>
+								<div><textarea id="content" rows="15" cols="80" readonly="true" style="resize: none;"></textarea></div>
+							</dd>
+						</dl>
+					</div>
+					
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>创建时间</dt>
+							<dd>
+								<div id="createTime"></div>
+							</dd>
+						</dl>
+					</div>
+					
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>修改时间</dt>
+							<dd>
+								<div id="updateTime"></div>
+							</dd>
+						</dl>
+					</div>
+        		</div>
+      		</form>
+        </div>
+  </div>
+ </div>
+</div>

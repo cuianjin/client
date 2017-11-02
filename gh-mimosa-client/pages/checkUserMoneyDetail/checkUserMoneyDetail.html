@@ -1,0 +1,265 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>账户资金变动明细对账</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 对账管理</a></li>
+		<li class="active">账户资金变动明细对账</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">资金变动明细列表</h3>
+					<div class="box-tools">
+						<button id="checkDetailAmtBtn" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 对账
+						</button>
+						<div id="checkRefreshDiv">
+				         	 <i id="checkRefreshI"></i>
+				    	</div>
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资人账号</label>
+									<input name="phone" type="text" class="form-control input-sm" placeholder="搜索投资人账号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>对账状态</label>
+									<select name="checkStatus" class="form-control input-sm">
+					                    <option value="" selected>全部</option>
+					                    <option value="ok">对账成功</option>
+					                    <option value="failed">对账失败</option>
+					                </select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="checkUserAmtDetailTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>截止日期</th>
+								<th>投资人账号</th>
+								<!--<th>投资者OID</th>-->
+								<th>账户申购可用金额(元)</th>
+								<th>资金变动明细重算金额(元)</th>
+								<th>对账状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 补登模态窗 默认大小窗体 -->
+<div id="recorrectModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">补登</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="recorrectForm" name="recorrectForm" method="post">
+					<div class="form-group">
+						<label>补登金额(元)</label>
+						<input name="recorrectAmt" type="text" class="form-control input-sm" placeholder="补登金额为正数" maxlength="13" data-validfloat="10.2" data-error="补登金额格式错误，整数部分最大10位，小数2位。" required>						
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>补登类型</label>
+						 	<div class="row form-style">
+				              	<div class="col-sm-3">
+				                	<input id="recorrectTypeBalance" name="recorrectType" value='balance' type="radio" checked/>资金账户余额
+				              	</div>
+				              	<div class="col-sm-3">
+				                	<input id="recorrectTypeDetailChange" name="recorrectType" value='orderDetailChange' type="radio" />资金变动明细
+				              	</div>
+				           </div>						
+					</div>
+					<div class="form-group col-sm-6">
+						<label>补登方向</label>
+						<select name="recorrectDirection" class="form-control">
+		                    <option value="add">入款</option>
+		                    <option value="reduce">出款</option>
+		                </select>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>资金变动类型</label>
+						<select name="orderType" class="form-control">
+		                    <option value="recharge">充值</option>
+		                    <option value="redeem">赎回</option>
+		                    <option value="intConfirm">收益确认</option>
+		                </select>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>补登原因</label>
+						<input name="recorrectReason" type="text" class="form-control input-sm" placeholder="请输入补登原因" maxlength="250" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>补登日期</label>
+						<input name="userMaxCheckTime" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" required readonly>
+					</div>
+					<input type="hidden" name="investOid" />
+					<input type="hidden" name="checkTime" />
+					<input type="hidden" name="doCheckType" value="man"/>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="recorrectSubmit" type="button" class="btn btn-primary btn-submit recorrectSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定重算此条数据？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 资金变动明细详情 -->
+<div id="moneyChangeDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<!-- Grid头部 -->
+			<div class="box-header with-border">
+				<!-- 统计数据 -->
+				<form id="moneyChangeDetailSearchForm" name="moneyChangeDetailSearchForm" method="post">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>交易开始时间</label>
+								<div class="input-group">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="createTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="createTimeEnd">
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>交易结束时间</label>
+								<div class="input-group daterange">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="createTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD  HH:mm:ss" data-date-begin="createTimeBegin">
+								</div>
+							</div>
+						</div>	
+						<!--<div class="col-sm-3">
+							<div class="form-group">
+								<label>方向</label>
+				                <select name="direction" class="form-control">
+				                	<option value="" selected>全部</option>
+				                    <option value="invest,expGoldInvest,expGoldInvest,buy,withdraw,fee,redPackets,recorrectReduce">入款</option>
+				                    <option value="expGoldRedeem,reRedeem,writeOff,normalRedeem,fastRedeem,clearRedeem,refund,deposit,repayLoan,repayInterest,cash,cashFailed,interest,recorrectAdd">出款</option>
+				                </select>
+				                
+							</div>
+						</div>-->
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>资金变动类型</label>
+								<select name="tradeType" class="form-control">
+				                    <option value="">全部</option>
+				                    <option value="deposit">充值</option>
+				                    <option value="withdraw">提现</option>
+				                    <option value="invest">申购</option>
+				                    <option value="normalRedeem">赎回</option>
+				                    <option value="interest">收益确认</option>
+				                    <!--<option value="offsetPositive">冲正</option>
+				                    <option value="offsetNegative">冲负</option>
+				                    <option value="recorrectAdd">补登入款</option>
+				                    <option value="recorrectReduce">补登出款</option>-->
+				                    <option value="dividend">现金分红</option>
+				                    <option value="clearRedeem">清盘赎回</option>
+				                </select>
+							</div>
+						</div>
+					</div>
+					<!--<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>类型</label>
+								<select name="doCheckType" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="invest,expGoldInvest,expGoldRedeem,reRedeem,reInvest,writeOff,normalRedeem,fastRedeem,clearRedeem,refund,buy,deposit,withdraw,repayLoan,repayInterest,cash,cashFailed,fee,redPackets,interest">平台创建</option>
+				                    <option value="recorrectAdd,recorrectReduce">人工创建</option>
+				                </select>
+							</div>
+						</div>
+					</div>-->
+				</form>
+			</div>
+			<!-- Grid内容体 -->
+			<div class="box-body">
+				<table id="moneyChangeDetailsTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>投资人账号</th>
+							<th>方向</th>
+							<th>资金变动类型</th>
+							<th>交易时间</th>
+							<th>交易金额(元)</th>
+							<th>记账来源</th>
+							<!--<th>操作人</th>
+							<th>交易流水号</th>-->
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

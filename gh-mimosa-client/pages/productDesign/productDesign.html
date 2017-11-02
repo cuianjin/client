@@ -1,0 +1,2270 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    产品申请管理
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 产品管理</a>
+		</li>
+		<li class="active">产品申请管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="productDesignGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">产品申请列表</h3>
+					<div class="box-tools">
+						<button id="productAdd" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建产品
+						</button>
+						<button id="productAudit" class="btn btn-primary btn-sm">
+							<i class="fa fa-check"></i> 提交审核
+						</button>
+						<!--<button id="productAssetPool" class="btn btn-default btn-sm">
+              <i class="fa fa-check-square-o"></i> 选择资产池
+            </button>-->
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品名称</label>
+									<input name="name" type="text" class="form-control input-sm" placeholder="搜索产品名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品类型</label>
+									<select name="type" class="form-control input-sm" data-enum-fetch="PRODUCTTYPE" data-enum-text="全部">
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="productDesignTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th></th>
+								<th>序号</th>
+								<th>产品编码</th>
+								<th>产品简称</th>
+								<th>产品类型</th>
+								<th>产品管理人</th>
+								<th>状态</th>
+								<th>预期年化收益率(%)</th>
+								<th>募集总份额(份)</th>
+								<th>投资组合配置</th>
+								<th>创建时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建产品弹窗 -->
+<div id="addProductModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建产品</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="addProductForm" name="addProductForm" method="post">
+					<p class="form-header">产品概况</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品编码</label>
+								<input name="code" type="text" class="form-control input-sm" maxlength="32" placeholder="产品编码" required="required" data-remote-error="产品编码已存在" data-remote="/mimosa/product/validateCode">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品简称</label>
+								<input name="name" type="text" class="form-control input-sm" maxlength="64" placeholder="产品简称" required="required" data-remote-error="产品简称已存在" data-remote="/mimosa/product/validateName">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品全称</label>
+								<input name="fullName" type="text" class="form-control input-sm" maxlength="128" placeholder="产品全称" required="required" data-remote-error="产品全称已存在" data-remote="/mimosa/product/validateFullName">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品类型</label>
+								<select id="addProductTypeSelect" name="typeOid" class="form-control input-sm" data-enum-fetch="PRODUCTTYPE" change-immediately="true">
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品管理人</label>
+								<input name="administrator" type="text" class="form-control input-sm" maxlength="64" placeholder="产品管理人" required="required" data-error="产品管理人必填">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资组合配置</label>
+								<select id="addAssetPoolOid" required="required" name="assetPoolOid" class="form-control input-sm">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div id="addExpArorDiv" class="form-group">
+								<label>预期年化收益率</label>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">从</span>
+									<input name="expAror" type="text" class="form-control inputh" placeholder="" maxlength="7" required="required" data-validfloatrange="4-2-0.01-9999.99" data-error="预期年化收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div id="addExpArorError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div id="addExpArorSecDiv" class="form-group">
+								<label>&nbsp;</label>
+								<div class="input-group input-group-sm range">
+									<span class="input-group-addon">到</span>
+									<input name="expArorSec" type="text" class="form-control inputh" maxlength="7" placeholder="" required="required" data-validfloatrange="4-2-0.01-9999.99" data-error="预期年化收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div id="addExpArorSecError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益计算基础</label>
+								<div class="row form-style">
+									<div class="col-sm-4">
+										<input name="incomeCalcBasis" type="radio" value="365" class="icheck" checked> 365天
+									</div>
+									<div class="col-sm-4">
+										<input name="incomeCalcBasis" type="radio" value="360" class="icheck"> 360天
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>发行人</label>
+								<input name="spvName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>平台运营费率</label>
+								<div class="input-group input-group-sm">
+									<input name="operationRate" type="text" class="form-control inputh" maxlength="7" placeholder="平台运营费率" data-validfloat="4.2" data-error="平台运营费率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>币种</label>
+								<select name="currency" class="form-control input-sm">
+									<option selected="selected" value="CNY">人民币</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>可售余额</label>
+								<input name="totalHoldVolume" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+
+					</div>
+					<!-- 封闭式产品显示/隐藏层 -->
+					<div id="addProductType01Area">
+						<p class="form-header">封闭式产品信息</p>
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>募集开始时间</label>
+									<select name="raiseStartDateType" class="form-control input-sm">
+										<option selected="selected" value="MANUALINPUT">固定时间</option>
+										<option value="FIRSTRACKTIME">与首次渠道上架时间相同</option>
+									</select>
+
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<input id="addRaiseStartDate" name="raiseStartDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请填写时间" data-date-format="YYYY-MM-DD">
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集总份额</label>
+									<div class="input-group input-group-sm">
+										<input name="raisedTotalNumber" type="text" class="form-control inputh" maxlength="14" data-validint="1-100000000000" required="required" data-error="应该大于0小于100000000000的整数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="addSubscribeConfirmDaysDiv" class="form-group">
+									<label>认购确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">认购订单提交日后的</span>
+										<input name="subscribeConfirmDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数" value="0">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="addSubscribeConfirmDaysError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>还本付息确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">还本付息提交日后的</span>
+										<input name="redeemConfirmDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数" value="0">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集期</label>
+									<div class="input-group input-group-sm">
+										<input name="raisePeriod" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="1-240" data-error="募集期应该大于0小于240的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集期预期年化收益率</label>
+									<div class="input-group input-group-sm">
+										<input name="recPeriodExpAnYield" type="text" class="form-control inputh" maxlength="7" placeholder="" data-validfloat="4.2" data-error="募集期预期年化收益率只能为前4位后2位小数">
+										<span class="input-group-addon">%</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="addFoundDaysDiv" class="form-group">
+									<label>募集期满后最晚成立日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">募集期满后</span>
+										<input name="foundDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="1-240" data-error="应该小于240大于0的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="addFoundDaysError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<!--<div class="col-sm-4">
+								<div class="form-group">
+									<label>起息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">成立后的第</span>
+										<input name="interestsFirstDate" type="text" class="form-control" maxlength="4" required="required" data-validint="0-240" data-error="应该小于240大于等于0的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>-->
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>存续期</label>
+									<div class="input-group input-group-sm">
+										<input name="durationPeriod" type="text" class="form-control" maxlength="7" required="required" data-validint="1-10000" data-error="应该大于0小于10000的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>到期最晚还本付息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">存续期结束后的</span>
+										<input name="accrualDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集满额后是否自动触发成立</label>
+									<select name="raiseFullFoundType" class="form-control input-sm">
+										<option selected="selected" value="MANUAL">否</option>
+										<option value="AUTO">是</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">募集满额后的第</span>
+										<input name="autoFoundDays" type="text" class="form-control" maxlength="4" data-validint="0-99" data-error="应该小于99大于等于0的整数">
+										<span class="input-group-addon">个自然日后自动成立</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 开放式产品显示/隐藏层 -->
+					<div id="addProductType02Area">
+						<p class="form-header">开放式产品信息</p>
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>成立时间</label>
+									<select name="setupDateType" class="form-control input-sm">
+										<option selected="selected" value="MANUALINPUT">固定时间</option>
+										<option value="FIRSTRACKTIME">与首次渠道上架时间相同</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<input id="addSetupDate" name="setupDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请填写时间" data-date-format="YYYY-MM-DD">
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>收益处理方式</label>
+									<select name="incomeDealType" class="form-control input-sm">
+										<option selected="selected" value="reinvest">结转</option>
+										<option value="cash">现金分红</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>收益结转周期</label>
+									<select name="accrualCycleOid" class="form-control input-sm">
+										<option value="DAY" selected="selected">每日</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>锁定期</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">一旦申购将冻结此金额</span>
+										<input name="lockPeriod" type="text" class="form-control" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数" value="0">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="addPurchaseConfirmDateDiv" class="form-group">
+									<label>申购确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">申购订单提交后</span>
+										<input name="purchaseConfirmDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数" value="1">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="addPurchaseConfirmDateError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="addInterestsDateDiv" class="form-group">
+									<label>起息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">申购订单提交后</span>
+										<input name="interestsDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数" value="1">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div id="addInterestsDateError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">赎回订单提交后</span>
+										<input name="redeemConfirmDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数" value="1">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单人单日赎回次数</label>
+									<div class="input-group input-group-sm">
+										<input name="singleDayRedeemCount" type="text" class="form-control" maxlength="5" data-validint="0-10000" data-error="应该大于等于0小于10000的整数">
+										<span class="input-group-addon">次</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回占比开关</label>
+									<div class="row form-style">
+										<div class="col-sm-2">
+											<input name="isPreviousCurVolume" type="radio" value="YES" class="icheck" checked> 有
+										</div>
+										<div class="col-sm-2">
+											<input name="isPreviousCurVolume" type="radio" value="NO" class="icheck"> 无
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4" id="addPreviousCurVolumePercent">
+								<div id="addPreviousCurVolumePercentDiv" class="form-group">
+									<label>赎回占上一交易日规模百分比</label>
+									<div class="input-group input-group-sm">
+										<input name="previousCurVolumePercent" type="text" class="form-control inputh" maxlength="6" required="required" data-validfloatrange="3-2-0.01-100" data-error="赎回占上一交易日规模百分比在0.01-100之间">
+										<span class="input-group-addon">%</span>
+									</div>
+									<div id="addPreviousCurVolumePercentError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回是否立刻不计息</label>
+									<div class="row form-style">
+										<div class="col-sm-2">
+											<input name="redeemWithoutInterest" type="radio" value="off" class="icheck" checked> 否
+										</div>
+										<div class="col-sm-2">
+											<input name="redeemWithoutInterest" type="radio" value="on" class="icheck"> 是
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div id="addInvestMinDiv" class="form-group">
+								<label>单笔投资最低份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investMin" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div id="addInvestMinError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单笔投资递增份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investAdditional" type="text" class="form-control" maxlength="12" required="required" data-validfloat="8.2" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div id="addInvestMaxDiv" class="form-group">
+								<label>单笔投资最高份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investMax" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div id="addInvestMaxError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单人持有份额上限</label>
+								<div class="input-group input-group-sm">
+									<input name="maxHold" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div id="addProductType02Area_2">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单日总赎回上限</label>
+									<div class="input-group input-group-sm">
+										<input name="netMaxRredeemDay" type="text" class="form-control" maxlength="14" data-validint="0-1000000000" data-error="应该大于等于0小于10000000的整数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="addSingleDailyMaxRedeemDiv" class="form-group">
+									<label>单人单日赎回上限</label>
+									<div class="input-group input-group-sm">
+										<input name="singleDailyMaxRedeem" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="addSingleDailyMaxRedeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="addMinRredeemDiv" class="form-group">
+									<label>单笔赎回最低份额</label>
+									<div class="input-group input-group-sm">
+										<input name="minRredeem" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="addMinRredeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单笔赎回递增份额</label>
+									<div class="input-group input-group-sm">
+										<input name="additionalRredeem" type="text" class="form-control" maxlength="12" required="required" data-validfloat="8.2" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div id="addMaxRredeemDiv" class="col-sm-4">
+								<div class="form-group">
+									<label>单笔赎回最高份额</label>
+									<div class="input-group input-group-sm">
+										<input name="maxRredeem" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="addMaxRredeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单位份额净值</label>
+								<div class="input-group input-group-sm">
+									<input name="netUnitShare" type="text" class="form-control" value="1" required="required" readonly="readonly" data-validfloat="12.4" data-error="单位份额净值只能为前12位后4位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基础标签</label>
+								<select name="basicProductLabel" required="required" class="form-control input-sm"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>扩展标签</label>
+								<select name="expandProductLabels" class="form-control input-sm origin-select" multiple="multiple" style="width: 100%;"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="form-group" id="addDealStartTimeDiv">
+								<label>交易时间</label>
+								<div class="input-group input-group-sm">
+									<input name="dealStartTime" type="text" class="form-control datepicker" placeholder="请选择开始时间" data-date-format="HH:mm:ss" data-date-end="dealEndTime">
+								</div>
+								<div id="addDealStartTimeError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group" id="addDealEndTimeDiv">
+								<label>&nbsp;</label>
+								<div class="input-group input-group-sm range">
+									<input name="dealEndTime" type="text" class="form-control datepicker" placeholder="请选择结束时间" data-date-format="HH:mm:ss" data-date-begin="dealStartTime">
+								</div>
+								<div id="addDealEndTimeError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4" id="addProductType01Area_1">
+							<div class="form-group">
+								<label>有效投资日类型</label>
+								<select name="investDateType" class="form-control input-sm">
+									<option selected="selected" value="T">交易日</option>
+									<option value="D">自然日</option>
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div id="addProductType02Area_3">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>有效赎回日类型</label>
+									<select name="rredeemDateType" class="form-control input-sm">
+										<option selected="selected" value="T">交易日</option>
+										<option value="D">自然日</option>
+									</select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>奖励收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="rewardInterest" type="text" class="form-control inputh" placeholder="" maxlength="7" data-validfloat="4.2" data-error="奖励收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">其他信息</p>
+					<div class="form-group">
+						<label>额外增信</label>
+						<div class="row form-style">
+							<div class="col-sm-2">
+								<input name="reveal" type="radio" value="YES" class="icheck" checked> 有
+							</div>
+							<div class="col-sm-2">
+								<input name="reveal" type="radio" value="NO" class="icheck"> 无
+							</div>
+						</div>
+						<textarea id="addRevealComment" name="revealComment" maxlength="1024" rows="3" class="form-control input-sm" placeholder="增信备注"></textarea>
+					</div>
+					<div class="form-group">
+						<label>产品说明</label>
+						<textarea name="instruction" rows="3" class="form-control input-sm" maxlength="1024" placeholder="产品说明"></textarea>
+					</div>
+					<div class="form-group">
+						<label>投资标的</label>
+						<textarea name="investComment" rows="3" class="form-control input-sm" maxlength="1024" placeholder="投资标的"></textarea>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name="riskLevel" class="form-control input-sm">
+									<!--
+									<option value="low">低</option>
+									<option value="middle">中</option>
+									<option value="high">高</option>
+									-->
+									<option value="R1">R1(谨慎型)</option>
+									<option value="R2">R2(稳健型)</option>
+									<option value="R3">R3(平衡型)</option>
+									<option value="R4">R4(进取型)</option>
+									<option value="R5">R5(激进型)</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>投资者类型</label>
+								<select name="investorLevel" class="form-control input-sm">
+									<option value="conservative">保守型</option>
+									<option value="relativeConservative">相对保守型</option>
+									<option value="prudent">稳健型</option>
+									<option value="relativePositive">相对积极型</option>
+									<option value="positive">积极型</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<input name="investFile" type="hidden" />
+					<input name="serviceFile" type="hidden" />
+					<input name="files" type="hidden" />
+				</form>
+				<div class="form-group gh-uploader" id="investUploader"></div>
+				<table id="addInvestUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>定向委托投资管理协议</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="form-group gh-uploader" id="serviceUploader"></div>
+				<table id="addServiceUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>风险提示书</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="form-group gh-uploader" id="addProductUploader"></div>
+				<table id="addProductUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>定向委托投资管理交易说明书</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addProductSubmit" type="button" class="btn btn-primary btn-submit addProductSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑产品弹窗 -->
+<div id="updateProductModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑产品</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑事件表单 -->
+				<form id="updateProductForm" name="updateProductForm" method="post">
+					<p class="form-header">产品概况</p>
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品编码</label>
+								<input name="code" type="text" class="form-control input-sm" maxlength="32" placeholder="产品编码" required="required" data-remote-error="产品编码已存在" data-remote="/mimosa/product/validateCode" data-fetch-id="">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品简称</label>
+								<input name="name" type="text" class="form-control input-sm" maxlength="64" placeholder="产品简称" required="required" data-remote-error="产品简称已存在" data-remote="/mimosa/product/validateName" data-fetch-id="">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品全称</label>
+								<input name="fullName" type="text" class="form-control input-sm" maxlength="128" placeholder="产品全称" required="required" data-remote-error="产品全称已存在" data-remote="/mimosa/product/validateFullName" data-fetch-id="">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品类型</label>
+								<input id="typeOid" name="typeOid" type="hidden">
+								<input id="updateProductTypeSelect" name="typeName" type="text" class="form-control input-sm" disabled="disabled">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>产品管理人</label>
+								<input name="administrator" type="text" class="form-control input-sm" maxlength="64" placeholder="产品管理人" required="required" data-error="产品管理人必填">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资组合配置</label>
+								<select id="updateAssetPoolOid" required="required" name="assetPoolOid" class="form-control input-sm">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div id="updateExpArorDiv" class="form-group">
+								<label>预期年化收益率</label>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">从</span>
+									<input name="expAror" type="text" class="form-control inputh" placeholder="" maxlength="7" required="required" data-validfloatrange="4-2-0.01-9999.99" data-error="预期年化收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div id="updateExpArorError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div id="updateExpArorSecDiv" class="form-group">
+								<label>&nbsp;</label>
+								<div class="input-group input-group-sm range">
+									<span class="input-group-addon">到</span>
+									<input name="expArorSec" type="text" class="form-control inputh" placeholder="" maxlength="7" required="required" data-validfloatrange="4-2-0.01-9999.99" data-error="预期年化收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div id="updateExpArorSecError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益计算基础</label>
+								<div class="row form-style">
+									<div class="col-sm-4">
+										<input name="incomeCalcBasis" type="radio" value="365" class="icheck" checked> 365天
+									</div>
+									<div class="col-sm-4">
+										<input name="incomeCalcBasis" type="radio" value="360" class="icheck"> 360天
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>发行人</label>
+								<input name="spvName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>平台运营费率</label>
+								<div class="input-group input-group-sm">
+									<input name="operationRate" type="text" class="form-control inputh" placeholder="平台运营费率" maxlength="7" data-validfloat="4.2" data-error="平台运营费率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>币种</label>
+								<select name="currency" class="form-control input-sm">
+									<option selected="selected" value="CNY">人民币</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>可售余额</label>
+								<input name="totalHoldVolume" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<!-- 封闭式产品显示/隐藏层 -->
+					<div id="updateProductType01Area">
+						<p class="form-header">封闭式产品信息</p>
+						<div class="row">
+							<div id="raiseStartDateType" class="col-sm-2">
+								<div class="form-group">
+									<label>募集开始时间</label>
+									<select name="raiseStartDateType" class="form-control input-sm">
+										<option value="MANUALINPUT">固定时间</option>
+										<option value="FIRSTRACKTIME">与首次渠道上架时间相同</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<input id="updateRaiseStartDate" name="raiseStartDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请填写时间" data-date-format="YYYY-MM-DD">
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集总份额</label>
+									<div class="input-group input-group-sm">
+										<input name="raisedTotalNumber" type="text" class="form-control inputh" maxlength="14" data-validint="1-100000000000" required="required" data-error="应该大于0小于100000000000的整数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="updateSubscribeConfirmDaysDiv" class="form-group">
+									<label>认购确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">认购订单提交日后的</span>
+										<input name="subscribeConfirmDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="updateSubscribeConfirmDaysError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>还本付息确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">还本付息提交日后的</span>
+										<input name="redeemConfirmDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数" value="0">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集期</label>
+									<div class="input-group input-group-sm">
+										<input name="raisePeriod" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="1-240" data-error="募集期应该大于0小于240的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>募集期预期年化收益率</label>
+									<div class="input-group input-group-sm">
+										<input name="recPeriodExpAnYield" type="text" class="form-control inputh" maxlength="7" placeholder="" data-validfloat="4.2" data-error="募集期预期年化收益率只能为前4位后2位小数">
+										<span class="input-group-addon">%</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="updateFoundDaysDiv" class="form-group">
+									<label>募集期满后最晚成立日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">募集期满后</span>
+										<input name="foundDays" type="text" class="form-control inputh" maxlength="4" required="required" data-validint="1-240" data-error="应该小于240大于0的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="updateFoundDaysError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<!--<div class="col-sm-4">
+								<div class="form-group">
+									<label>起息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">成立后的第</span>
+										<input name="interestsFirstDate" type="text" class="form-control" maxlength="4" required="required" data-validint="0-240" data-error="应该小于240大于等于0的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>-->
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>存续期</label>
+									<div class="input-group input-group-sm">
+										<input name="durationPeriod" type="text" class="form-control" maxlength="7" required="required" data-validint="1-10000" data-error="应该大于0小于10000的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>到期最晚还本付息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">存续期结束后的</span>
+										<input name="accrualDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div id="raiseFullFoundType" class="col-sm-4">
+								<div class="form-group">
+									<label>募集满额后是否自动触发成立</label>
+									<select name="raiseFullFoundType" class="form-control input-sm">
+										<option selected="selected" value="MANUAL">否</option>
+										<option value="AUTO">是</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">募集满额后的第</span>
+										<input name="autoFoundDays" type="text" class="form-control" maxlength="4" data-validint="0-99" data-error="应该小于99大于等于0的整数">
+										<span class="input-group-addon">个自然日后自动成立</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 开放式产品显示/隐藏层 -->
+					<div id="updateProductType02Area">
+						<p class="form-header">开放式产品信息</p>
+						<div class="row">
+							<div id="setupDateType" class="col-sm-2">
+								<div class="form-group">
+									<label>成立时间</label>
+									<select name="setupDateType" class="form-control input-sm">
+										<option value="MANUALINPUT">固定时间</option>
+										<option value="FIRSTRACKTIME">与首次渠道上架时间相同</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<input id="updateSetupDate" name="setupDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请填写时间" data-date-format="YYYY-MM-DD">
+								</div>
+							</div>
+							<div id="incomeDealType" class="col-sm-2">
+								<div class="form-group">
+									<label>收益处理方式</label>
+									<select name="incomeDealType" class="form-control input-sm">
+										<option value="reinvest">结转</option>
+										<option value="cash">现金分红</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>收益结转周期</label>
+									<select name="accrualCycleOid" class="form-control input-sm">
+										<option value="DAY" selected="selected">每日</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>锁定期</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">一旦申购将冻结此金额</span>
+										<input name="lockPeriod" type="text" class="form-control" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="updatePurchaseConfirmDateDiv" class="form-group">
+									<label>申购确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">申购订单提交后</span>
+										<input name="purchaseConfirmDate" type="text" maxlength="4" class="form-control" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div id="updatePurchaseConfirmDateError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="updateInterestsDateDiv" class="form-group">
+									<label>起息日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">申购订单提交后</span>
+										<input name="interestsDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+										<span class="input-group-addon">日</span>
+									</div>
+									<div id="updateInterestsDateError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回确认日</label>
+									<div class="input-group input-group-sm">
+										<span class="input-group-addon">赎回订单提交后</span>
+										<input name="redeemConfirmDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+										<span class="input-group-addon">日内</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单人单日赎回次数</label>
+									<div class="input-group input-group-sm">
+										<input name="singleDayRedeemCount" type="text" class="form-control" maxlength="5" data-validint="0-10000" data-error="应该大于等于0小于10000的整数">
+										<span class="input-group-addon">次</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回占比开关</label>
+									<div class="row form-style">
+										<div class="col-sm-2">
+											<input name="isPreviousCurVolume" type="radio" value="YES" class="icheck" checked> 有
+										</div>
+										<div class="col-sm-2">
+											<input name="isPreviousCurVolume" type="radio" value="NO" class="icheck"> 无
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-4" id="updatePreviousCurVolumePercent">
+								<div id="updatePreviousCurVolumePercentDiv" class="form-group">
+									<label>赎回占上一交易日规模百分比</label>
+									<div class="input-group input-group-sm">
+										<input name="previousCurVolumePercent" type="text" class="form-control inputh" maxlength="6" required="required" data-validfloatrange="3-2-0.01-100" data-error="赎回占上一交易日规模百分比在0.01-100之间">
+										<span class="input-group-addon">%</span>
+									</div>
+									<div id="updatePreviousCurVolumePercentError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>赎回是否立刻不计息</label>
+									<div class="row form-style">
+										<div class="col-sm-2">
+											<input name="redeemWithoutInterest" type="radio" value="off" class="icheck" checked> 否
+										</div>
+										<div class="col-sm-2">
+											<input name="redeemWithoutInterest" type="radio" value="on" class="icheck"> 是
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div id="updateInvestMinDiv" class="form-group">
+								<label>单笔投资最低份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investMin" type="text" class="form-control" data-validfloat="8.2" maxlength="12" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div id="updateInvestMinError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单笔投资递增份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investAdditional" type="text" class="form-control" required="required" data-validfloat="8.2" maxlength="12" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div id="updateInvestMaxDiv" class="form-group">
+								<label>单笔投资最高份额</label>
+								<div class="input-group input-group-sm">
+									<input name="investMax" type="text" class="form-control" data-validfloat="8.2" maxlength="12" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div id="updateInvestMaxError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单人持有份额上限</label>
+								<div class="input-group input-group-sm">
+									<input name="maxHold" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+									<span class="input-group-addon">份</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div id="updateProductType02Area_2">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单日总赎回上限</label>
+									<div class="input-group input-group-sm">
+										<input name="netMaxRredeemDay" type="text" class="form-control" maxlength="12" data-validint="0-1000000000" data-error="应该大于等于0小于1000000000的整数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="updateSingleDailyMaxRedeemDiv" class="form-group">
+									<label>单人单日赎回上限</label>
+									<div class="input-group input-group-sm">
+										<input name="singleDailyMaxRedeem" type="text" class="form-control" maxlength="12" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="updateSingleDailyMaxRedeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<div id="updateMinRredeemDiv" class="form-group">
+									<label>单笔赎回最低份额</label>
+									<div class="input-group input-group-sm">
+										<input name="minRredeem" type="text" class="form-control" data-validfloat="8.2" maxlength="12" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="updateMinRredeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>单笔赎回递增份额</label>
+									<div class="input-group input-group-sm">
+										<input name="additionalRredeem" type="text" class="form-control" required="required" data-validfloat="8.2" maxlength="12" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div id="updateMaxRredeemDiv" class="form-group">
+									<label>单笔赎回最高份额</label>
+									<div class="input-group input-group-sm">
+										<input name="maxRredeem" type="text" class="form-control" data-validfloat="8.2" maxlength="12" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+										<span class="input-group-addon">份</span>
+									</div>
+									<div id="updateMaxRredeemError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>单位份额净值</label>
+								<div class="input-group input-group-sm">
+									<input name="netUnitShare" type="text" readonly="readonly" class="form-control" required="required" data-validfloat="12.4" data-error="单位份额净值只能为前12位后4位小数">
+									<span class="input-group-addon">元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基础标签</label>
+								<select name="basicProductLabel" required="required" class="form-control input-sm"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>扩展标签</label>
+								<select name="expandProductLabels" class="form-control input-sm origin-select" multiple="multiple" style="width: 100%;"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="form-group" id="updateDealStartTimeDiv">
+								<label>交易时间</label>
+								<div class="input-group input-group-sm">
+									<input name="dealStartTime" type="text" class="form-control datepicker" placeholder="请选择开始时间" data-date-format="HH:mm:ss" data-date-end="dealEndTime">
+								</div>
+								<div id="updateDealStartTimeError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div class="form-group" id="updateDealEndTimeDiv">
+								<label>&nbsp;</label>
+								<div class="input-group input-group-sm range">
+									<input name="dealEndTime" type="text" class="form-control datepicker" placeholder="请选择结束时间" data-date-format="HH:mm:ss" data-date-begin="dealStartTime">
+								</div>
+								<div id="updateDealEndTimeError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4" id="updateProductType01Area_1">
+							<div class="form-group">
+								<label>有效投资日类型</label>
+								<select name="investDateType" class="form-control input-sm">
+									<option selected="selected" value="T">交易日</option>
+									<option value="D">自然日</option>
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div id="updateProductType02Area_3">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>有效赎回日类型</label>
+									<select name="rredeemDateType" class="form-control input-sm">
+										<option selected="selected" value="T">交易日</option>
+										<option value="D">自然日</option>
+									</select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>奖励收益率</label>
+								<div class="input-group input-group-sm">
+									<input name="rewardInterest" type="text" class="form-control inputh" placeholder="" maxlength="7" data-validfloat="4.2" data-error="奖励收益率只能为前4位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">其他信息</p>
+					<div class="form-group">
+						<label>额外增信</label>
+						<div class="row form-style">
+							<div class="col-sm-2">
+								<input name="reveal" type="radio" value="YES" class="icheck" checked> 有
+							</div>
+							<div class="col-sm-2">
+								<input name="reveal" type="radio" value="NO" class="icheck"> 无
+							</div>
+						</div>
+						<textarea id="updateRevealComment" name="revealComment" maxlength="1024" rows="3" class="form-control input-sm" placeholder="增信备注"></textarea>
+					</div>
+					<div class="form-group">
+						<label>产品说明</label>
+						<textarea name="instruction" rows="3" maxlength="1024" class="form-control input-sm" placeholder="产品说明"></textarea>
+					</div>
+					<div class="form-group">
+						<label>投资标的</label>
+						<textarea name="investComment" rows="3" maxlength="1024" class="form-control input-sm" placeholder="投资标的"></textarea>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name="riskLevel" class="form-control input-sm">
+									<!--
+									<option value="low">低</option>
+									<option value="middle">中</option>
+									<option value="high">高</option>
+									-->
+									<option value="R1">R1(谨慎型)</option>
+									<option value="R2">R2(稳健型)</option>
+									<option value="R3">R3(平衡型)</option>
+									<option value="R4">R4(进取型)</option>
+									<option value="R5">R5(激进型)</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>投资者类型</label>
+								<select name="investorLevel" class="form-control input-sm">
+									<option value="conservative">保守型</option>
+									<option value="relativeConservative">相对保守型</option>
+									<option value="prudent">稳健型</option>
+									<option value="relativePositive">相对积极型</option>
+									<option value="positive">积极型</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<input name="investFile" type="hidden" />
+					<input name="serviceFile" type="hidden" />
+					<input name="files" type="hidden" />
+				</form>
+				<div class="form-group gh-uploader" id="updateInvestUploader"></div>
+				<table id="updateInvestUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>定向委托投资管理协议</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="form-group gh-uploader" id="updateServiceUploader"></div>
+				<table id="updateServiceUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>风险提示书</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+				<div class="form-group gh-uploader" id="updateProductUploader"></div>
+				<table id="updateProductUploadTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>定向委托投资管理交易说明书</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="updateProductSubmit" type="button" class="btn btn-primary btn-submit updateProductSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 提交审核弹窗 -->
+<div id="productAuditModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提交审核</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body" id="auditProductNames">
+				<!--<p ></p>-->
+				<!--<h5>确认提交以上产品进行审核吗？</h5>-->
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取 消</button>
+				<button id="doProductAudit" type="button" class="btn btn-primary btn-sm">提 交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 产品详情弹窗 -->
+<div id="productDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">产品详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">产品概况</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品编号:</dt>
+							<dd id="detcode">
+								<div data-detail-fetch="code"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品简称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品全称:</dt>
+							<dd>
+								<div data-detail-fetch="fullName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品类型:</dt>
+							<dd>
+								<div data-detail-fetch="typeName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品管理人:</dt>
+							<dd>
+								<div data-detail-fetch="administrator"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预期年化收益率(%):</dt>
+							<dd>
+								<div data-detail-fetch="expectedRate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资组合配置:</dt>
+							<dd>
+								<div data-detail-fetch="assetPoolName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>发行人:</dt>
+							<dd>
+								<div data-detail-fetch="spvName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>币种:</dt>
+							<dd>
+								<div data-detail-fetch="currencyStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>收益计算基础(天):</dt>
+							<dd>
+								<div data-detail-fetch="incomeCalcBasis"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>平台运营费率(%):</dt>
+							<dd>
+								<div data-detail-fetch="operationRate"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- 封闭式产品显示/隐藏层 -->
+				<div id="detailProductType01Area">
+					<p class="form-header">封闭式产品信息</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集开始时间:</dt>
+								<dd>
+									<div data-detail-fetch="raiseStartDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集总份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="raisedTotalNumber"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>认购确认日:</dt>
+								<dd>
+									<div data-detail-fetch="subscribeConfirmDaysStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>还本付息确认日:</dt>
+								<dd>
+									<div data-detail-fetch="redeemConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="raisePeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期预期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="recPeriodExpAnYield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期满后最晚成立日:</dt>
+								<dd>
+									<div data-detail-fetch="foundDaysStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起息日:</dt>
+								<dd>
+									<div data-detail-fetch="interestsFirstDateStr"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>存续期:</dt>
+								<dd>
+									<div data-detail-fetch="durationPeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集满额后是否自动触发成立:</dt>
+								<dd>
+									<div data-detail-fetch="raiseFullFoundTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>到期最晚还本付息日:</dt>
+								<dd>
+									<div data-detail-fetch="accrualDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMin"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investAdditional"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMax"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人持有份额上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxHold"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>奖励收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="rewardInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效投资日类型:</dt>
+								<dd>
+									<div data-detail-fetch="investDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单位份额净值(元):</dt>
+								<dd>
+									<div data-detail-fetch="netUnitShare"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基础标签:</dt>
+								<dd>
+									<div data-detail-fetch="basicProductLabelName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>扩展标签:</dt>
+								<dd>
+									<div data-detail-fetch="expandProductLabels"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<!-- 开放式产品显示/隐藏层 -->
+				<div id="detailProductType02Area">
+					<p class="form-header">开放式产品信息</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>成立时间:</dt>
+								<dd>
+									<div data-detail-fetch="setupDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益处理方式:</dt>
+								<dd>
+									<div data-detail-fetch="incomeDealType" data-enum-transform="incomeDealTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益结转周期:</dt>
+								<dd>
+									<div data-detail-fetch="accrualCycleName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>锁定期:</dt>
+								<dd>
+									<div data-detail-fetch="lockPeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>申购确认日:</dt>
+								<dd>
+									<div data-detail-fetch="purchaseConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起息日:</dt>
+								<dd>
+									<div data-detail-fetch="interestsDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回确认日:</dt>
+								<dd>
+									<div data-detail-fetch="redeemConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单位份额净值(元):</dt>
+								<dd>
+									<div data-detail-fetch="netUnitShare"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单日总赎回上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="netMaxRredeemDay"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人持有份额上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxHold"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人单日赎回上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="singleDailyMaxRedeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMin"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="minRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investAdditional"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="additionalRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMax"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人单日赎回次数(次):</dt>
+								<dd>
+									<div data-detail-fetch="singleDayRedeemCount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回占比开关:</dt>
+								<dd>
+									<div data-detail-fetch="isPreviousCurVolume"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回占上一交易日规模百分比(%):</dt>
+								<dd>
+									<div data-detail-fetch="previousCurVolumePercent"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>上一个交易日产品当前规模(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="previousCurVolume"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回是否立刻不计息:</dt>
+								<dd>
+									<div data-detail-fetch="redeemWithoutInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>奖励收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="rewardInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效投资日类型(份):</dt>
+								<dd>
+									<div data-detail-fetch="investDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效赎回日类型(份):</dt>
+								<dd>
+									<div data-detail-fetch="rredeemDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基础标签:</dt>
+								<dd>
+									<div data-detail-fetch="basicProductLabelName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>扩展标签:</dt>
+								<dd>
+									<div data-detail-fetch="expandProductLabels"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易开始时间:</dt>
+							<dd>
+								<div data-detail-fetch="dealStartTime"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易结束时间:</dt>
+							<dd>
+								<div data-detail-fetch="dealEndTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">其他信息</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>风险等级:</dt>
+							<dd>
+								<div data-detail-fetch="riskLevelStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资者类型:</dt>
+							<dd>
+								<div data-detail-fetch="investorLevelStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>额外增信:</dt>
+							<dd>
+								<div data-detail-fetch="revealStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>增信备注:</dt>
+							<dd>
+								<div data-detail-fetch="revealComment"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品说明:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="instruction"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资标的:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="investComment"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>定向委托投资管理协议:</dt>
+							<dd>
+								<table id="productDetailInvestFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>定向委托投资管理协议</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>风险提示书:</dt>
+							<dd>
+								<table id="productDetailServiceFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>风险提示书</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>定向委托投资管理交易说明书:</dt>
+							<dd>
+								<table id="productDetailFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>定向委托投资管理交易说明书</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div id="rewardDetail" class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>奖励收益设置:</dt>
+							<dd>
+								<table id="productRewardTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>阶梯奖励名称</th>
+											<th>奖励天数</th>
+											<th>奖励收益率(%)</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<p id="confirmTitle1"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 选择资产池弹窗 -->
+<div id="assetPoolModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">资产池列表</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 选择资产池Grid -->
+						<div id="assetPoolGrid" class="box box-primary">
+							<div class="box-body">
+								<!-- 选择资产池数据表格 -->
+								<table id="assetPoolTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>日期</th>
+											<th>操作</th>
+											<th>金额</th>
+											<th>标的名称</th>
+											<th>账户信息</th>
+											<th>状态</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doChooseAssetPool" type="button" class="btn btn-primary">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 奖励收益设置弹窗 -->
+<div id="productRewardModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div id="productRewardName">
+				</div>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 奖励收益Grid -->
+						<div id="productRewardGrid" class="box box-primary">
+							<div class="box-body">
+								<!-- 选择奖励收益数据表格 -->
+								<table id="addProductRewardTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>阶梯奖励名称</th>
+											<th>奖励天数</th>
+											<th>奖励收益率(%)</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form id="addProductRewardForm" name="addProductRewardForm" method="post">
+					<p class="form-header">订单持有XX天-XX天</p>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input name="level" type="text" class="form-control" placeholder="阶梯奖励名称" required="required" data-error="阶梯奖励名称必须填写">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div id="startDateDiv" class="form-group">
+								<div class="input-group input-group-sm">
+									<input id="addProductRewardStartDate" name="startDate" type="text" class="form-control" placeholder="开始天数" required="required" data-validint="1-1000000000" data-error="大于0小于1000000000的整数">
+									<span class="input-group-addon">天</span>
+								</div>
+								<div id="startDateError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-2">
+							<div id="endDateDiv" class="form-group">
+								<div class="input-group input-group-sm range">
+									<input id="addProductRewardEndDate" name="endDate" type="text" class="form-control" placeholder="结束天数" data-validint="1-1000000000" data-error="大于0小于1000000000的整数">
+									<span class="input-group-addon">天</span>
+								</div>
+								<div id="endDateError" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<div class="input-group input-group-sm">
+									<input name="ratio" type="text" class="form-control" placeholder="奖励收益率" required="required" data-validfloat="6.2" data-error="奖励收益率只能为前6位后2位小数">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<button id="addProductRewardSubmit" type="button" class="btn btn-primary btn-submit addProductRewardSubmit">确定</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<form id="saveProductRewardForm" name="saveProductRewardForm" method="post">
+					<input name="productOid" type="hidden">
+					<input name="reward" type="hidden">
+				</form>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="saveProductRewardSubmit" type="button" class="btn btn-primary btn-submit">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 提示信息弹窗 -->
+<div id="alertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body" id="alertMessage">
+			</div>
+		</div>
+	</div>
+</div>

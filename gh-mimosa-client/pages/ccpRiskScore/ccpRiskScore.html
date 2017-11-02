@@ -1,0 +1,211 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    信用等级评分模型
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 风控引擎设置</a></li>
+		<li class="active">信用等级评分模型</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">信用等级评分列表</h3>
+					<div class="box-tools">
+						<!--<button id="eventCollect" class="btn btn-default btn-sm">
+							<i class="fa fa-plus"></i> 数据采集
+						</button>
+						&nbsp;-->
+						<button id="eventAdd" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建信用等级评分配置
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>关键字</label>
+									<input name="keyword" type="text" class="form-control input-sm" placeholder="搜索指标分类或指标项名称">
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>指标分类</th>
+								<th>指标项名称</th>
+								<th>指标项值</th>
+								<th>得分</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="addModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建信用等级评分配置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addForm" name="addForm" method="post">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>指标分类</label>
+								<select name="cateOid" class="form-control input-sm" required>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>指标项名称</label>
+								<select name="indicateOid" class="form-control input-sm" required></select>
+								<input type="hidden" name="indicateDataType" />
+								<input type="hidden" name="indicateDataUnit" />
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>默认得分</label>
+								<input name="dftScore" type="text" class="form-control input-sm" placeholder="默认得分" required maxlength="7" data-validfloatrange="4-2-0-1000" data-error="默认得分在0-1000之间">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<h6><b>指标项配置</b></h6>
+				<div id="addFormOptions"></div>
+				<div id="addFormAddOption" class="btn btn-default">添加指标配置</div>
+
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="saveButton" type="button" class="btn btn-primary btn-submit addSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="updateModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">修改信用等级评分配置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="updateForm" name="updateForm" method="post">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>指标分类</label>
+								<input name="cateOid" type="hidden" />
+								<input name="cateTitle" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>指标项名称</label>
+								<input name="indicateOid" type="hidden" />
+								<input name="indicateDataType" type="hidden" />
+								<input name="indicateDataUnit" type="hidden"/>
+								<input name="indicateTitle" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>默认得分</label>
+								<input name="dftScore" type="text" class="form-control input-sm" placeholder="默认得分" required maxlength="7"  data-validfloatrange="4-2-0-1000" data-error="默认得分在0-1000之间">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<h6><b>指标项配置</b></h6>
+				<div id="updateFormOptions"></div>
+				<div id="updateFormAddOption" class="btn btn-default">添加指标配置</div>
+
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="updateButton" type="button" class="btn btn-primary btn-submit updateSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="deleteModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="deleteConfirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="collectModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">信用指标采集</h4>
+			</div>
+			<form id="collectForm" name="collectForm">
+				<input name="relative" type="hidden" />
+				<input name="type" type="hidden" />
+			</form>
+			<!-- 模态窗内容体 -->
+			<div id="collectModalContent" class="modal-body">
+
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="collectButton" type="button" class="btn btn-primary btn-submit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>

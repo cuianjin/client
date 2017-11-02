@@ -1,0 +1,544 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    资产准入评分模型
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 风控引擎设置</a></li>
+		<li class="active">资产准入评分模型</li>
+	</ol>
+</section>
+
+<div class="modal-body">
+	<!-- tabs -->
+	<div class="nav-tabs-custom">
+		<!-- tab页签定义，注意对应 href 对应的 id -->
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#ccpWarrantorTab" role="tab" data-toggle="tab">担保对象权数配置</a>
+			</li>
+			<li role="presentation">
+				<a href="#ccpWarrantyExpireTab" role="tab" data-toggle="tab">担保方式权数配置</a>
+			</li>
+			<li role="presentation">
+				<a href="#ccpWarrantyModeTab" role="tab" data-toggle="tab">担保期限权数配置</a>
+			</li>
+			<li role="presentation">
+				<a href="#ccpWarrantyLevelTab" role="tab" data-toggle="tab">风险等级配置</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" role="tabpanel" id="ccpWarrantorTab">
+				<!-- 担保对象权数配置 -->
+				<section class="content">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- 主体Grid -->
+							<div id="dataGrid" class="box box-primary">
+								<!-- Grid头部 -->
+								<div class="box-header">
+									<h3 class="box-title"></h3>
+									<div class="box-tools">
+										<button id="ccpWarrantorAdd" class="btn btn-primary btn-sm">
+											<i class="fa fa-plus"></i> 新建担保对象权数
+										</button>
+									</div>
+								</div>
+								<!-- Grid内容体 -->
+								<div class="box-body">
+									<!-- 主体数据表格 -->
+									<table id="ccpWarrantorTable" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>评分区间</th>
+												<th>信用等级</th>
+												<th>担保对象权数(%)</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div id="addCcpWarrantorModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">新建担保对象权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="addCcpWarrantorForm" name="addCcpWarrantorForm" method="post">
+									<div class="form-group col-sm-6">
+										<label>信用等级</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="信用等级" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-6">
+										<label>最低评分</label>
+										<input name="lowScore" type="text" class="form-control input-sm" placeholder="最低评分" required="required" maxlength="3" data-validint="0-100" data-error="最低评分在0-100之间">
+										<div class="help-block with-errors text-red"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>最高评分</label>
+										<input name="highScore" type="text" class="form-control input-sm" placeholder="最高评分" required="required" maxlength="3" data-validint="0-100" data-error="最高评分在0-100之间">
+										<div class="help-block with-errors text-red"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>担保对象权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="担保对象权数" required="required" maxlength="3" data-validint="0-100" data-error="担保对象权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+									    <div class="help-block with-errors text-red"></div>										
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="saveCcpWarrantor" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="updateCcpWarrantorModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">修改担保对象权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="updateCcpWarrantorForm" name="updateCcpWarrantorForm" method="post">
+									<input name="oid" type="hidden" />
+									<div class="form-group col-sm-6">
+										<label>信用等级</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="信用等级" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-6">
+										<label>最低评分</label>
+										<input name="lowScore" type="text" class="form-control input-sm" placeholder="最低评分" required="required" maxlength="3" data-validint="0-100" data-error="最低评分在在0-100之间">
+										<div class="help-block with-errors text-red"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>最高评分</label>
+										<input name="highScore" type="text" class="form-control input-sm" placeholder="最高评分" required="required" maxlength="3" data-validint="0-100" data-error="最高评分在在0-100之间">
+										<div class="help-block with-errors text-red"></div>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>担保对象权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="担保对象权数" required="required" maxlength="3" data-validint="0-100" data-error="担保对象权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>										
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="updateCcpWarrantor" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" role="tabpanel" id="ccpWarrantyExpireTab">
+				<!-- 担保方式权数配置 -->
+				<section class="content">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- 主体Grid -->
+							<div id="dataGrid" class="box box-primary">
+								<!-- Grid头部 -->
+								<div class="box-header">
+									<h3 class="box-title"></h3>
+									<div class="box-tools">
+										<button id="ccpWarrantyModeAdd" class="btn btn-primary btn-sm">
+											<i class="fa fa-plus"></i> 新建担保方式权数
+										</button>
+									</div>
+								</div>
+								<!-- Grid内容体 -->
+								<div class="box-body">
+									<!-- 主体数据表格 -->
+									<table id="ccpWarrantyModeTable" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>担保类别</th>
+												<th>担保方式名称</th>
+												<th>担保方式权数(%)</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div id="addCcpWarrantyModeModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">新建担保方式权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="addCcpWarrantyModeForm" name="addCcpWarrantyModeForm" method="post">
+									<div class="form-group col-sm-6">
+										<label>担保类别</label>
+										<select name="type" class="form-control input-sm">
+											<option value="GUARANTEE">保证方式</option>
+											<option value="MORTGAGE">抵押方式</option>
+											<option value="HYPOTHECATION">质押方式</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>担保方式名称</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="担保方式名称" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-12">
+										<label>担保方式权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="担保方式权数" required="required" maxlength="3" data-validint="0-100" data-error="担保方式权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="saveCcpWarrantyMode" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="updateCcpWarrantyModeModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">修改担保方式权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="updateCcpWarrantyModeForm" name="updateCcpWarrantyModeForm" method="post">
+									<input name="oid" type="hidden" />
+									<div class="form-group col-sm-6">
+										<label>担保类别</label>
+										<select name="type" class="form-control input-sm">
+											<option value="GUARANTEE">保证方式</option>
+											<option value="MORTGAGE">抵押方式</option>
+											<option value="HYPOTHECATION">质押方式</option>
+										</select>
+									</div>
+									<div class="form-group col-sm-6">
+										<label>担保方式名称</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="担保方式名称" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-12">
+										<label>担保方式权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="担保方式权数" required="required" maxlength="3" data-validint="0-100" data-error="担保方式权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="updateCcpWarrantyMode" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane" role="tabpanel" id="ccpWarrantyModeTab">
+				<!-- 担保期限权数配置 -->
+				<section class="content">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- 主体Grid -->
+							<div id="dataGrid" class="box box-primary">
+								<!-- Grid头部 -->
+								<div class="box-header">
+									<h3 class="box-title"></h3>
+									<div class="box-tools">
+										<button id="ccpWarrantyExpireAdd" class="btn btn-primary btn-sm">
+											<i class="fa fa-plus"></i> 新建担保期限权数
+										</button>
+									</div>
+								</div>
+								<!-- Grid内容体 -->
+								<div class="box-body">
+									<!-- 主体数据表格 -->
+									<table id="ccpWarrantyExpireTable" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>担保期限</th>
+												<th>期限权数(%)</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div id="addCcpWarrantyExpireModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">新建担保期限权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="addCcpWarrantyExpireForm" name="addCcpWarrantyExpireForm" method="post">
+									<div class="form-group col-sm-6">
+										<label>担保期限</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="担保期限" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-6">
+										<label>期限权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="期限权数" required="required" maxlength="3" data-validint="0-100" data-error="期限权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="saveCcpWarrantyExpire" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="updateCcpWarrantyExpireModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">修改担保期限权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body row">
+								<!-- 新增/编辑事件表单 -->
+								<form id="updateCcpWarrantyExpireForm" name="updateCcpWarrantyExpireForm" method="post">
+									<input name="oid" type="hidden" />
+									<div class="form-group col-sm-6">
+										<label>担保期限</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="担保期限" required="required" maxlength="30">
+									</div>
+									<div class="form-group col-sm-6">
+										<label>期限权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="期限权数" required="required" maxlength="3" data-validint="0-100" data-error="期限权数在0-100之间">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="updateCcpWarrantyExpire" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="tab-pane" role="tabpanel" id="ccpWarrantyLevelTab">
+				<!-- 风险等级配置 -->
+				<section class="content">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- 主体Grid -->
+							<div id="dataGrid" class="box box-primary">
+								<!-- Grid头部 -->
+								<div class="box-header">
+									<h3 class="box-title"></h3>
+									<div class="box-tools">
+										<button id="ccpWarrantyLevelAdd" class="btn btn-primary btn-sm">
+											<i class="fa fa-plus"></i> 风险等级配置
+										</button>
+									</div>
+								</div>
+								<!-- Grid内容体 -->
+								<div class="box-body">
+									<!-- 主体数据表格 -->
+									<table id="ccpWarrantyLevelTable" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th>序号</th>
+												<th>等级</th>
+												<th>名称</th>
+												<th>系数区间</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div id="ccpWarrantyLevelModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">风险等级配置</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body" id="warrantyLevelOptionsDiv">
+								<div id="warrantyLevelFormOptions"></div>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="ccpWarrantyLevelSubmit" type="button" class="btn btn-primary btn-submit ccpWarrantyLevelSubmit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="updateCcpRiskLevelModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<!-- 模态窗头部 -->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title">修改担保对象权数</h4>
+							</div>
+							<!-- 模态窗内容体 -->
+							<div class="modal-body">
+								<!-- 新增/编辑事件表单 -->
+								<form id="updateCcpRiskLevelForm" name="updateCcpWarrantyExpireForm" method="post">
+									<input name="oid" type="hidden" />
+									<div class="form-group">
+										<label>担保期限</label>
+										<input name="title" type="text" class="form-control input-sm" placeholder="担保期限">
+									</div>
+									<div class="form-group">
+										<label>期限权数</label>
+										<div class="input-group input-group-sm">
+											<input name="weight100" type="text" class="form-control input-sm" placeholder="期限权数">
+											<span class="input-group-addon">%</span>
+										</div>
+									</div>
+								</form>
+							</div>
+							<!-- 模态窗底部 -->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+								<button id="updateCcpRiskLevelSubmit" type="button" class="btn btn-primary btn-submit">保 存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="deleteCcpWarrantyExpireModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="deleteCcpWarrantyExpireConfirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="deleteCcpWarrantorModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="deleteCcpWarrantorConfirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="deleteCcpWarrantyModeModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="deleteCcpWarrantyModeConfirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

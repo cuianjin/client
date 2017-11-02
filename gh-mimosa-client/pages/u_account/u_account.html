@@ -1,0 +1,230 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		投资人账户管理
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 账户管理</a></li>
+		<li class="active">投资人账户管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div class="box box-primary">
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 原搜索位 -->
+					<div>
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#tabcon1" aria-controls="用户列表" role="tab" data-toggle="tab" class="account_a">用户列表</a></li>
+							<li role="presentation"><a href="#tabcon2" aria-controls="锁定" role="tab" data-toggle="tab"  class="account_a">已锁定</a></li>
+						</ul>
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tabcon1">
+								<form id="searchForm1" name="searchForm1" method="post" class="box-header">
+									<!-- 统计数据 -->
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>投资人账号</label>
+												<input name="phoneNum" type="text"
+													   class="form-control input-sm"
+													   placeholder="搜索投资人账号">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>账户所有者</label>
+												<select name="owner" class="form-control input-sm">
+													<option value="" selected>全部</option>
+													<option value="investor">投资者</option>
+													<option value="platform">平台</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>注册时间</label>
+												<div class="input-group input-group-sm">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="reqTimeBegin" type="text"
+														   class="form-control datepicker input-sm"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="reqTimeEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>&nbsp;</label>
+												<div class="input-group daterange input-group-sm">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="reqTimeEnd" type="text"
+														   class="form-control datepicker input-sm"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="reqTimeBegin">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- 数据表格 -->
+								<table id="dataTable1" class="table table-bordered table-striped cache_table">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>投资人账号</th>
+											<th>用户名</th>
+											<th>状态</th>
+											<th>账户所有者</th>
+											<th>账户余额(元)</th>
+											<th>累计投资(元)</th>
+											<th>累计收益(元)</th>
+											<th>注册时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="tabcon2">
+								<form id="searchForm2" name="searchForm2" method="post" class="box-header">
+									<!-- 统计数据 -->
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>投资人账号</label>
+												<input name="phoneNum" type="text"
+													   class="form-control"
+													   placeholder="搜索投资人账号">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>账户所有者</label>
+												<select name="owner" class="form-control">
+													<option value="" selected>全部</option>
+													<option value="investor">投资者</option>
+													<option value="platform">平台</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>注册时间</label>
+												<div class="input-group input-group-sm">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="reqTimeBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="reqTimeEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>&nbsp;</label>
+												<div class="input-group daterange input-group-sm">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="reqTimeEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="reqTimeBegin">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- 数据表格 -->
+								<table id="dataTable2" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>投资人账号</th>
+											<th>用户名</th>
+											<th>状态</th>
+											<th>账户所有者</th>
+											<th>账户余额(元)</th>
+											<th>累计投资(元)</th>
+											<th>累计收益(元)</th>
+											<th>注册时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="lockOrUnlockConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 修改注册手机号弹窗 -->
+<div id="changeAccModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">修改注册手机号</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <form id="changeAccForm" name="changeAccForm" method="post">
+          	<div class="form-group">
+            	<label>原手机号</label>
+           		<input name="oldpn" type="text"
+                   class="form-control input-sm"
+                   placeholder="请输入原手机号" required maxlength="11">
+          	</div>
+          
+           	<div class="form-group">
+           	 	<label>新手机号</label>
+            	<input name="newpn" type="text"
+                   class="form-control input-sm"
+                   placeholder="请输入新手机号" required maxlength="11">
+          	</div>
+            <input id="changeAccOid" type="hidden" />
+        </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+        <button id="changeAccBtn" type="button" class="btn btn-primary btn-submit changeAccSubmit">确 定</button>
+      </div>
+    </div>
+  </div>
+</div>

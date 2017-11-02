@@ -1,0 +1,357 @@
+
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>交易日历</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 系统管理</a></li>
+		<li class="active">交易日历</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">交易日历列表</h3>
+					<div class="box-tools">
+		            	<button id="createEntity" class="btn btn-primary btn-sm">
+		              		<i class="fa fa-plus"></i> 新建交易日历
+		            	</button>
+		          	</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm" name="searchForm" method="post">
+				        <div class="row">
+				            <div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否周末</label>
+				                  <select name="isWeekEnd" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div><div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否月末</label>
+				                  <select name="isMonthEnd" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div><div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否季末</label>
+				                  <select name="isQuarterEnd" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div><div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否年末</label>
+				                  <select name="isYearEnd" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div>
+				        </div>
+				        
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>交易市场：</label>
+									<input name="exchangeCD" type="text" class="form-control input-sm" placeholder="搜索交易市场">
+								</div>
+							</div>
+							<div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否交易日</label>
+				                  <select name="isOpen" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div>
+				            <div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>是否工作日</label>
+				                  <select name="isWork" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="1">是</option>
+				                    <option value="0">否</option>
+				                  </select>
+				                </div>
+				            </div>
+				        </div>
+
+				        <div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>日期</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="calendarDateBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD" data-date-end="calendarDateEnd">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="calendarDateEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD" data-date-begin="calendarDateBegin">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="pageTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>交易市场</th>
+								<th>日期</th>
+								<th>是否交易日</th>
+								<th>是否工作日</th>
+								<th>前交易日</th>
+								<th>前工作日</th>
+								<th>是否周末</th>
+								<th>是否月末</th>
+								<th>是否季末</th>
+								<th>是否年末</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建用户弹窗 -->
+<div id="addModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建交易日历</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body row ">
+				<form id="addForm" name="addForm" method="post">
+					<div class="form-group col-sm-6">
+						<label>交易市场</label>
+						<input name="exchangeCD" type="text" class="form-control input-sm" placeholder="请输入交易市场" maxlength="15" data-error="交易市场长度不能超过15（包含）！" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>日期</label>
+						<input name="calendarDate" type="text" class="form-control datepicker" placeholder="请选择日期" data-date-format="YYYY-MM-DD" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否交易日</label>
+						<select name="isOpen" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否工作日</label>
+						<select name="isWork" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>前交易日</label>
+						<input name="prevTradeDate" type="text" class="form-control datepicker" placeholder="请选择日期" data-date-format="YYYY-MM-DD" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>前工作日</label>
+						<input name="prevWorkDate" type="text" class="form-control datepicker" placeholder="请选择日期" data-date-format="YYYY-MM-DD" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否周末</label>
+						<select name="isWeekEnd" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否月末</label>
+						<select name="isMonthEnd" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否季末</label>
+						<select name="isQuarterEnd" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<div class="form-group col-sm-6">
+						<label>是否年末</label>
+						<select name="isYearEnd" class="form-control" required>
+	                    	<option value="0" selected="selected">否</option>
+	                    	<option value="1">是</option>
+	                  	</select>
+					</div>
+					<input type="hidden"  name="oid">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer  box bt0">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doAdd" type="button" class="btn btn-primary btn-submit addUserSubmit">确 定</button>
+				<div id="refreshDiv">
+		              <i id="refreshI"></i>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p class="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 站内信内容模态窗 默认大小窗体 -->
+<div id="remarkModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div id="mailRemark"></div>
+				<div class="row">
+                    <div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>手机：</dt>
+                            <dd>
+                                <div data-detail-fetch="phone"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>信息类型：</dt>
+                            <dd>
+                                <div data-detail-fetch="mailType" data-enum-transform="mailTypes"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>内容类型：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesType" data-enum-transform="mesTypes"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>标题：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesTitle"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>内容：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesContent"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>申请人：</dt>
+                            <dd>
+                                <div data-detail-fetch="requester"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>创建时间：</dt>
+                            <dd>
+                                <div data-detail-fetch="createTime"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>备注：</dt>
+                            <dd>
+                                <div data-detail-fetch="remark"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+

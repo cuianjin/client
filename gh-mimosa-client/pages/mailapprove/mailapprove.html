@@ -1,0 +1,281 @@
+
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>站内信审核</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+		<li class="active">站内信审核</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">站内信审核列表</h3>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="mailSearchForm" name="mailSearchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>手机号码：</label>
+									<input name="phone" type="text" class="form-control input-sm" placeholder="搜索手机号码">
+								</div>
+							</div>
+							<div class="col-sm-3">
+				                <div class="form-group">
+				                  <label>信息类型</label>
+				                  <select name="mailType" class="form-control">
+				                    <option value="" selected>全部</option>
+				                    <option value="all">全站信息</option>
+				                    <option value="person">个人信息</option>
+				                  </select>
+				                </div>
+				            </div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>申请时间</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="createTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD" data-date-end="createTimeEnd">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="createTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD" data-date-begin="createTimeBegin">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="mailTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>信息类型</th>
+								<th>手机</th>
+								<th>内容类型</th>
+								<th>标题</th>
+								<th>申请人</th>
+								<th>申请时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建用户弹窗 -->
+<div id="addUserModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">快速新建客户</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="addUserForm" name="addUserForm" method="post">
+					<div class="form-group">
+						<label>登录用户名</label>
+						<input name="userName" type="text" class="form-control input-sm" placeholder="请输入登录用户名" maxlength="30" data-error="客户名称长度不能超过30（包含）！" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<!--<div class="form-group">
+						<label>登录密码</label>
+						<input name="password" type="text" class="form-control input-sm" placeholder="请输入登录密码" maxlength="30" data-error="客户名称长度不能超过30（包含）！"required>
+						<div class="help-block with-errors text-red"></div>
+					</div>-->
+					<div class="form-group">
+						<label>手机</label>
+						<input name="phone" type="text" class="form-control input-sm" placeholder="请输入手机" pattern="^[1][34578][0-9]{9}$" data-error="请填入正确手机号！" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>备注</label>
+						<input name="remark" type="text" class="form-control input-sm" placeholder="请输入备注" >
+					</div>
+					<input type="hidden" id="addSiteOid" name="siteOid">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doAddUser" type="button" class="btn btn-primary btn-submit addUserSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p class="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 站内信内容模态窗 默认大小窗体 -->
+<div id="remarkModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div id="mailRemark"></div>
+				<div class="row">
+                    <div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>手机：</dt>
+                            <dd>
+                                <div data-detail-fetch="phone"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>信息类型：</dt>
+                            <dd>
+                                <div data-detail-fetch="mailType" data-enum-transform="mailTypes"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>内容类型：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesType" data-enum-transform="mesTypes"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>标题：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesTitle"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>内容：</dt>
+                            <dd>
+                                <div data-detail-fetch="mesContent"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>申请人：</dt>
+                            <dd>
+                                <div data-detail-fetch="requester"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>创建时间：</dt>
+                            <dd>
+                                <div data-detail-fetch="createTime"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-12">
+                        <dl class="dl-horizontal">
+                            <dt>备注：</dt>
+                            <dd>
+                                <div data-detail-fetch="remark"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="approveForm" name="approveForm" method="post">
+					<div class="form-group">
+						<label>确定要<span id="content"></span>申请？<span id="valierr" style="color:#dd4b39;font-size:16px;position:absolute;">＊</span></label>
+						<textarea name="approveNote" class="form-control input-sm" placeholder="请输入审核意见" rows="3" maxlength="200" style="resize:none" required></textarea>
+					</div>
+					<input name="aoid" type="hidden">
+					<input name="approveResult" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+</div>

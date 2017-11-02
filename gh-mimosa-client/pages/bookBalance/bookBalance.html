@@ -1,0 +1,45 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>资产负债情况试算表</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 会计分录</a></li>
+		<li class="active">资产负债情况试算表</li>
+	</ol>
+	<form id="searchForm" name="searchForm" method="post" style="position: absolute; top: 12px; left: 200px;">
+		<select name="relative" class="form-control input-sm" style="margin-left:20px;">
+			<option value="">全部</option>
+		</select>
+	</form>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">资产负债表</h3>
+					<div class="box-tools"></div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th>资产</th>
+								<th>行次</th>
+								<th>账户余额(元)</th>
+								<th>负债和所有者(或股东)权益</th>
+								<th>行次</th>
+								<th>账户余额(元)</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

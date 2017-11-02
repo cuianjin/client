@@ -1,0 +1,194 @@
+<link href="assets/js/jstree/themes/default/style.min.css" rel="stylesheet">
+<style>
+    .left {
+        float: left;
+        width: 23%;
+        margin-right: 2%;
+        height: 800px;
+        overflow: auto;
+    }
+
+    .right {
+        float: right;
+        width: 70%;
+        padding: 0 0;
+        margin: 0 0;
+        margin-right: 5%;
+    }
+
+    .div1 {
+        height: 60px;
+        background-color: #fafafa;
+    }
+
+    .p-line {
+        line-height: 40px;
+        float: left;
+    }
+
+    .p-select {
+        margin-top: 15px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .div2 {
+        border: 1px solid #eeeeee;
+        margin-top: 20px;
+    }
+
+    .span {
+        color: red;
+    }
+
+    .theader {
+        background-color: #fafafa;
+    }
+    section.content .table{min-width: 0;text-align: inherit;}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    表单属性组管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> 动态表单管理</li>
+		<li class="active">表单属性组管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="box box-primary clearfix">
+
+    <div class="container-fluid">
+        <div class="box-header">
+            <div style="font-size: 16px;padding: 10px;border-bottom: 1px solid #eeeeee">
+            	<div style="float: right;margin-top: -10px;">
+            		<button class="btn btn-default">新增</button>
+            		<button class="btn btn-default">排序管理</button></div>
+            	表单属性组搜索</div>
+            <form class="form-horizontal" style="margin-top: 10px">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">属性组code:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="">
+                    </div>
+
+                    <label class="col-sm-2 control-label">属性组名称:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="">
+                    </div>
+                    <button class="btn btn-default">搜索</button>
+                    <button class="btn btn-default">清空</button>
+
+                </div>
+            </form>
+
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>属性组Code</th>
+                <th>属性组名称</th>
+                <th>父属性组</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>baseInfo</td>
+                <td>个人基础信息</td>
+                <td>根节点</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>compBaseInfo</td>
+                <td>企业基础信息</td>
+                <td>根节点</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>mchtBase</td>
+                <td>代开户表单基础属性</td>
+                <td>根节点</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>opetBase</td>
+                <td>操作员基础属性组</td>
+                <td>根节点</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>forceBaseInfo</td>
+                <td>强制基础属性</td>
+                <td>根节点</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>jbrInfo</td>
+                <td>经办人信息</td>
+                <td>企业基础信息</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>urgentInfo</td>
+                <td>紧急联系人信息</td>
+                <td>企业基础信息</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+
+            <tr>
+                <td>8</td>
+                <td>recUserInfo</td>
+                <td>推荐会员信息</td>
+                <td>企业基础信息</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+
+            <tr>
+                <td>9</td>
+                <td>accManagerInfo</td>
+                <td>客户经理信息	</td>
+                <td>企业基础信息</td>
+                <td>2016年9月24日14:04:18</td>
+                <td><a>修改</a> &nbsp;&nbsp;<a>删除</a> &nbsp;&nbsp;<a>属性分配</a></td>
+            </tr>
+
+            </tbody>
+
+        </table>
+        <nav style="float: right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#">«</a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">»</a></li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+</section>

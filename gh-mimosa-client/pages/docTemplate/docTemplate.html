@@ -1,0 +1,194 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    凭证模板
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 会计分录</a></li>
+		<li class="active">凭证模板</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">凭证模板列表</h3>
+					<div class="box-tools"></div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>模板类别</label>
+									<select name="templateType" class="form-control input-sm">
+										<option value="" selected>全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>模板名称</label>
+									<input name="templateName" type="text" class="form-control input-sm" placeholder="搜索模板名称">
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered">
+						<thead>
+							<tr>
+								<th>模板类别</th>
+								<th>模板名称</th>
+								<th>摘要</th>
+								<th>科目</th>
+								<th>方向</th>
+								<!--<th>操作</th>-->
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 修改凭证模板弹窗 -->
+<div id="updateDocTemplateModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="overflow-x: auto;">
+	<div class="modal-dialog modal-lg" role="document" style="width: 1200px;">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">修改凭证模板</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="doc-grid">
+					<div class="doc-grid-title">
+						<h2>记账凭证</h2>
+						<span class="doc-info doc-number">凭证字记 25 号</span>
+						<span class="doc-info doc-date">日期 2016-01-31</span>
+						<span class="doc-info doc-term">2016年第3期</span>
+						<span class="doc-info doc-attach">附单据 5 张</span>
+					</div>
+					<table class="main-table">
+						<thead>
+						<tr>
+							<td class="lsize" style="width: 280px;">摘要</td>
+							<td class="lsize" style="width: 325px;">会计项目</td>
+							<td>
+								<p class="number-header">借方金额</p>
+								<ul class="number-body">
+									<li>亿</li><li>千</li><li>百</li><li>十</li><li>万</li>
+									<li>千</li><li>百</li><li>十</li><li>元</li><li>角</li><li>分</li>
+								</ul>
+							</td>
+							<td>
+								<table class="inside-table">
+									<p class="number-header">贷方金额</p>
+									<ul class="number-body">
+										<li>亿</li><li>千</li><li>百</li><li>十</li><li>万</li>
+										<li>千</li><li>百</li><li>十</li><li>元</li><li>角</li><li>分</li>
+									</ul>
+								</table>
+							</td>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td class="lsize lcontent">
+								<input type="text" class="form-control"/>
+							</td>
+							<td class="lsize lcontent">
+								110101 短期投资_股票
+							</td>
+							<td>
+								<ul class="number-body">
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+									<li>6</li>
+									<li>7</li>
+									<li>8</li>
+									<li>9</li>
+									<li>0</li>
+									<li>0</li>
+								</ul>
+							</td>
+							<td>
+								<ul class="number-body">
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+									<li>6</li>
+									<li>7</li>
+									<li>8</li>
+									<li>9</li>
+									<li>0</li>
+									<li>0</li>
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td class="lsize" colspan="2" style="text-align: left; padding-left: 15px;">合计：</td>
+							<td>
+								<ul class="number-body">
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+									<li>6</li>
+									<li>7</li>
+									<li>8</li>
+									<li>9</li>
+									<li>0</li>
+									<li>0</li>
+								</ul>
+							</td>
+							<td>
+								<ul class="number-body">
+									<li>1</li>
+									<li>2</li>
+									<li>3</li>
+									<li>4</li>
+									<li>5</li>
+									<li>6</li>
+									<li>7</li>
+									<li>8</li>
+									<li>9</li>
+									<li>0</li>
+									<li>0</li>
+								</ul>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="doc-grid-footer">
+						<p class="doc-creator">制单人：ghdev222</p>
+						<span class="doc-createtime">录入时间：2016-08-23 11:32:00</span>
+						<span class="doc-updatetime">最后修改时间：2016-08-23 11:32:00</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doChooseAssetPool" type="button" class="btn btn-primary">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>

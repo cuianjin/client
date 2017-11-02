@@ -1,0 +1,197 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>标签管理</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 系统设置</a>
+		</li>
+		<li class="active">标签管理</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="nav-tabs-custom">
+		<ul id="mainTab" class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#tabpanel1" role="tab" data-toggle="tab">基础标签</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel2" role="tab" data-toggle="tab">扩展标签</a>
+			</li>
+		</ul>
+		<div class="tab-content p0">
+			<div role="tabpanel" class="tab-pane active" id="tabpanel1">
+				<div class="box-header">
+					<h3 class="box-title">基础标签列表</h3>
+					<div class="box-tools">
+						<button id="addBasicProductLabel" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建基础标签
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<table id="basicProductLabelTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>标签代码</th>
+								<th>基础标签名称</th>
+								<th>标签描述</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div role="tabpanel" class="tab-pane " id="tabpanel2">
+				<div class="box-header">
+					<h3 class="box-title">扩展标签列表</h3>
+					<div class="box-tools">
+						<button id="addExpandProductLabel" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建扩展标签
+						</button>
+					</div>
+				</div>
+				<div class="box-body">
+					<table id="expandProductLabelTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>标签代码</th>
+								<th>扩展标签名称</th>
+								<th>标签描述</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建弹窗 -->
+<div id="addProductLabelModal" data-backdrop="static" class="modal fade bs-example-modal-mg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 id="addProductLabelTitle" class="modal-title">新建</h4>
+			</div>
+			<div class="modal-body">
+				<form id="addProductLabelForm" name="addProductLabelForm" method="post">
+					<input id="labelType" name="labelType" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>标签代码</label>
+								<input name="labelCode" type="text" class="form-control input-sm" maxlength="32" placeholder="标签代码" required="required" data-remote-error="标签代码已存在" data-remote="/mimosa/productLabel/validateCode">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>标签名称</label>
+								<input name="labelName" type="text" class="form-control input-sm" maxlength="32" placeholder="标签名称" required="required">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>	
+<!--					<div class="row">	
+
+					</div>	-->
+					<div class="row">	
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>标签描述</label>
+								<textarea name="labelDesc" rows="3" class="form-control input-sm" maxlength="500" placeholder="标签描述"></textarea>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addProductLabelSubmit" type="button" class="btn btn-primary btn-submit addProductLabelSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑弹窗 -->
+<div id="updateProductLabelModal" data-backdrop="static" class="modal fade bs-example-modal-mg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 id="updateProductLabelTitle" class="modal-title">编辑</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑事件表单 -->
+				<form id="updateProductLabelForm" name="updateProductLabelForm" method="post">
+					<input name="oid" type="hidden">
+					<input name="labelType" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>标签代码</label>
+								<input name="labelCode" type="text" class="form-control input-sm" maxlength="32" placeholder="标签代码" required="required" data-remote-error="标签代码已存在" data-remote="/mimosa/productLabel/validateCode" data-fetch-id="">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>标签名称</label>
+								<input name="labelName" type="text" class="form-control input-sm" maxlength="32" placeholder="标签名称" required="required">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>	
+
+					<div class="row">	
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>标签描述</label>
+								<textarea name="labelDesc" rows="3" class="form-control input-sm" maxlength="500" placeholder="标签描述"></textarea>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="updateProductLabelSubmit" type="button" class="btn btn-primary btn-submit updateProductLabelSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<p id="confirmTitle1"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

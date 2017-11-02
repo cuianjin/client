@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>国槐金融全资管理财系统</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+		<link rel="stylesheet" href="plugins/bootstrap-table/bootstrap-table.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/iCheck/1.0.2/skins/minimal/blue.css" />
+		<link rel="stylesheet" href="https://cdn.bootcss.com/select2/4.0.2/css/select2.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/toastr.js/2.1.2/toastr.min.css">
+		<link rel="stylesheet" href="assets/css/AdminLTE.min.css">
+		<link rel="stylesheet" href="assets/css/skin-blue.min.css">
+		<link rel="stylesheet" href="assets/css/main.css">
+
+		<link rel="shortcut icon" href="favicon.ico" />
+		<script src="assets/js/city/CityJson.js"></script>
+		<script src="assets/js/city/DistrictJson.js"></script>
+		<script src="assets/js/city/ProJson.js"></script>
+		
+	</head>
+
+	<body class="hold-transition skin-blue sidebar-mini">
+		<div class="wrapper">
+
+			<header class="main-header">
+				<!-- Logo -->
+				<a href="http://www.guohuaigroup.com" target="_blank" class="logo">
+					<!-- mini logo for sidebar mini 50x50 pixels -->
+					<span class="logo-mini">
+            <img src="assets/images/logo.png" alt="国槐金融" class="logo-mini-img">
+          </span>
+					<!-- logo for regular state and mobile devices -->
+					<span class="logo-lg">
+            <img src="assets/images/logo.png" alt="国槐金融" class="logo-img">
+          </span>
+				</a>
+				<!-- Header Navbar: style can be found in header.less -->
+				<nav class="navbar navbar-static-top" role="navigation">
+					<!-- Sidebar toggle button-->
+					<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<div class="navbar-custom-menu">
+						<ul class="nav navbar-nav">
+							<!-- User Account: style can be found in dropdown.less -->
+							<li id="userMenu" class="dropdown user user-menu">
+								<a id="loginUserInfoButton" href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+									<span class="hidden-xs userName"></span>
+								</a>
+							</li>
+							<li>
+								<a id="logout" href="javascript:void(0)" data-toggle="control-sidebar">
+									<i class="fa fa-sign-out"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+			<!-- Left side column. contains the logo and sidebar -->
+			<aside class="main-sidebar">
+				<!-- sidebar: style can be found in sidebar.less -->
+				<section class="sidebar">
+					<!-- sidebar menu: : style can be found in sidebar.less -->
+					<ul id="sidebarMenu" class="sidebar-menu"></ul>
+				</section>
+				<!-- /.sidebar -->
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div id="mainContent" class="content-wrapper"></div>
+
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">
+					<b>Version</b> v1.2
+				</div>
+				<strong>Copyright &copy; 2015-2016 <a href="http://www.guohuaigroup.com">国槐金融</a> </strong> 版权所有
+			</footer>
+		</div>
+		<!-- ./wrapper -->
+
+		<input id="loginUserOid" type="hidden" />
+
+		<div id="loginUserInfoModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<!-- 模态窗头部 -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">用户信息</h4>
+					</div>
+					<!-- 模态窗内容体 -->
+					<div class="modal-body">
+						<dl class="dl-horizontal">
+							<dt>登录账号:</dt>
+							<dd>
+								<div data-detail-fetch="account" style="display: inline-block; margin-right: 5px;"></div>
+								<button id="loginUserRepwd" class="btn btn-xs btn-default">修改密码</button>
+							</dd>
+						</dl>
+						<dl class="dl-horizontal">
+							<dt>用户名:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+						<dl class="dl-horizontal">
+							<dt>E-mail:</dt>
+							<dd>
+								<div data-detail-fetch="email"></div>
+							</dd>
+						</dl>
+						<dl class="dl-horizontal">
+							<dt>联系电话:</dt>
+							<dd>
+								<div data-detail-fetch="phone"></div>
+							</dd>
+						</dl>
+					</div>
+					<!-- 模态窗底部 -->
+					<div class="modal-footer">
+						<button id="loginUserInfoClose" type="button" class="btn btn-primary btn-submit">关 闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="loginUserRepwdModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<!-- 模态窗头部 -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">修改密码</h4>
+					</div>
+					<!-- 模态窗内容体 -->
+					<div class="modal-body">
+						<!-- 新增/编辑事件表单 -->
+						<form id="loginUserRepwdForm" name="loginUserRepwdForm" method="post">
+							<div class="form-group">
+								<label>原密码:</label>
+								<input name="currentPwd" id="loginUserRepwdFormCurrentPwd" data-minlength="4" type="password" class="form-control input-sm" maxlength="16" placeholder="" required="required">
+							</div>
+							<div class="form-group">
+								<label>新密码:</label>
+								<input name="resetPwd" id="loginUserRepwdFormResetPwd" data-minlength="4" type="password" class="form-control input-sm" maxlength="16" placeholder="" required="required">
+							</div>
+							<div class="form-group">
+								<label>确认输入:</label>
+								<input name="confirmPwd" id="loginUserRepwdFormConfirmPwd" data-match="#loginUserRepwdFormResetPwd" data-minlength="4" type="password" class="form-control input-sm" maxlength="16" placeholder="" required="required">
+							</div>
+						</form>
+					</div>
+					<!-- 模态窗底部 -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button type="button" id="loginUserRepwdSubmit" class="btn btn-primary btn-submit loginUserRepwdSubmit">确 定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- jQuery 2.1.4 -->
+		<script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<!-- Bootstrap 3.3.5 -->
+		<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+		<!-- Moment 2.10.6 -->
+		<script src="https://cdn.bootcss.com/moment.js/2.10.6/moment.min.js"></script>
+		<script src="https://cdn.bootcss.com/moment.js/2.10.6/locale/zh-cn.js"></script>
+		<!-- jQuery-form -->
+		<script src="plugins/jQuery-form/jquery.form.js"></script>
+		<!-- icheck 1.0.2 -->
+		<script src="https://cdn.bootcss.com/iCheck/1.0.2/icheck.min.js"></script>
+		<!-- Select2 4.0.2 -->
+		<script src="https://cdn.bootcss.com/select2/4.0.2/js/select2.min.js"></script>
+		<script src="https://cdn.bootcss.com/select2/4.0.2/js/i18n/zh-CN.js"></script>
+		<!-- toastr -->
+		<script src="https://cdn.bootcss.com/toastr.js/2.1.2/toastr.min.js"></script>
+		<!-- Bootstrap-table -->
+		<script src="plugins/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+		<!-- treetable -->
+		<script src="plugins/jQuery-treetable/jquery.treetable.js"></script>
+		<!-- Datetimepicker -->
+		<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.15.35/js/bootstrap-datetimepicker.min.js"></script>
+		<!-- validator -->
+		<script src="plugins/bootstrap-validator/validator.js"></script>
+		<!-- SlimScroll -->
+		<script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+		<!-- FastClick -->
+		<!--<script src="plugins/fastclick/fastclick.min.js"></script>-->
+		<!-- Echarts 3.1.9 -->
+		<script src="https://cdn.bootcss.com/echarts/3.1.9/echarts.common.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="assets/js/app.min.js"></script>
+		<!-- requirejs -->
+		<!-- ckeditor -->
+		<script src="plugins/ckeditor/ckeditor.js"></script>
+		<script src="assets/js/jquery.number.min.js"></script>
+		<script src="assets/js/jstree/jstree.js"></script>
+		<script src="plugins/bigjs/big.min.js"></script>
+		<script src="https://cdn.bootcss.com/require.js/2.1.22/require.min.js"></script>
+		<script>
+			$(document).ready(function() {
+				requirejs.config({
+					baseUrl: 'assets/js',
+					paths: {
+						page: '../../pages'
+					}
+				})
+				requirejs(['config', 'extension', 'http', 'util'], function(config, $$, http, util) {					
+					
+					setTimeout(function(){
+						util.tryOut();
+					},3000)
+					http.post(config.api.menu.view + '?system=' + config.system, function(result) {
+						try{
+							http.post(cloud_config.api.accessPerson.userAccessPerson, {
+	                    		async: true,
+	                            data: {},
+	                            contentType: 'form'
+	                        }, function(rlt) {
+	                            if (rlt && rlt.errorCode == 0) {
+	                            	var accessTypes = rlt.accessTypes;/**/
+	                            	cloud_util.setStorage("accessTypes", accessTypes, 2);
+	                            }
+	                    	});
+						}catch(e){
+							
+						}
+						// 菜单生成
+						var menuStr = ''
+						var navRequire = []
+						var flattenMenus = []
+						result.forEach(function(flevel) {
+							flattenMenus.push(flevel)
+							
+							var isHide = '';
+							if(flevel.isHide && flevel.isHide == "YES"){
+								isHide = 'hide';
+							}
+							menuStr += '<li class="header ' + isHide + '">' + flevel.text + '</li>'
+							
+							if (flevel.children) {
+								flevel.children.forEach(function(slevel) {
+									flattenMenus.push(slevel)
+									
+									isHide = '';
+									if(slevel.isHide && slevel.isHide == "YES"){
+										isHide = 'hide';
+									}
+									
+									menuStr += '<li class="treeview '+ isHide + '">' +																	
+										'<a href="javascript:void(0)" class="slevel" ' + (slevel.pageId ? 'data-gh-route="' + slevel.pageId + '"' : '') + '>' +
+										'<i class="fa ' + slevel.icon + '"></i>' +
+										'<span>' + slevel.text + '</span>' +
+										(slevel.children && slevel.children.length ? '<i class="fa fa-angle-left pull-right"></i>' : '') +
+										'</a>'
+									if (slevel.pageId) {
+										navRequire.push('page/' + slevel.pageId + '/' + slevel.pageId)
+									}
+									if (slevel.children && slevel.children.length) {
+										menuStr += '<ul class="treeview-menu">'
+										slevel.children.forEach(function(tlevel) {
+											flattenMenus.push(tlevel)
+											if(tlevel.pageId === 'c_accountdetail' || tlevel.pageId === 'u_accountdetail'){
+												menuStr += '<li class="hidden">'
+											}else{
+												menuStr += '<li>'
+											}
+											menuStr += '<a href="javascript:void(0)" data-gh-route="' + tlevel.pageId + '" class="tlevel">' +
+													'<i class="fa fa-circle-o"></i> ' + tlevel.text +
+													'</a>' +
+													'</li>'
+											navRequire.push('page/' + tlevel.pageId + '/' + tlevel.pageId)
+										})
+										menuStr += '</ul>'
+									}
+									menuStr += '</li>'
+								})
+							}
+						})
+						config.flattenMenus = flattenMenus
+						$('#sidebarMenu').append(menuStr)
+						requirejs(navRequire, function() {
+							var requireModules = arguments
+								// 获取hash，通过hash定位到当前页面，hash中 '?' 及以后的部分作为参数内容，不作为页面判断依据
+							var hash = ''
+								// 参数内容暂存在params中，仅在初次载入页面时有效，点击导航栏按钮切换页面后失效
+							var params = {
+									value: ''
+								}
+								// currentHash用于存储点击后的hash，防止进行重复点击
+							var currentHash = ''
+							if (location.hash.indexOf('?') >= 0) {
+								hash = location.hash.substring(1, location.hash.indexOf('?'))
+								params.value = location.hash.substr(location.hash.indexOf('?') + 1)
+							} else {
+								hash = location.hash.substr(1)
+							}
+							/**
+							 * 左侧菜单点击load右侧页面初始化
+							 */
+							$('#sidebarMenu')
+								.find('[data-gh-route]')
+								.on('click', function() {
+									var route = $(this).attr('data-gh-route')
+									if (route === currentHash) return
+									$('#sidebarMenu').find('.active').removeClass('active')
+									$(this).parent().addClass('active')
+									$('#mainContent')
+										.empty()
+										.load('pages/' + route + '/' + route + '.html', function() {
+											// 初始化必填*号标识，一定要放在初始化select2之前
+											$$.requiredInit($('#mainContent'));
+											try{
+												//初始化select2
+												cloud_$$.select2Init($('#mainContent'));
+											}catch(e){
+											}
+											// 进行按钮权限控制
+											config.flattenMenus.forEach(function(menu) {
+													if (menu.pageId === route) {
+														config.currentMenu = menu
+														try{
+															cloud_config.currentMenu = menu
+														}catch(e){
+															
+														}
+														if (menu.buttons) {
+															menu.buttons.forEach(function(button) {
+																if (button.position === 'normal' && button.status === 'DISABLE') {
+																	$('#' + button.buttonId).remove()
+																}
+															})
+														}
+													}
+												})
+												// 调用对应js的init方法
+											for (var key in requireModules) {
+												if (requireModules[key] && (requireModules[key].name === route || 'cloud_' +  requireModules[key].name === route)) {
+													requireModules[key].init()
+												}
+											}
+											util.formatNum();
+											// 全局阻止form默认input焦点回车提交表单事件
+											$('form')
+												.find('input')
+												.on('focus', function() {
+													$(document).on('keydown.formInput', function(e) {
+														if (e.keyCode === 13) {
+															e.preventDefault()
+															return false
+														}
+													})
+												})
+												.on('blur', function() {
+													$(document).off('keydown.formInput')
+												})
+												// 面包屑导航点击按钮初始化
+											$('[data-jump-to]').on('click', function() {
+													var pageName = $(this).attr('data-jump-to')
+													util.nav.dispatch(pageName)
+												})
+												// icheck datetimepicker全局初始化
+											$$.inputPluginsInit($('#mainContent'))
+												// 枚举值自动填充，非首次加载
+											if (config.enumSourceState) {
+												$$.enumSourceInit($('#mainContent'))
+											}
+//											$$.requiredInit($('#mainContent'))
+										})
+									location.hash = params.value ? route + '?' + params.value : route
+									currentHash = route
+									params.value = ''
+									document.body.scrollTop = 0
+										// for mobile
+									$('body').removeClass('sidebar-open')
+								})
+								.each(function(index, item) {
+									if (!hash) {
+										var ul = $(item).parent().parent()
+										var treeview = ul.parent()
+										if ($(item).attr('data-gh-route') === 'platformIndex') {
+											$(item).click()
+											setTimeout(function() {
+												ul.slideDown(500, function() {
+													treeview.addClass('active')
+													ul.addClass('menu-open').css({
+														display: 'block'
+													})
+												})
+											}, 10)
+											return
+										}	
+									} else {
+										if ($(item).attr('data-gh-route') === hash) {
+											var ul = $(item).parent().parent()
+											var treeview = ul.parent()
+											$(item).click()
+											setTimeout(function() {
+												ul.slideDown(500, function() {
+													treeview.addClass('active')
+													ul.addClass('menu-open').css({
+														display: 'block'
+													})
+												})
+											}, 10)
+											return
+										}
+									}
+								})
+								/**
+								 * 获取登录用户信息
+								 */
+							http.post(config.api.userInfo, {
+								contentType: 'form'
+							}, function(userInfo) {
+								if(userInfo.resources){
+									localStorage.setItem('resources', userInfo.resources)
+									util.tryOut();
+								}
+								$('#userMenu').find('.userName').html(userInfo.name)
+								$('#loginUserOid').val(userInfo.oid);
+								$$.detailAutoFix($('#loginUserInfoModal'), userInfo)
+								$('#loginUserInfoClose').on('click', function() {
+									$('#loginUserInfoModal').modal('hide')
+								});
+								$('#loginUserInfoButton').on('click', function() {
+									$('#loginUserInfoModal').modal('show')
+								});
+								$('#loginUserRepwd').on('click', function() {
+									util.form.reset($('#loginUserRepwdForm'))
+									var x = $('#loginUserInfoModal').modal('hide')
+									setTimeout(function() {
+										$('#loginUserRepwdModal').modal('show')
+									}, 500);
+								});
+								util.form.validator.init($(document.loginUserRepwdForm))
+								$('#loginUserRepwdSubmit').on('click', function() {
+									var x = $(document.loginUserRepwdForm).validator('doSubmitCheck')
+									if (x) {
+										var form = document.loginUserRepwdForm
+										var data = {
+											originalPassword: form.currentPwd.value,
+											newPassword: form.resetPwd.value
+										};
+										http.post(config.api.resetPwd, {
+												data: data,
+												contentType: 'form'
+											},
+											function(rlt) {
+												if (rlt.errorCode == 0) {
+													$('#loginUserRepwdModal').modal('hide');
+													alert('密码修改成功, 请重新登录. ');
+													http.post(config.api.logout, function() {
+														location.href = 'login.html'
+													});
+												};
+											}
+										);
+									}
+								});
+							});
+							/**
+							 * 获取枚举值信息存到config中，并首次全局初始化
+							 */
+							http.post(config.api.dictList, {
+								contentType: 'form'
+							}, function(enums) {
+								for (var key in enums) {
+									config[key] = enums[key]
+								}
+								$$.enumSourceInit($(document))
+							});
+							
+							//反馈意见标签下拉列表
+				            http.post(config.api.tabsSelect, {
+				                contentType: 'form'
+				            }, function (enums) {
+				                for (var key in enums) {
+				                   config[key] = enums[key]
+				                }
+				                $$.enumSourceInit($(document))
+				            });
+				          
+				             //资讯类型下拉列表
+				            http.post(config.api.infoTypeSelect, {
+				                 contentType: 'form'
+				            }, function (enums) {
+				                for (var key in enums) {
+				                   config[key] = enums[key]
+				                }
+				                $$.enumSourceInit($(document))
+				            });
+				            
+				            //CMS渠道下拉列表
+				            http.post(config.api.cmsChannelSelect, {
+				                 contentType: 'form'
+				            }, function (enums) {
+				                for (var key in enums) {
+				                   config[key] = enums[key]
+				                }
+				                $$.enumSourceInit($(document))
+				            });
+				            
+				            //CMS协议类型下拉列表
+				            http.post(config.api.protocolTypeSelect, {
+				                 contentType: 'form'
+				            }, function (enums) {
+				                for (var key in enums) {
+				                   config[key] = enums[key]
+				                }
+				                $$.enumSourceInit($(document))
+				            });
+				            
+				            //CMS活动规则类型下拉列表
+				            http.post(config.api.actRuleTypeSelect, {
+				                 contentType: 'form'
+				            }, function (enums) {
+				                for (var key in enums) {
+				                   config[key] = enums[key]
+				                }
+				                $$.enumSourceInit($(document))
+				            });
+				            
+				            try{
+				            	http.post(cloud_config.api.dictList, {
+									contentType: 'form'
+								}, function(enums) {
+									for (var key in enums) {
+										cloud_config[key] = enums[key]
+									}
+									for (var key in cloud_config) {
+										if(!config[key]) {
+											config[key] = cloud_config[key]	
+										}
+									}
+									$$.enumSourceInit($(document))
+								});
+				            }catch(e){
+				            	
+				            }
+				            
+				            //管理员下拉列表
+				            http.post(config.api.adminSearch, {
+				            	data: {
+				            		system: config.system,
+				            		rows: 10000,
+				            		page: 1
+				            	},
+				                 contentType: 'form'
+				            }, function (enums) {
+				            	var ADMINLIST = [], ADMINACCLIST = [];
+				            	var lista = '', listb = '';
+				            	enums.rows.forEach(function(row){
+				            		ADMINLIST.push({
+				            			id: row.oid,
+				            			text: row.name
+				            		})
+				            	})
+				            	//过滤管理员列表
+				            	http.post(config.api.allacc, {
+					                 contentType: 'form'
+					            }, function (rlt) {
+					            	rlt.allAcc.forEach(function(acc){
+					            		lista += acc
+					            	})
+					            	ADMINLIST.forEach(function(admin){
+					            		if(!lista.match(admin.id)){
+					            			listb += admin.id+','
+					            		}
+					            	})
+					            	listb = listb.substr(0,listb.lastIndexOf(',')).split(',')
+					            	listb.forEach(function(list){
+					            		ADMINLIST.forEach(function(admin){
+					            			if (list === admin.id) {
+					            				ADMINACCLIST.push(admin)
+					            			}
+					            		})
+					            	})
+					            	config["ADMINLIST"] = ADMINLIST
+					            	config["ADMINACCLIST"] = ADMINACCLIST
+				                	$$.enumSourceInit($(document))
+					            });
+				            });
+											
+							/**
+							 * 获取风险等级配置值信息存到config中，并首次全局初始化
+							 */
+							util.initWarrantyLevelOptions();
+							/**
+							 * 登出
+							 */
+							$('#logout').on('click', function() {
+								http.post(config.api.logout, function() {
+									location.href = 'login.html'
+								})
+							});
+							// fix select2在bootstrap modal中input无法focus的问题
+							// https://github.com/select2/select2/issues/1436
+							$.fn.modal.Constructor.prototype.enforceFocus = function() {}
+								// fix 第二层modal退出后导致的第一层modal滚动失效问题
+								// https://github.com/NodeBB/NodeBB/issues/2754
+							$('#mainContent').delegate('.modal', 'hidden.bs.modal', function() {
+								var firstModal = $('.modal.in:last', 'body').data('bs.modal')
+								if (firstModal) {
+									firstModal.$body.addClass('modal-open');
+									firstModal.enforceFocus();
+									firstModal.handleUpdate();
+								}
+							});
+							// select2 i18n初始化
+							$.fn.select2.defaults.set('language', 'zh-CN');
+						})
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

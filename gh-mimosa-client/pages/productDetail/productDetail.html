@@ -1,0 +1,1837 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>产品运营工作台</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 产品管理</a>
+		</li>
+		<li class="active">产品运营工作台</li>
+	</ol>
+	<form id="searchForm" name="searchForm" method="post" style="position: absolute; top: 12px; left: 200px;">
+		<select name="productName" class="form-control input-sm"></select>
+	</form>
+
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title"></h3>
+					<div class="box-tools" style="right: auto; left: 10px;">
+						<button id="purchaseRelevant" class="btn btn-primary btn-sm">申购相关</button>
+						<button id="remeedRelevant" class="btn btn-primary btn-sm">赎回相关</button>
+						<button id="clearOther" class="btn btn-primary btn-sm">其他</button>
+					</div>
+				</div>
+				<div id="detailboard" class="box-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt></dt>
+								<dd>
+									<div></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有人总份额(份)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="currentVolume"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品实时轧差结果(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="realNetting" style="display: inline-block; margin-right: 5px;"></div>
+									<button id="refreshGacha" class="btn btn-xs btn-primary">刷新</button>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>流动性资产(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="hqla" style="display: inline-block; margin-right: 5px;"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人基子份额(份)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="shares"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人基子市值(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="marketValue"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人应收费金(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="payFee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人预付费金(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="prepaidFee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人累计已计提费金(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="countintChargefee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人累计已提取费金(元)：</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="drawedChargefee"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="box box-primary">
+				<div class="box-body">
+					<div id="pieChart" style="height: 247px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="nav-tabs-custom">
+		<!-- tabs -->
+		<ul class="nav nav-tabs" role="tablist">
+
+			<li role="presentation" class="active">
+				<a href="#tabpanel1" role="tab" data-toggle="tab">订单列表</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel2" role="tab" data-toggle="tab">阶梯奖励</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel6" role="tab" data-toggle="tab">发行渠道申请</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel3" role="tab" data-toggle="tab">发行人交易记录</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel4" role="tab" data-toggle="tab">运营申请</a>
+			</li>
+			<li role="presentation" id="tabpanelli5">
+				<a href="#tabpanel5" role="tab" data-toggle="tab">可售份额申请</a>
+			</li>
+			<li role="presentation" id="tabpanelli7">
+				<a href="#tabpanel7" role="tab" data-toggle="tab">份额申请排期</a>
+			</li>
+		</ul>
+		<!-- tab panels -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="tabpanel1">
+				<div class="box-header">
+					<div class="row">
+						<form id="productOrderSearchForm" name="productOrderSearchForm" method="post">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单号</label>
+									<input name="orderCode" type="text" class="form-control input-sm" placeholder="搜索订单号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单类型</label>
+									<select name="orderType" class="form-control input-sm">
+										<option value="" selected="selected">全部</option>
+										<option value="invest">申购</option>
+										<option value="normalRedeem">赎回</option>
+										<option value="clearRedeem">清盘赎回</option>
+										<option value="cash">还本付息</option>
+										<option value="cashFailed">募集失败退款</option>
+										<option value="expGoldInvest">体验金投资</option>
+										<option value="expGoldRedeem">体验金赎回</option>
+										<option value="dividend">现金分红</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单状态</label>
+									<select name="orderStatus" class="form-control input-sm">
+										<option value="" selected="selected">全部</option>
+										<option value="submitted">已提交</option>
+										<option value="submitFailed">提交失败</option>
+										<option value="toPay">待支付</option>
+										<option value="payFailed">支付失败</option>
+										<option value="paySuccess">已支付</option>
+										<option value="refused">已拒绝</option>
+										<option value="accepted">已受理</option>
+										<option value="confirmed">已确认</option>
+										<option value="confirmFailed">份额确认失败</option>
+										<!--<option value="done">成交</option>
+										<option value="toRefund">等待退款</option>
+										<option value="refunded">已退款</option>
+										<option value="abandoned">已作废</option>
+										<option value="payExpired">已过期</option>-->
+									</select>
+								</div>
+							</div>
+						</form>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>&nbsp;</label>
+								<div><button id="productOrderTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table id="productOrderTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th class="align-right">订单号</th>
+							<th class="align-right">订单金额(元)</th>
+							<th class="align-right">卡券类型</th>
+							<th class="align-right">奖励</th>
+							<th class="align-right">实付金额(元)</th>
+							<th>订单类型</th>
+							<th>订单状态</th>
+							<!--<th>产品编号</th>-->
+							<th>产品名称</th>
+							<th class="align-right">&nbsp;&nbsp;&nbsp;&nbsp;创建时间</th>
+							<th>创建人</th>
+							<!--<th>投资人清算状态</th>
+							<th>投资人结算状态</th>-->
+							<th>发行人清算状态</th>
+							<th>发行人确认状态</th>
+							<th>发行人结算状态</th>
+							<th class="align-center">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane2" class="tab-pane" id="tabpanel2">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="dataAnalysisTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="dataAnalysisTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th>阶段</th>
+							<th class="align-right">投资天数</th>
+							<th class="align-right">奖励收益率(%)</th>
+							<th class="align-right">持有份额(元)</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane6" class="tab-pane" id="tabpanel6">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="channelTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="channelTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th>渠道名称</th>
+							<th>申请人</th>
+							<th class="align-right">申请时间</th>
+							<th>审批人</th>
+							<th class="align-right">审批时间</th>
+							<th>状态</th>
+							<th class="align-center">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane3" class="tab-pane" id="tabpanel3">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="spvOrderTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="spvOrderTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th>交易类型</th>
+							<th>订单类型</th>
+							<th class="align-right">订单金额(万元)</th>
+							<th class="align-right">订单日期</th>
+							<th>订单状态</th>
+							<th>订单入账状态</th>
+							<th>订单创建人</th>
+							<th class="align-right">申请时间</th>
+							<th>订单审核人</th>
+							<th class="align-right">审核时间</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane4" class="tab-pane" id="tabpanel4">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="productPurchaseRemeedTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="productPurchaseRemeedTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th>申请类型</th>
+							<th>申请人</th>
+							<th class="align-right">申请时间</th>
+							<th>审批人</th>
+							<th class="align-right">审批时间</th>
+							<th>状态</th>
+							<th class="align-center">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane5" class="tab-pane" id="tabpanel5">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="availbleSaleVolumeTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="availbleSaleVolumeTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th class="align-right">排期日期</th>
+							<th class="align-right">申请金额(元)</th>
+							<th>申请人</th>
+							<th class="align-right">申请时间</th>
+							<th>审批人</th>
+							<th class="align-right">审批时间</th>
+							<th>状态</th>
+							<th class="align-center">操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div role="tabpane7" class="tab-pane" id="tabpanel7">
+				<div class="row">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="top: -1px; right: 2%; left: 15px;">
+							<button id="availbleSaleDateTableDown" class="btn btn-primary btn-sm box-tools-button">导出Excel</button>
+						</div>
+					</div>
+				</div>
+				<table id="availbleSaleDateTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th class="th-inner align-center">序号</th>
+							<th class="align-right">排期日期</th>
+							<th class="align-right">申请金额(元)</th>
+							<th>申请人</th>
+							<th class="align-right">申请时间</th>
+							<th>审批人</th>
+							<th class="align-right">审批时间</th>
+							<th>状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<p id="confirmTitle1"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="doAlertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<h4>已经申请销售份额，请先审核</h4>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doClearingConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p class="form-header">一旦确定触发清盘，将不可回退！</p>
+		<textarea id="clearingComment" placeholder="请填写触发清盘理由" rows="3" cols="30" required="required"></textarea>
+
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+			<div class="unit">
+				<button id="doProductClearing" class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- purchaseRelevant按钮申购相关弹窗 -->
+<div id="purchaseRelevantModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">申购相关</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="right: auto; left: 10px;">
+							<button id="channelApply" class="btn btn-primary btn-sm">发行渠道申请</button>
+							<button id="openPurchase" class="btn btn-primary btn-sm">开启申购申请</button>
+							<button id="closePurchase" class="btn btn-primary btn-sm">关闭申购申请</button>
+							<button id="availbleSaleVolume" class="btn btn-primary btn-sm">可售份额申请</button>
+							<!--<button id="manageInvestorder" class="btn btn-default btn-sm">投资单处理</button>-->
+							<!--<button id="closeManageInvestorder" class="btn btn-default btn-sm">隐藏投资单处理</button>-->
+						</div>
+					</div>
+				</div>
+				<form id="purchaseRelevantForm" name="purchaseRelevantForm" method="post">
+					<!--<p class="form-header">产品概况</p>-->
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品编号:</dt>
+								<dd id="detcode">
+									<div data-detail-fetch="code"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品简称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品全称:</dt>
+								<dd>
+									<div data-detail-fetch="fullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品类型:</dt>
+								<dd>
+									<div data-detail-fetch="typeName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expectedRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益计算基础(天):</dt>
+								<dd>
+									<div data-detail-fetch="incomeCalcBasis"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+				<div class="box box-primary">
+				</div>
+
+				<div id="channelModalDiv">
+					<h4 class="modal-title">选择渠道</h4>
+					<div class="modal-body">
+						<!-- 新增事件表单 -->
+						<form id="addProductChannelForm" name="addProductChannelForm" method="post">
+							<input name="productOid" type="hidden">
+							<div class="row">
+								<div class="col-sm-8">
+									<div class="form-group">
+										<label>选择渠道</label>
+										<select name="channelOid" class="form-control input-sm">
+										</select>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- 模态窗底部 -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button id="addProductChannelSubmit" type="button" class="btn btn-primary btn-submit addProductChannelSubmit">保 存</button>
+					</div>
+				</div>
+				<!-- 可售份额申请弹窗 -->
+				<div id="availbleSaleVolumeModalDiv">
+					<h4 class="modal-title">可售份额申请</h4>
+					<div class="modal-body">
+						<!-- 可售份额申请确定事件表单 -->
+						<form id="availbleSaleVolumeForm" name="availbleSaleVolumeForm" method="post">
+							<input name="productOid" type="hidden" />
+							<div class="row">
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>单位份额净值(元):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="netUnitShare"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>发行人持有份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="holdTotalVolume"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>产品剩余份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="raisedTotalNumber"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>累计已售份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="collectedVolume"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>可售份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="maxSaleVolume"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>剩余可售份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="leftSaleVolume"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>投资锁定份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="lockCollectedVolume"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>累计已生效的申请份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="approvalAmount"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>申请中份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="applyAmount"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>剩余可申请份额(份):</dt>
+										<dd>
+											<div class="decimal2" data-detail-fetch="availableMaxSaleVolume"></div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>申请排期日期</label>
+										<div class="input-group input-group-sm">
+											<input id="basicDate" name="basicDate" type="text" class="form-control input-sm datepicker" required="required" placeholder="请选择日期" data-date-format="YYYY-MM-DD">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-5">
+									<div class="form-group">
+										<label>申请销售金额</label>
+										<div class="input-group input-group-sm">
+											<!--<input id="newMaxSaleVolume" name="newMaxSaleVolume" type="text" class="form-control" required="required" data-validfloat="12.2" data-validfloat-error="可申请销售份额只能为前12位后2位小数" data-validredeemaddorder="true" data-validredeemaddorder-error="可申请销售份额不能大于剩余可申请份额">-->
+											<input id="newMaxSaleVolume" name="newMaxSaleVolume" type="text" class="form-control" required="required" data-validfloat="12.2" data-validfloat-error="可申请销售份额只能为前12位后2位小数">
+											<span class="input-group-addon">元</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<table id="maxSaleVolumeDateTable" class="table table-bordered table-striped">
+											<thead>
+												<tr>
+													<th>日期</th>
+													<th>已审批</th>
+													<th>审批中</th>
+													<th>同步时间</th>
+												</tr>
+											</thead>
+										</table>
+									</dl>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<!--<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>-->
+						<button id="availbleSaleVolumeSubmit" type="button" class="btn btn-primary btn-submit availbleSaleVolumeSubmit">提交</button>
+					</div>
+				</div>
+
+				<div id="investModalDiv">
+					<h4 class="modal-title">投资单处理</h4>
+					<div class="modal-body">
+						<div class="nav-tabs-custom">
+							<!-- tabs -->
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
+									<a href="#investtabpanel1" role="tab" data-toggle="tab">可废弃投资单</a>
+								</li>
+								<li role="presentation">
+									<a href="#investtabpanel2" role="tab" data-toggle="tab">已废弃投资单</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="investtabpanel1">
+									<div class="box box-solid">
+										<div class="box-header">
+											<h3 class="box-title"></h3>
+											<div class="box-tools">
+												<button id="doAbandon" class="btn btn-default btn-sm">
+													<i class="fa fa-hand-paper-o"></i> 废 弃
+												</button>
+											</div>
+										</div>
+										<div class="box-body">
+											<table id="investTable1" class="table table-bordered table-striped">
+												<thead>
+													<tr>
+														<th></th>
+														<th class="th-inner align-center">序号</th>
+														<th class="align-right">订单号</th>
+														<th>订单类型</th>
+														<th>订单状态</th>
+														<th class="align-right">订单金额</th>
+														<th class="align-right">订单时间</th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="investtabpanel2">
+									<table id="investTable2" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th class="th-inner align-center">序号</th>
+												<th class="align-right">订单号</th>
+												<th>订单类型</th>
+												<th>订单状态</th>
+												<th class="align-right">订单金额</th>
+												<th class="align-right">订单时间</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- remeedRelevant按钮赎回相关弹窗 -->
+<div id="remeedRelevantModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">赎回相关</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="right: auto; left: 10px;">
+							<button id="openRemeed" class="btn btn-default btn-sm">开启赎回申请</button>
+							<button id="closeRemeed" class="btn btn-default btn-sm">关闭赎回申请</button>
+							<button id="closingRuleFIFO" class="btn btn-default btn-sm">申请赎回规则FIFO</button>
+							<button id="closingRuleLIFO" class="btn btn-default btn-sm">申请赎回规则LIFO</button>
+							<!--<button id="manageTradeorder" class="btn btn-default btn-sm">赎回单处理</button>-->
+							<!--<button id="closeManageTradeorder" class="btn btn-default btn-sm">隐藏赎回单处理</button>-->
+							<!--<button id="singleDailyMaxRedeem" class="btn btn-default btn-sm">赎回限额设置</button>-->
+							<!--<button id="openRedeemConfirm" class="btn btn-default btn-sm">激活赎回确认</button>-->
+							<!--<button id="closeRedeemConfirm" class="btn btn-default btn-sm">屏蔽赎回确认</button>-->
+							<!--<button id="fastRedeemSet" class="btn btn-default btn-sm">快速赎回设置</button>-->
+						</div>
+					</div>
+				</div>
+
+				<form id="remeedRelevantForm" name="remeedRelevantForm" method="post">
+					<!--<p class="form-header">产品概况</p>-->
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品编号:</dt>
+								<dd id="detcode">
+									<div data-detail-fetch="code"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品简称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品全称:</dt>
+								<dd>
+									<div data-detail-fetch="fullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品类型:</dt>
+								<dd>
+									<div data-detail-fetch="typeName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expectedRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益计算基础(天):</dt>
+								<dd>
+									<div data-detail-fetch="incomeCalcBasis"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回规则:</dt>
+								<dd>
+									<div data-detail-fetch="closingRule"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+				<div class="box box-primary">
+				</div>
+				<!-- 赎回单处理弹窗 -->
+				<div id="tradeorderModalDiv">
+					<h4 class="modal-title">赎回单处理</h4>
+					<!-- 模态窗内容体 -->
+					<div class="modal-body">
+						<div class="nav-tabs-custom">
+							<!-- tabs -->
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
+									<a href="#tradeordertabpanel1" role="tab" data-toggle="tab">可拒绝赎回单</a>
+								</li>
+								<li role="presentation">
+									<a href="#tradeordertabpanel2" role="tab" data-toggle="tab">已拒绝赎回单</a>
+								</li>
+							</ul>
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="tradeordertabpanel1">
+									<div class="box box-solid">
+										<div class="box-header">
+											<h3 class="box-title"></h3>
+											<div class="box-tools">
+												<button id="doRefuse" class="btn btn-default btn-sm">
+													<i class="fa fa-hand-paper-o"></i> 拒 绝
+												</button>
+											</div>
+										</div>
+										<div class="box-body">
+											<table id="acceptedOrderTable" class="table table-bordered table-striped">
+												<thead>
+													<tr>
+														<th></th>
+														<th class="th-inner align-center">序号</th>
+														<th class="align-right">订单号</th>
+														<th>订单类型</th>
+														<th>订单状态</th>
+														<th class="align-right">订单金额</th>
+														<th class="align-right">订单时间</th>
+													</tr>
+												</thead>
+											</table>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="tradeordertabpanel2">
+									<table id="refusedOrderTable" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th class="th-inner align-center">序号</th>
+												<th class="align-right">订单号</th>
+												<th>订单类型</th>
+												<th>订单状态</th>
+												<th class="align-right">订单金额</th>
+												<th class="align-right">订单时间</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 开启限额赎回弹窗 -->
+				<div id="singleDailyMaxRedeemModalDiv">
+					<h4 class="modal-title">赎回限额设置</h4>
+					<div class="modal-body">
+						<!-- 开启限额赎回确定事件表单 -->
+						<form id="singleDailyMaxRedeemForm" name="singleDailyMaxRedeemForm" method="post">
+							<input name="oid" type="hidden" />
+							<input name="minRredeem" type="hidden" />
+							<div class="row">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>单笔赎回最低份额:</dt>
+										<dd>
+											<div data-detail-fetch="minRredeemStr"></div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<p class="form-header">编辑信息</p>
+							<div class="row">
+								<div class="col-sm-10">
+									<div id="singleDailyMaxRedeemDiv" class="form-group">
+										<dl class="dl-horizontal">
+											<dt>单人单日赎回上限:</dt>
+											<dd>
+												<div class="input-group input-group-sm">
+													<input id="singleDailyMaxRedeemFormInput" name="singleDailyMaxRedeem" type="text" class="form-control" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+													<span class="input-group-addon">元</span>
+												</div>
+												<div id="singleDailyMaxRedeemError" class="help-block with-errors text-red"></div>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="singleDailyMaxRedeemSubmit" type="button" class="btn btn-primary btn-submit singleDailyMaxRedeemSubmit">保存</button>
+					</div>
+				</div>
+
+				<!-- 快速赎回设置弹窗 -->
+				<div id="fastRedeemModalDiv">
+					<h4 class="modal-title">快速赎回设置</h4>
+					<div class="modal-body">
+						<!-- 开启限额赎回确定事件表单 -->
+						<form id="fastRedeemForm" name="fastRedeemForm" method="post">
+							<input name="oid" type="hidden" />
+							<div class="row">
+								<div class="col-sm-10">
+									<div class="form-group">
+										<label></label>
+
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-10">
+									<div class="form-group">
+										<dl class="dl-horizontal">
+											<dt>快速赎回开关:</dt>
+											<dd>
+												<div class="row form-style">
+													<div class="col-sm-5">
+														<input name="fastRedeemStatus" type="radio" value="NO" class="icheck" checked> 关闭
+													</div>
+													<div class="col-sm-5">
+														<input name="fastRedeemStatus" type="radio" value="YES" class="icheck"> 打开
+													</div>
+												</div>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div id="fastRedeemMaxDiv" class="col-sm-10">
+									<div class="form-group">
+										<dl class="dl-horizontal">
+											<dt>快速赎回阀值:</dt>
+											<dd>
+												<div class="input-group input-group-sm">
+													<input name="fastRedeemMax" type="text" class="form-control" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+													<span class="input-group-addon">元</span>
+												</div>
+												<div class="help-block with-errors text-red"></div>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="fastRedeemSubmit" type="button" class="btn btn-primary btn-submit fastRedeemSubmit">保存</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- clearOther按钮其他弹窗 -->
+<div id="clearOtherModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">其他</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="box box-primary">
+					<div class="box-header">
+						<h3 class="box-title"></h3>
+						<div class="box-tools" style="right: auto; left: 10px;">
+							<button id="raiseSuccessOrFail" class="btn btn-primary btn-sm">募集管理</button>
+							<button id="tradingRuleSet" class="btn btn-primary btn-sm">交易规则设置</button>
+							<button id="productLabelSet" class="btn btn-primary btn-sm">标签设置</button>
+							<button id="generateFile" class="btn btn-primary btn-sm">投资人收益明细文件生成</button>
+							<!--<button id="isAutoAssignIncome" class="btn btn-default btn-sm">派息方式设置</button>-->
+						</div>
+						<div class="box-tools">
+							<button id="clearingProduct" class="btn btn-primary btn-sm">触发清盘</button>
+							<button id="dividendService" class="btn btn-primary btn-sm">派息</button>
+							<button id="debtService" class="btn btn-primary btn-sm">还本付息</button>
+						</div>
+					</div>
+				</div>
+
+				<form id="clearOtherForm" name="clearOtherForm" method="post">
+					<!--<p class="form-header">产品概况</p>-->
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品编号:</dt>
+								<dd id="detcode">
+									<div data-detail-fetch="code"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品简称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品全称:</dt>
+								<dd>
+									<div data-detail-fetch="fullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品类型:</dt>
+								<dd>
+									<div data-detail-fetch="typeName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expectedRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益计算基础(天):</dt>
+								<dd>
+									<div data-detail-fetch="incomeCalcBasis"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+				<div class="box box-primary">
+				</div>
+
+				<!-- 募集管理弹窗 -->
+				<div id="raiseSuccessOrFailModalDiv">
+					<h4 class="modal-title">募集管理</h4>
+					<div class="modal-body">
+						<!-- 开启限额赎回确定事件表单 -->
+						<form id="raiseSuccessOrFailForm" name="raiseSuccessOrFailForm" method="post">
+							<p class="form-header">产品概况</p>
+							<input name="oid" type="hidden" />
+							<div class="row">
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>基础标签:</dt>
+										<dd>
+											<div data-detail-fetch="basicProductLabelName"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>扩展标签:</dt>
+										<dd>
+											<div data-detail-fetch="expandProductLabels"></div>
+										</dd>
+									</dl>
+								</div>
+
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>募集开始时间:</dt>
+										<dd>
+											<div data-detail-fetch="raiseStartDateStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>募集期:</dt>
+										<dd>
+											<div data-detail-fetch="raisePeriodStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>募集期预期年化收益率(%):</dt>
+										<dd>
+											<div data-detail-fetch="recPeriodExpAnYield"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>认购确认日:</dt>
+										<dd>
+											<div data-detail-fetch="subscribeConfirmDaysStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<!--<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>起息日:</dt>
+										<dd>
+											<div data-detail-fetch="interestsFirstDateStr"></div>
+										</dd>
+									</dl>
+								</div>-->
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>存续期:</dt>
+										<dd>
+											<div data-detail-fetch="durationPeriodStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>到期最晚还本付息日:</dt>
+										<dd>
+											<div data-detail-fetch="accrualDateStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>单笔投资最低份额:</dt>
+										<dd>
+											<div data-detail-fetch="investMinStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>单笔投资递增份额:</dt>
+										<dd>
+											<div data-detail-fetch="investAdditionalStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>单笔投资最高份额:</dt>
+										<dd>
+											<div data-detail-fetch="investMaxStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>募集满额后是否自动触发成立:</dt>
+										<dd>
+											<div data-detail-fetch="raiseFullFoundTypeStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>募集总份额:</dt>
+										<dd>
+											<div data-detail-fetch="raisedTotalNumberStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>已经申请的最高可售份额:</dt>
+										<dd>
+											<div data-detail-fetch="maxSaleVolumeStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>当前份额:</dt>
+										<dd>
+											<div data-detail-fetch="currentVolumeStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>锁定已募份额:</dt>
+										<dd>
+											<div data-detail-fetch="lockCollectedVolumeStr"></div>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>单位份额净值:</dt>
+										<dd>
+											<div data-detail-fetch="netUnitShareStr"></div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="raiseFailSubmit" type="button" class="btn btn-warning">募集不成立</button>
+						<button id="raiseSuccessSubmit" type="button" class="btn btn-primary">募集成立</button>
+					</div>
+				</div>
+
+				<!-- 编辑产品部分字段弹窗 -->
+				<div id="editProductModalDiv">
+					<h4 class="modal-title">产品交易规则设置</h4>
+					<div class="modal-body">
+						<!-- 编辑事件表单 -->
+						<form id="editProductForm" name="editProductForm" method="post">
+							<input name="oid" type="hidden">
+							<p class="form-header">编辑信息</p>
+							<div id="updateProductType02Area_1">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>锁定期</label>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon">一旦申购将冻结此金额</span>
+												<input name="lockPeriodDays" type="text" class="form-control" maxlength="4" required="required" data-validint="0-244" data-error="应该大于等于0小于244的整数" value="0">
+												<span class="input-group-addon">日</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div id="editPurchaseConfirmDateDiv" class="form-group">
+											<label>申购确认日</label>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon">申购订单提交后</span>
+												<input name="purchaseConfirmDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+												<span class="input-group-addon">日内</span>
+											</div>
+											<div id="editPurchaseConfirmDateError" class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div id="editInterestsDateDiv" class="form-group">
+											<label>起息日</label>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon">申购订单提交后</span>
+												<input name="interestsDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+												<span class="input-group-addon">日</span>
+											</div>
+											<div id="editInterestsDateError" class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>赎回确认日</label>
+											<div class="input-group input-group-sm">
+												<span class="input-group-addon">赎回订单提交后</span>
+												<input name="redeemConfirmDate" type="text" class="form-control" maxlength="4" required="required" data-validint="1-244" data-error="应该大于等于1小于244的整数">
+												<span class="input-group-addon">日内</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div id="editInvestMinDiv" class="form-group">
+										<label>单笔投资最低份额</label>
+										<div class="input-group input-group-sm">
+											<input name="investMin" type="text" class="form-control" data-validfloat="8.2" maxlength="14" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+											<span class="input-group-addon">份</span>
+										</div>
+										<div id="editInvestMinError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>单笔投资递增份额</label>
+										<div class="input-group input-group-sm">
+											<input name="investAdditional" type="text" class="form-control" required="required" maxlength="14" data-validfloat="8.2" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+											<span class="input-group-addon">份</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div id="editInvestMaxDiv" class="form-group">
+										<label>单笔投资最高份额</label>
+										<div class="input-group input-group-sm">
+											<input name="investMax" type="text" class="form-control" data-validfloat="8.2" maxlength="14" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+											<span class="input-group-addon">份</span>
+										</div>
+										<div id="editInvestMaxError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+							<div id="updateProductType02Area_3">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>单日总赎回上限</label>
+											<div class="input-group input-group-sm">
+												<input name="netMaxRredeemDay" type="text" class="form-control" maxlength="14" data-validint="0-1000000000" data-error="应该大于等于0小于1000000000的整数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>单人持有份额上限</label>
+											<div class="input-group input-group-sm">
+												<input name="maxHold" type="text" class="form-control" maxlength="14" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div id="editSingleDailyMaxRedeemDiv" class="form-group">
+											<label>单人单日赎回上限</label>
+											<div class="input-group input-group-sm">
+												<input name="singleDailyMaxRedeem" type="text" class="form-control" maxlength="14" data-validfloat="8.2" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div id="editSingleDailyMaxRedeemError" class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div id="editMinRredeemDiv" class="form-group">
+											<label>单笔赎回最低份额</label>
+											<div class="input-group input-group-sm">
+												<input name="minRredeem" type="text" class="form-control" data-validfloat="8.2" maxlength="14" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div id="editMinRredeemError" class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>单笔赎回递增份额</label>
+											<div class="input-group input-group-sm">
+												<input name="additionalRredeem" type="text" class="form-control" required="required" maxlength="14" data-validfloat="8.2" data-validpositive="non-zero" data-error="必须为大于0的8位整数2位小数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div id="editMaxRredeemDiv" class="form-group">
+											<label>单笔赎回最高份额</label>
+											<div class="input-group input-group-sm">
+												<input name="maxRredeem" type="text" class="form-control" data-validfloat="8.2" maxlength="14" data-validpositive="true" data-error="必须为大于等于0的8位整数2位小数">
+												<span class="input-group-addon">份</span>
+											</div>
+											<div id="editMaxRredeemError" class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>单人单日赎回次数</label>
+											<div class="input-group input-group-sm">
+												<input name="singleDayRedeemCount" type="text" class="form-control" data-validint="0-10000" maxlength="5" data-error="应该大于等于0小于10000的整数">
+												<span class="input-group-addon">次</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>赎回占比开关</label>
+											<div class="row form-style">
+												<div class="col-sm-2">
+													<input name="isPreviousCurVolume" type="radio" value="YES" class="icheck"> 有
+												</div>
+												<div class="col-sm-2">
+													<input name="isPreviousCurVolume" type="radio" value="NO" class="icheck"> 无
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-4" id="addPreviousCurVolumePercent">
+										<div class="form-group">
+											<label>赎回占上一交易日规模百分比</label>
+											<div class="input-group input-group-sm">
+												<input name="previousCurVolumePercent" type="text" class="form-control inputh" maxlength="6" required="required" data-validfloatrange="3-2-0.01-100" data-error="赎回占上一交易日规模百分比在0.01-100之间">
+												<span class="input-group-addon">%</span>
+											</div>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>赎回是否立刻不计息</label>
+											<div class="row form-style">
+												<div class="col-sm-2">
+													<input name="redeemWithoutInterest" type="radio" value="off" class="icheck"> 否
+												</div>
+												<div class="col-sm-2">
+													<input name="redeemWithoutInterest" type="radio" value="on" class="icheck"> 是
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>有效投资日类型</label>
+										<select name="investDateType" class="form-control input-sm">
+											<option selected="selected" value="T">交易日</option>
+											<option value="D">自然日</option>
+										</select>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div id="updateProductType02Area_2">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>有效赎回日类型</label>
+											<select name="rredeemDateType" class="form-control input-sm">
+												<option selected="selected" value="T">交易日</option>
+												<option value="D">自然日</option>
+											</select>
+											<div class="help-block with-errors text-red"></div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>奖励收益率</label>
+										<div class="input-group input-group-sm">
+											<input name="rewardInterest" type="text" class="form-control inputh" placeholder="" maxlength="7" data-validfloat="4.2" data-error="奖励收益率只能为前4位后2位小数">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>单位份额净值</label>
+										<div class="input-group input-group-sm">
+											<input name="netUnitShare" type="text" class="form-control inputh" value="1" required="required" readonly="readonly" data-validfloat="12.4" data-error="单位份额净值只能为前12位后4位小数">
+											<span class="input-group-addon">元</span>
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="form-group" id="updateDealStartTimeDiv">
+										<label>交易时间</label>
+										<div class="input-group input-group-sm">
+											<input name="dealStartTime" type="text" class="form-control datepicker" placeholder="请选择开始时间" data-date-format="HHmmss" data-date-end="dealEndTime">
+										</div>
+										<div id="updateDealStartTimeError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-2">
+									<div class="form-group" id="updateDealEndTimeDiv">
+										<label>&nbsp;</label>
+										<div class="input-group input-group-sm range">
+											<input name="dealEndTime" type="text" class="form-control datepicker" placeholder="请选择结束时间" data-date-format="HHmmss" data-date-begin="dealStartTime">
+										</div>
+										<div id="updateDealEndTimeError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button id="editProductSubmit" type="button" class="btn btn-primary btn-submit editProductSubmit">保 存</button>
+					</div>
+				</div>
+
+				<!-- 标签类型设置弹窗 -->
+				<div id="productLabelSetModalDiv">
+					<h4 class="modal-title">扩展标签设置</h4>
+					<div class="modal-body">
+						<!-- 开启限额赎回确定事件表单 -->
+						<form id="productLabelSetForm" name="productLabelSetForm" method="post">
+							<input name="oid" type="hidden" />
+							<div class="row">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>基础标签:</dt>
+										<dd>
+											<div data-detail-fetch="basicProductLabelName"></div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>原扩展标签:</dt>
+										<dd>
+											<div data-detail-fetch="oldExpandProductLabels"></div>
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<dl class="dl-horizontal">
+											<dt>新扩展标签:</dt>
+											<dd>
+												<div class="row form-style">
+													<select name="expandProductLabels" class="form-control input-sm origin-select" multiple="multiple" style="width: 100%;"></select>
+												</div>
+											</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="productLabelSetSubmit" type="button" class="btn btn-primary btn-submit productLabelSetSubmit">保存</button>
+					</div>
+				</div>
+				
+				<!-- 是否自动派息设置弹窗 -->
+				<div id="isAutoAssignIncomeModalDiv">
+					<h4 class="modal-title">是否自动派息设置</h4>
+					<div class="modal-body">
+						<!-- 开启限额赎回确定事件表单 -->
+						<form id="isAutoAssignIncomeForm" name="isAutoAssignIncomeForm" method="post">
+							<input name="oid" type="hidden" />
+							<div class="row">
+								<div class="col-sm-2">
+									<div class="form-group">
+										<label></label>
+										<div class="row form-style">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group">
+										<label>是否自动派息:</label>
+										<div class="row form-style">
+											<div class="col-sm-4">
+												<input name="isAutoAssignIncome" type="radio" value="NO" class="icheck"> 否
+											</div>
+											<div class="col-sm-4">
+												<input name="isAutoAssignIncome" type="radio" value="YES" class="icheck"> 是
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button id="isAutoAssignIncomeSubmit" type="button" class="btn btn-primary btn-submit isAutoAssignIncomeSubmit">保存</button>
+					</div>
+				</div>
+
+				<div id="clearProductModalDiv">
+					<h4 class="modal-title">一旦确定触发清盘，将不可回退！</h4>
+					<div class="modal-body">
+						<form id="clearProductForm" name="clearProductForm" method="post">
+							<div class="form-group">
+								<label>触发清盘理由</label>
+								<textarea id="clearingComment" class="form-control input-sm" placeholder="请填写触发清盘理由" rows="3" cols="30" required="required"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button id="clearProductSubmit" type="button" class="btn btn-primary btn-submit clearProductSubmit">保 存</button>
+					</div>
+				</div>
+
+				<!-- 收益分配弹窗 -->
+				<div id="profitDistributeModalDiv">
+					<h4 class="modal-title">派息</h4>
+					<div class="modal-body">
+						<form id="profitDistributeForm" name="profitDistributeForm" method="post">
+							<div class="row" id="productTotalScaleStr">
+								<dl class="dl-horizontal">
+									<dt>产品总规模:</dt>
+									<dd>
+										<div><span id="totalHoldVolume"></span>元</div>
+									</dd>
+								</dl>
+							</div>
+							<!--<div class="row" id="productTotalScaleStr">
+								<dl class="dl-horizontal">
+									<dt>加息收益:</dt>
+									<dd>
+										<div><span id="totalCouponVolume"></span>元</div>
+									</dd>
+								</dl>
+							</div>-->
+							<div class="row">
+								<div class="col-sm-6">
+									<div id="productDistributionIncomeDiv" class="form-group">
+										<label>加息收益</label>
+										<div class="input-group input-group-sm">
+											<input id="productCouponIncome" name="productCouponIncome" type="text" class="form-control" required="required" data-validfloat="12.2" data-error="可分配收益只能为前12位后2位小数" readonly="readonly">
+											<span class="input-group-addon">元</span>
+										</div>
+										<div id="productCouponIncomeError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div id="productDistributionIncomeDiv" class="form-group">
+										<label>分配收益</label>
+										<div class="input-group input-group-sm">
+											<input id="productDistributionIncome" name="productDistributionIncome" type="text" class="form-control" readonly="readonly" required="required" data-validfloat="12.2" data-error="可分配收益只能为前12位后2位小数">
+											<span class="input-group-addon">元</span>
+										</div>
+										<div id="productDistributionIncomeError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div id="productAnnualYieldDiv" class="form-group">
+										<label>年化收益率</label>
+										<div class="input-group input-group-sm">
+											<input id="productAnnualYield" name="productAnnualYield" type="text" class="form-control" required="required" data-validfloat="4.2" data-error="预期年化收益率只能为前4位后2位小数">
+											<span class="input-group-addon">%</span>
+										</div>
+										<div id="productAnnualYieldError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button id="profitDistributeSubmit" type="button" class="btn btn-primary btn-submit profitDistributeSubmit">保存</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 提示信息弹窗 -->
+<div id="alertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body" id="alertMessage">
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 订单支付日志模态窗 默认大小 -->
+<div id="orderLogModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">订单支付日志明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<form id="orderLogSearchForm" name="orderLogSearchForm" method="post" class="box-header">
+									<div class="row">
+										<div class="col-sm-4 pcacha-input-1">
+											<div class="form-group">
+												<label>接口名称</label>
+												<input name="interfaceName" type="text" class="form-control input-sm" placeholder="搜索接口名称">
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="orderLogDataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>接口名称</th>
+											<th>订单号</th>
+											<th>支付流水号</th>
+											<th>交易类型</th>
+											<th>接口返回码</th>
+											<th>已发送次数</th>
+											<th>最多发送次数</th>
+											<th>下次调用时间</th>
+											<th>&nbsp;&nbsp;创建时间&nbsp;&nbsp;</th>
+											<th>&nbsp;&nbsp;更新时间&nbsp;&nbsp;</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3> 
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 接口日志详情弹窗 -->
+<div id="interfaceDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">接口日志详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">结算系统接口日志详情</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>发送消息内容:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="content"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>接口错误消息:</dt>
+							<dd class="modal-break">
+								<div id="errorMessage"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

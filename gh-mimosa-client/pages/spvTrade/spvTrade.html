@@ -1,0 +1,528 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    发行人交易管理
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 运营管理</a>
+		</li>
+		<li class="active">发行人交易管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="spvOrderGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">发行人订单列表</h3>
+
+					<div class="box-tools">
+						<button id="orderAdd" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建订单
+            </button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资组合名称</label>
+									<input name="assetPoolName" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品名称</label>
+									<input name="productName" type="text" class="form-control input-sm" placeholder="搜索产品名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单状态</label>
+									<select name="orderStatus" class="form-control input-sm">
+										<option value="" selected="selected">全部</option>
+										<option value="SUBMIT">未确认</option>
+										<option value="CONFIRM">确认</option>
+										<option value="DISABLE">失效</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>交易类型</label>
+									<select name="orderType" class="form-control input-sm">
+										<option value="" selected="selected">全部</option>
+										<option value="INVEST">充值</option>
+										<option value="REDEEM">提现</option>
+									</select>
+								</div>
+							</div>
+							<!--
+              <div class="col-sm-2">
+                <div class="form-group">
+                  <label>订单类型</label>
+                  <select name="orderCate" class="form-control input-sm">
+                    <option value="" selected="selected">全部</option>
+                    <option value="TRADE">交易订单</option>
+                    <option value="STRIKE">冲账订单</option>
+                  </select>
+                </div>
+              </div>
+              -->
+							<!--<div class="col-sm-2">
+                <div class="form-group">
+                  <label>订单入账状态</label>
+                  <select name="entryStatus" class="form-control input-sm">
+                    <option value="" selected="selected">全部</option>
+                    <option value="NO">未入账</option>
+                    <option value="YES">已入账</option>
+                  </select>
+                </div>
+              </div>-->
+						</div>
+					</form>
+
+					<!-- 主体数据表格 -->
+					<table id="spvOrderTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>发行人</th>
+								<th>产品名称</th>
+								<th>交易类型</th>
+								<!--<th>订单类型</th>-->
+								<th>订单金额(万元)</th>
+								<th>订单日期</th>
+								<th>订单状态</th>
+								<th>投资组合名称</th>
+								<th>订单审核人</th>
+								<th>审核时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建订单弹窗 -->
+<div id="addOrderModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">新建订单</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="addOrderForm" name="addOrderForm" method="post">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<select id="assetPoolOid" name="assetPoolOid" class="form-control input-sm">
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>发行人</label>
+								<input name="spvName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group" id="productNameDiv">
+								<label>关联产品名称</label>
+								<input id="productName" name="productName" type="text" class="form-control input-sm" disabled="disabled">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>交易类型</label>
+								<select id="orderType" name="orderType" class="form-control input-sm">
+									<option value="INVEST" selected="selected">充值</option>
+									<option value="REDEEM">提现</option>
+								</select>
+							</div>
+							<input type="hidden" name="orderCate" value="TRADE" />
+						</div>
+
+					</div>
+
+					<!--
+          <div class="form-group">
+            <label>订单类型</label>
+            <select id="orderCate" name="orderCate" class="form-control input-sm">
+              <option value="TRADE" selected="selected">交易订单</option>
+              <option value="STRIKE">冲账订单</option>
+            </select>
+          </div>
+          -->
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>订单金额</label>
+								<div class="input-group input-group-sm">
+									<input id="orderAmount" name="orderAmount" type="text" class="form-control" required="required" data-validfloat="8.6" data-validfloat-error="订单金额只能为前8位后6位小数" data-validpositive="non-zero" data-validpositive-error="订单金额不能小于零">
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>交易日期</label>
+								<input name="orderDate" type="text" class="form-control input-sm datepicker" placeholder="请填写时间" required="required" data-date-format="YYYY-MM-DD">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addOrderSubmit" type="button" class="btn btn-primary btn-submit addOrderSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+
+		<p id="confirmTitle1"></p>
+
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 订单审核确定弹窗 -->
+<div id="auditInvestorOrderModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">订单审核确定</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 订单审核确定事件表单 -->
+				<form id="auditInvestorOrderForm" name="auditInvestorOrderForm" method="post">
+					<p class="form-header">订单概况</p>
+					<input name="oid" type="hidden">
+					<input id="payFee" name="payFee" type="hidden">
+
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单号:</dt>
+								<dd>
+									<div data-detail-fetch="orderCode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易类型:</dt>
+								<dd>
+									<div data-detail-fetch="orderTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!--
+          <div class="row">
+            <dl class="dl-horizontal">
+              <dt>订单类型:</dt>
+              <dd>
+                <div data-detail-fetch="orderCateStr"></div>
+              </dd>
+            </dl>
+          </div>
+          -->
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单金额(万元):</dt>
+								<dd>
+									<div class="currency6" data-detail-fetch="orderAmount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单日期:</dt>
+								<dd>
+									<div data-detail-fetch="orderDate"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资组合名称:</dt>
+								<dd>
+									<div data-detail-fetch="assetPoolName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="productName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row" id="reemAmount">
+						<dl class="dl-horizontal">
+							<dt>可赎回余额:</dt>
+							<dd>
+								<div data-detail-fetch="reemAmountStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<p class="form-header">审核确定信息</p>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>可售余额</label>
+
+								<div class="input-group input-group-sm">
+									<input id="avaibleAmount" name="avaibleAmount" type="text" class="form-control" required="required" data-validfloat="8.6" maxlength="14" data-validfloat-error="可售余额只能为前8位后6位小数" data-validredeemaddorder="true" data-validredeemaddorder-error="可售余额不能大于可赎回额度">
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label id="payFeeLabel">应付费金</label>
+								<label id="payFeeLabelAdd">应付费金增加</label>
+								<label id="payFeeLabelSub">应付费金减少</label>
+
+								<div class="input-group input-group-sm">
+									<input id="payFeeValue" name="payFeeValue" type="text" class="form-control inputh" required="required" data-validfloat="8.6" maxlength="14" data-validfloat-error="应付费金只能为前8位后6位小数">
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="auditInvestorOrderSubmit" type="button" class="btn btn-primary btn-submit auditInvestorOrderSubmit">
+          确定
+        </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="spvTradeDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">发行人订单详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品名称:</dt>
+							<dd>
+								<div data-detail-fetch="productName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资组合名称:</dt>
+							<dd>
+								<div data-detail-fetch="assetPoolName"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单日期:</dt>
+							<dd>
+								<div data-detail-fetch="orderDate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单号:</dt>
+							<dd>
+								<div data-detail-fetch="orderCode"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易类型:</dt>
+							<dd>
+								<div data-detail-fetch="orderTypeStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<!--
+          <div class="col-sm-6">
+            <dl class="dl-horizontal">
+              <dt>订单类型:</dt>
+              <dd>
+                <div data-detail-fetch="orderCateStr"></div>
+              </dd>
+            </dl>
+          </div>
+          -->
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单金额(万元):</dt>
+							<dd>
+								<div class="currency6" data-detail-fetch="orderAmount"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>应付费金:</dt>
+							<dd>
+								<div data-detail-fetch="payFeeStr"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单状态:</dt>
+							<dd>
+								<div data-detail-fetch="orderStatusStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>入账状态:</dt>
+							<dd>
+								<div data-detail-fetch="entryStatusStr"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单创建人:</dt>
+							<dd>
+								<div data-detail-fetch="creater"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申请时间:</dt>
+							<dd>
+								<div data-detail-fetch="createTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单审核人:</dt>
+							<dd>
+								<div data-detail-fetch="auditor"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>审核时间:</dt>
+							<dd>
+								<div data-detail-fetch="completeTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 是否已经发行渠道申请提示 -->
+<div id="issueChannelAlertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">警告！</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+
+			<div class="modal-body">
+				<h4 class="modal-content">
+      	<font color="red">
+      	<strong>请先在运营工作台发行渠道申请。</strong>
+      	</font>
+      	</h4>
+			</div>
+		</div>
+	</div>
+</div>

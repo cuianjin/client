@@ -1,0 +1,1011 @@
+<style>
+	.func-area {
+		display: inline;
+	}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>现金类标的申请</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 现金类标的管理</a>
+		</li>
+		<li class="active">现金类标的申请</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div class="nav-tabs-custom">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs col-sm-11" role="tablist">
+					<input type="hidden" value="0" id="tab_switch" />
+					<li role="presentation" class="active">
+						<a href="#tabcon1" aria-controls="货币基金" role="tab" data-toggle="tab">货币基金</a>
+					</li>
+					<li role="presentation">
+						<a href="#tabcon2" aria-controls="协定存款" role="tab" data-toggle="tab">协定存款</a>
+					</li>
+				</ul>
+				<div class="box-tools col-sm-1">
+					<div class="col-sm-11"></div>
+					<div class="col-sm-1">
+						<button id="liquidAssetAdd" class="btn btn-default btn-sm">
+							<i class="fa fa-plus"></i> 新建
+						</button>
+					</div>
+				</div>
+
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="tabcon1">
+						<!-- 搜索项表单 -->
+						<form id="liquidAssetFundSearchFrom" name="liquidAssetFundSearchFrom" method="post" class="search-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>基金代码</label>
+										<input name="sn" type="text" class="form-control input-sm" placeholder="搜索基金代码">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>基金名称</label>
+										<input name="name" type="text" class="form-control input-sm" placeholder="搜索基金名称">
+									</div>
+								</div>
+								<!--<div class="col-sm-3">
+									<div class="form-group">
+										<label>基金类型</label>
+										<select name="type" class="form-control input-sm" data-enum-text="">
+											<option value="CASHTOOLTYPE_01">货币基金</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>基金状态</label>
+										<select name="state" class="form-control input-sm" data-enum-fetch="cashtoolStatesView" data-enum-text="全部">
+										</select>
+									</div>
+								</div>-->
+							</div>
+						</form>
+						<!-- 主体数据表格 -->
+						<table id="liquidAssetFundApplyTable" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>基金代码</th>
+									<th>基金名称</th>
+									<th>业绩比较基准</th>
+									<th>风险等级</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<!--已审核列表-->
+					<div role="tabpanel" class="tab-pane" id="tabcon2">
+						<form id="liquidAssetTreatySearchFrom" name="liquidAssetTreatySearchFrom" method="post" class="search-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>协定存款编号</label>
+										<input name="sn" type="text" class="form-control input-sm" placeholder="搜索协定存款编号">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>协定存款名称</label>
+										<input name="name" type="text" class="form-control input-sm" placeholder="搜索协定存款名称">
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- 数据表格 -->
+						<table id="liquidAssetTreatyApplyTable" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>协定存款编号</th>
+									<th>协定存款名称</th>
+									<th>基本额度(万元)</th>
+									<th>基本利率(%)</th>.
+									<th>协定利率(%)</th>
+									<th>状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--新建现金类标的货币基金-->
+<div id="addLiquidAssetModal_fund" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建现金类标的</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addLiquidAsset_fundForm" name="addLiquidAsset_fundForm" method="post">
+					<p class="form-header">货币基金概况</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金代码</label>
+								<input name="sn" type="text" class="form-control input-sm" placeholder="基金代码" required data-error="基金代码不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="基金名称" required data-error="基金名称不能为空" maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金类型</label>
+								<!--<select name='type' class="form-control input-sm" data-enum-fetch="CASHTOOLTYPE">
+								</select>-->
+								<select name='type' class="form-control input-sm">
+									<option value="CASHTOOLTYPE_01">货币基金</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>运作模式</label>
+								<input name="operationMode" type="text" class="form-control input-sm" placeholder="运作模式" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>业绩比较基准</label>
+								<input name="perfBenchmark" type="text" class="form-control input-sm" placeholder="业绩比较基准" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>申购确认日</label>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">T+</span>
+									<input name="confirmDays" type="text" class="form-control" placeholder="申购确认日" required data-validpositive="non-zero" data-validfloat="2" maxlength="2">
+									<span class="input-group-addon">工作日以内</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益结转方式</label>
+								<select name='incomeSchedule' class="form-control input-sm" data-enum-fetch="incomeSchedule" placeholder="收益结转方式" required data-error="收益结转方式不能为空">
+									<option value="DAY">日结</option>
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>交易所代码</label>
+								<input name="exchangeCd" type="text" class="form-control input-sm" placeholder="交易所代码" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人编码</label>
+								<input name="managementCompany" type="text" class="form-control input-sm" placeholder="基金管理人编码" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人名称</label>
+								<input name="managementFullName" type="text" class="form-control input-sm" placeholder="基金管理人名称" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人编码</label>
+								<input name="custodian" type="text" class="form-control input-sm" placeholder="基金托管人编码" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人名称</label>
+								<input name="custodianFullName" type="text" class="form-control input-sm" placeholder="基金托管人名称" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资领域</label>
+								<input name="investField" type="text" class="form-control input-sm" placeholder="投资领域" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资目标</label>
+								<input name="investTarget" type="text" class="form-control input-sm" placeholder="投资目标" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金经理</label>
+								<input name="managerName" type="text" class="form-control input-sm" placeholder="基金经理" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>持有目的</label>
+								<select name='holdPorpush' class="form-control input-sm" data-enum-fetch="CASHTOOLHOLDPORPUSH" required data-error="持有目的不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>合同年天数<span style="color: red;">*</span></label><br />
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios3" value="365" checked> 365天/年
+								</label>
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios4"  value="360"> 360天/年
+								</label>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="saveLiquidAsset" type="button" class="btn btn-primary btn-submit addLiquidAssetSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--新建协定存款-->
+<div id="addLiquifdAssetModal_treaty" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" style="width: 600px;" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建协定存款</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addLiquidAsset_treatyForm" name="addLiquidAsset_treatyForm" method="post">
+					<p class="form-header">协定存款概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款编号</label>
+								<input name="sn" type="text" class="form-control input-sm" placeholder="协定存款编号" required data-error="协定存款编号不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="协定存款名称" required data-error="协定存款名称不能为空" maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>基本额度<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input name="baseAmount" type="text" class="form-control input-sm" placeholder="基本额度" required data-validpositive="non-zero" data-validfloat="6.6" maxlength="13" data-error="基本额度最大6位整数6位小数且大于0">
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>基本年利率<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input id="baseYield_save" name="baseYield" type="text" class="form-control input-sm" placeholder="基本年利率" required data-validpositive="non-zero" data-validfloat="4.2" maxlength="7" data-error="基本年利率最大4位整数2位小数且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款年利率<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input id="yield_save" name="yield" type="text" class="form-control input-sm" placeholder="协定存款年利率" required data-validpositive="non-zero" data-validfloat="4.2" maxlength="7" data-error="协定存款年利率最大4位整数2位小数且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>合同年天数<span style="color: red;">*</span></label><br />
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios3" value="365" checked> 365天/年
+								</label>
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios4"  value="360"> 360天/年
+								</label>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<input name="type" type="hidden" value="CASHTOOLTYPE_02">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="saveLiquidAssetTreaty" type="button" class="btn btn-primary btn-submit addLiquidAssetSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 货币基金详情 -->
+<form id="detLiquidAssetForm" name="detLiquidAssetForm" method="post">
+	<div id="liquidAsset_fundDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">现金类标的详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">货币基金概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金代码:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="CASHTOOLTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>运行模式:</dt>
+								<dd>
+									<div data-detail-fetch="operationMode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>业绩比较基准:</dt>
+								<dd>
+									<div data-detail-fetch="perfBenchmark"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>申赎确认日:</dt>
+								<dd>
+									<div data-detail-fetch="confirmDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益结转方式:</dt>
+								<dd>
+									<div data-detail-fetch="incomeSchedule" data-enum-transform="incomeSchedule"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易所代码:</dt>
+								<dd>
+									<div data-detail-fetch="exchangeCd"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人编码:</dt>
+								<dd>
+									<div data-detail-fetch="managementCompany"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人名称:</dt>
+								<dd>
+									<div data-detail-fetch="managementFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人编码:</dt>
+								<dd>
+									<div data-detail-fetch="custodian"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人名称:</dt>
+								<dd>
+									<div data-detail-fetch="custodianFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金经理:</dt>
+								<dd>
+									<div data-detail-fetch="managerName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="CASHTOOLHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>风险等级:</dt>
+								<dd>
+									<div data-detail-fetch="riskLevel"></div>
+								</dd>
+							</dl>
+						</div>
+						</div>
+						<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资目标:</dt>
+								<dd>
+									<div data-detail-fetch="investTarget"></div>
+								</dd>
+							</dl>
+						</div>
+						</div>
+						<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资领域:</dt>
+								<dd>
+									<div data-detail-fetch="investField"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- 协定存款详情 -->
+<form id="detLiquidAsset_treatyForm" name="detLiquidAsset_treatyForm" method="post">
+	<div id="LiquidAsset_treatyDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">协定存款详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">货币基金概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基本额度（万元）:</dt>
+								<dd>
+									<!--<div data-detail-fetch="baseAmount" data-enum-transform="CASHTOOLTYPE"></div>-->
+									<div data-detail-fetch="baseAmount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基本年利率(%):</dt>
+								<dd>
+									<div data-detail-fetch="baseYield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款年利率(%):</dt>
+								<dd>
+									<div data-detail-fetch="yield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>风险等级:</dt>
+								<dd>
+									<div data-detail-fetch="riskLevel"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!--提交审核-->
+<div id="accessModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金管理类工具审核</h4>
+			</div>
+			<div class="modal-body">
+				<form id="accessFrom" name="accessFrom" method="post">
+					<textarea name="suggest" rows="3" class="form-control input-sm" placeholder="请输入审查意见" maxlength="500"></textarea>
+					<input id="coid" name="oid" type="hidden" value="" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="checkreject" type="button" class="btn btn-warning btn-submit accessSubmit">驳 回</button>
+				<button id="checkpass" type="button" class="btn btn-primary btn-submit accessSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑现金类标的资产弹窗-->
+<div id="editLiquidAssetModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑货币基金</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="editLiquidAssetForm" name="editLiquidAssetForm" method="post">
+					<input type="hidden" name="oid" value="" />
+					<p class="form-header">货币基金概况</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金代码</label>
+								<input name="sn" type="text" class="form-control input-sm" placeholder="基金代码" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="基金名称" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金类型</label>
+								<!--<select name='type' class="form-control input-sm" data-enum-fetch="CASHTOOLTYPE">-->
+								<select name='type' class="form-control input-sm">
+									<option selected="selected" value="CASHTOOLTYPE_01">货币基金</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>运作模式</label>
+								<input name="operationMode" type="text" class="form-control input-sm" placeholder="运作模式" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>业绩比较基准</label>
+								<input name="perfBenchmark" type="text" class="form-control input-sm" placeholder="业绩比较基准" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>申购确认日</label>
+								<div class="input-group input-group-sm">
+									<span class="input-group-addon">T+</span>
+									<input name="confirmDays" type="number" class="form-control" placeholder="申购确认日" maxlength="1024">
+									<span class="input-group-addon">工作日以内</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>收益结转方式</label>
+								<select name='incomeSchedule' class="form-control input-sm" data-enum-fetch="incomeSchedule" placeholder="收益结转方式" required data-error="收益结转方式不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>交易所代码</label>
+								<input name="exchangeCd" type="text" class="form-control input-sm" placeholder="交易所代码" maxlength="32">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人编码</label>
+								<input name="managementCompany" type="text" class="form-control input-sm" placeholder="基金管理人编码" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金管理人名称</label>
+								<input name="managementFullName" type="text" class="form-control input-sm" placeholder="基金管理人名称" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人编码</label>
+								<input name="custodian" type="text" class="form-control input-sm" placeholder="基金托管人编码" maxlength="64">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金托管人名称</label>
+								<input name="custodianFullName" type="text" class="form-control input-sm" placeholder="基金托管人名称" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资领域</label>
+								<input name="investField" type="text" class="form-control input-sm" placeholder="投资领域" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>投资目标</label>
+								<input name="investTarget" type="text" class="form-control input-sm" placeholder="投资目标" maxlength="1024">
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>基金经理</label>
+								<input name="managerName" type="text" class="form-control input-sm" placeholder="基金经理" maxlength="64">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>持有目的</label>
+								<select name='holdPorpush' class="form-control input-sm" data-enum-fetch="CASHTOOLHOLDPORPUSH" required data-error="持有目的不能为空">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>合同年天数<span style="color: red;">*</span></label><br />
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios3" value="365" checked> 365天/年
+								</label>
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios4"  value="360"> 360天/年
+								</label>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editLiquidAsset" type="button" class="btn btn-primary btn-submit editLiquidAssetSubmit">修 改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑协定存款弹窗-->
+<div id="editLiquidAssetModal_treaty" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" style="width: 600px;" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑协定存款</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="editLiquidAssetForm_treaty" name="editLiquidAssetForm_treaty" method="post">
+					<input type="hidden" name="oid" value="" />
+					<p class="form-header">协定存款概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款编号</label>
+								<input name="sn" type="text" class="form-control input-sm" placeholder="基金代码" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="基金名称" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>基本额度<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input name="baseAmount" type="text" class="form-control input-sm" placeholder="基本额度" required data-validpositive="non-zero" data-validfloat="6.6" maxlength="13" data-error="基本额度最大位整数6位小数且大于0">
+									<span class="input-group-addon">万元</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>基本年利率<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input id="baseYield_edit" name="baseYield" type="text" class="form-control input-sm" placeholder="基本年利率" required data-validpositive="non-zero" data-validfloat="4.2" maxlength="7" data-error="基本年利率最大4位整数2位小数且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>协定存款年利率<span style="color: red;"></span></label>
+								<div class="input-group input-group-sm">
+									<input id="yield_edit" name="yield" type="text" class="form-control input-sm" placeholder="协定存款年利率" required data-validpositive="non-zero" data-validfloat="4.2" maxlength="7" data-error="协定存款年利率最大4位整数2位小数且大于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name='riskLevel' class="form-control input-sm" data-enum-fetch="subjectRating">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>合同年天数<span style="color: red;">*</span></label><br />
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios3" value="365" checked> 365天/年
+								</label>
+								<label class="checkbox-inline">
+									<input type="radio" name="contractDays" id="optionsRadios4"  value="360"> 360天/年
+								</label>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<input name="type" type="hidden" value="CASHTOOLTYPE_02">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editLiquidAsset_treaty" type="button" class="btn btn-primary btn-submit editLiquidAssetTreatySubmit">修 改</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!---------------------------------------------------------------------------------------------------->
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="approveForm" name="approveForm" method="post">
+					<div class="form-group">
+						<label>确定要<span id="content"></span>申请？</label>
+						<textarea name="remark" class="form-control input-sm" placeholder="请输入审核意见" rows="3" required></textarea>
+					</div>
+					<input name="apprOid" type="hidden">
+					<input name="apprResult" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="remarkModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核意见</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div id="remark"></div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function() {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+			// 获取已激活的标签页的名称
+			var activeTab = $(e.target).text();
+			if(activeTab == "货币基金") {
+				$("#tab_switch").val("0");
+			} else {
+				$("#tab_switch").val("1");
+			}
+		});
+	});
+</script>

@@ -1,0 +1,406 @@
+<!-- 页面头部 -->
+<section class="content-header">
+  <h1>
+    推送管理
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+    <li class="active">推送管理</li>
+  </ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="bannerGrid" class="box box-primary">
+        <div class="box-header">
+        	<h3 class="box-title">推送列表</h3>
+          <div class="box-tools">
+            <button id="createPush" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建推送
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+        	<form id="searchForm" name="searchForm" method="post">
+	          <div class="row">
+	            <div class="col-sm-3">
+	              <div class="form-group">
+	                <label>标题</label>
+	                <input name="title" type="text"
+	                       class="form-control input-sm"
+	                       placeholder="搜索标题">
+	              </div>
+	            </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>状态</label>
+                  <select name="status" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="on">已推送</option>
+                    <option value="reviewed">已审核</option>
+                    <option value="pending">待审核</option>
+                    <option value="reject">已驳回</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>推送时间</label>
+	                  <div class="input-group input-group-sm">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="pushTimeBegin" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="从"
+	                           data-date-format="YYYY-MM-DD " data-date-end="pushTimeEnd">
+	                  </div>
+	                </div>
+	            </div>
+	              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>&nbsp;</label>
+	                  <div class="input-group daterange input-group-sm">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="pushTimeEnd" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="到"
+	                           data-date-format="YYYY-MM-DD " data-date-begin="pushTimeBegin">
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>分类</label>
+                  <select name="type" class="form-control input-sm">
+                  	<option value="">全部</option>
+                    <!--<option value="information">资讯</option>-->
+                    <option value="notice">公告</option>
+                    <option value="HQ">活期</option>
+                    <option value="DQ">定期</option>
+                    <option value="activity">活动</option>
+                    <option value="mail">站内信</option>
+                  </select>
+                </div>
+              </div>
+	          </div>
+	        </form>
+        	
+          <table id="pushTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>标题</th>
+                <th>摘要</th>
+                <th>分类</th>
+                <th>推送类型</th>
+                <th>推送目标</th>
+                <th>推送日期</th>
+                <th>链接</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="createModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	
+        <!-- 新增/编辑事件表单 -->
+        <form id="createForm" name="createForm" method="post">
+        	<div class="form-group col-sm-6">
+	          <label>推送类型</label>
+	          <select id="pushType" class="form-control">
+	            <option value="all" selected="selected">全站推送</option>
+	            <option value="person">个人推送</option>
+	          </select>
+	      </div>
+        	
+        	<div class="form-group col-sm-6" id="push_user" hidden>
+						<label>推送目标手机号码</label>
+						<input name="pushUserAcc" id="userOids" type="text" class="form-control input-sm" placeholder="推送目标手机号码" pattern="^1([234578])\d{9}$" data-error="请输入正确手机号！">
+						<!--<select name="userOids" id="userOids" class="form-control input-sm origin-select" multiple="multiple" data-placeholder="请选择推送目标" data-error="请选择推送目标" style="width: 100%;" required></select>-->
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<!--<div class="form-group" id="push_userAcc"  hidden>
+            <label>推送目标</label>
+            <input name="pushUserAcc" type="text" maxlength="50" class="form-control" readonly="readonly">
+          </div>-->
+          <div class="form-group col-sm-6">
+            <label>标题</label>
+            <input name="title" type="text"   maxlength="50"
+                   class="form-control"
+                   placeholder="请输入标题" required>
+          </div>
+          <div class="form-group col-sm-6">
+            <label>摘要</label>
+            <textarea name="summary" cols=80 rows=2
+                   class="form-control"
+                   placeholder="请输入摘要" required maxlength="200" style="resize: none;"></textarea>
+          </div>
+         
+          <div class="form-group col-sm-6">
+                  <label>分类</label>
+                  <select name="type" class="form-control" onclick="changeTypeUrlShow();" required>
+                    <!--<option value="information" selected="selected">资讯</option>-->
+                    <option value="notice" selected="selected">公告</option>
+                    <option value="HQ">活期</option>
+                    <option value="DQ">定期</option>
+                    <option value="activity">活动</option>
+                    <option value="mail">站内信</option>
+                  </select>
+          </div>
+          <div class="form-group col-sm-6" id="push_Url" hidden>
+            <label>链接地址</label>
+            <input name="url" type="text" 
+                   class="form-control"
+                   placeholder="请输入链接地址" maxlength="200">
+          </div>
+          <input name="oid" type="hidden" />
+          <input name="pushType" type="hidden" />
+        </form>
+        
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+        <button type="button" class="btn btn-default cancel" data-dismiss="modal">取消</button>
+        <div id="refreshDiv">
+              <i id="refreshI"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">推送详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createFormDetail" name="createFormDetail" method="post">
+        	<div class="row">
+		        	<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>标题</dt>
+										<dd>
+											<div data-detail-fetch="title"></div>
+										</dd>
+									</dl>
+							</div>
+		          <div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>摘要</dt>
+										<dd>
+											<div><textarea id="summary" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+										</dd>
+									</dl>
+							</div>
+		          <div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>分类</dt>
+										<dd>
+											<div data-detail-fetch="type" data-enum-transform="pushType"></div>
+										</dd>
+									</dl>
+							</div>
+							<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>推送类型</dt>
+										<dd>
+											<div data-detail-fetch="pushType" data-enum-transform="pushTypes"></div>
+										</dd>
+									</dl>
+							</div>
+		          <div class="col-sm-12" id="push_userAcc_detail">
+									<dl class="dl-horizontal">
+										<dt>推送目标</dt>
+										<dd>
+											<div class="break" data-detail-fetch="pushUserAcc"></div>
+										</dd>
+									</dl>
+							</div>
+		          <div class="col-sm-12" id="push_url_detail">
+									<dl class="dl-horizontal">
+										<dt>链接地址</dt>
+										<dd>
+											<div class="break" data-detail-fetch="url"></div>
+										</dd>
+									</dl>
+							</div>
+							
+		        	<div class="col-sm-6">
+									<dl class="dl-horizontal">
+										<dt>编辑人</dt>
+										<dd>
+											<div data-detail-fetch="creator"></div>
+										</dd>
+									</dl>
+							</div>
+		
+		  			<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>编辑时间</dt>
+									<dd>
+										<div id="createTimeDetail"></div>
+									</dd>
+								</dl>
+							</div>
+		
+		  			<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>审核人</dt>
+									<dd>
+										<div data-detail-fetch="review"></div>
+									</dd>
+								</dl>
+							</div>
+		
+		  			<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>审核时间</dt>
+									<dd>
+										<div id="reviewTimeDetail"></div>
+									</dd>
+								</dl>
+							</div>
+		
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>审核意见</dt>
+									<dd>
+										<div><textarea id="reviewRemarkDetail" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+									</dd>
+								</dl>
+							</div>
+		
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>推送人</dt>
+									<dd>
+										<div data-detail-fetch="pusher"></div>
+									</dd>
+								</dl>
+							</div>
+		
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>发布时间</dt>
+									<dd>
+										<div id="publishTimeDetail"></div>
+									</dd>
+								</dl>
+							</div>
+				    </div>
+        </form>
+       </div> 	
+    </div>
+  </div>
+</div>
+
+<div id="deleteConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定删除此条数据？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="publishConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定推送此条信息？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="deleteConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定删除此条信息？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">审核提示</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+          <form id="approveForm" name="approveForm" method="post">
+	          <div class="form-group">
+	            <label>审核意见：</label>
+	            <textarea name="remark" class="form-control"placeholder="请输入审核意见" rows="3" required></textarea>	            
+	          </div>
+	          <input name="oid" type="hidden">
+	          <input name="apprResult" type="hidden">
+	        </form> 
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" id="approveRefuseBut" class="btn btn-primary btn-submit approveSubmit">驳回</button>
+        <button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">通过</button>      
+      </div>
+    </div>
+  </div>
+</div>

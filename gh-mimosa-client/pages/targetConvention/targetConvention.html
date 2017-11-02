@@ -1,0 +1,399 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    标的过会管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 投资标的管理</a></li>
+		<li class="active">标的过会管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="targetConventionGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">会议列表</h3>
+					<div class="box-tools">
+						<button id="targetConventionAdd" class="btn btn-default btn-sm">
+              <i class="fa fa-plus"></i> 新建会议
+            </button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>会议编号</label>
+									<input name="sn" type="text" class="form-control input-sm" placeholder="搜索会议编号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>会议主题</label>
+									<input name="title" type="text" class="form-control input-sm" placeholder="搜索会议主题">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>会议状态</label>
+									<select name="state" class="form-control input-sm" data-enum-fetch="meetingStates" data-enum-text="全部">
+                  					</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="targetConventionTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>编号</th>
+								<th>主题</th>
+								<th>召开时间</th>
+								<th>状态</th>
+								<th>更新时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建会议弹窗 -->
+<div id="addTargetConventionModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">新建会议</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑表单 -->
+				<form id="addTargetConventionForm" name="addTargetConventionForm" method="post">
+					<div class="form-group">
+						<label>会议编号</label>
+						<input name="sn" type="text" class="form-control input-sm" placeholder="会议编号" required data-error="会议编号不能为空" maxlength="32">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>会议主题</label>
+						<input name="title" type="text" class="form-control input-sm" placeholder="会议主题" required data-error="会议主题不能为空" maxlength="64">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>参会人</label>
+						<select id="participant" name="participant" class="form-control input-sm origin-select" data-placeholder="参会人" style="width: 100%;" required>
+            			</select>
+            <div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>会议时间</label>
+						<div class="input-group input-group-sm">
+							<div class="input-group-addon">
+								<i class="fa fa-calendar"></i>
+							</div>
+							<input name="conferenceTime" type="text" class="form-control datepicker" placeholder="会议时间" data-date-format="YYYY-MM-DD HH:mm:ss" required>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>相关标的</label>
+						<select id="target" name="target" class="form-control input-sm origin-select" data-placeholder="相关标的" style="width: 100%;" required>
+            			</select>
+            <div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addMeeting" type="button" class="btn btn-primary btn-submit addTargetConventionSubmit">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 会议报告弹窗 -->
+<div id="targetConventionReportModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">会议报告</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="targetConventionReportModalForm" name="targetConventionReportModalForm" method="post">
+					<input id="reoid" name="oid" type="hidden" data-detail-fetch="oid" value="" />
+					<p class="form-header">会议详情</p>
+					<dl class="dl-horizontal">
+						<dt>会议主题:</dt>
+						<dd>
+							<div data-detail-fetch="title"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>会议状态:</dt>
+						<dd>
+							<div data-detail-fetch="state" data-enum-transform="meetingStates"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>会议时间:</dt>
+						<dd>
+							<div data-detail-fetch="conferenceTime"></div>
+						</dd>
+					</dl>
+				</form>
+				<p class="form-header">报告内容</p>
+				<table id="targetConventionReportTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>标的名称</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 过会纪要弹窗 -->
+<div id="targetConventionSummaryModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">过会纪要</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 主体Grid -->
+						<div class="box box-primary">
+							<!-- Grid头部 -->
+							<div class="box-header">
+								<h3 class="box-title"></h3>
+								<div class="box-tools">
+									<button id="targetConventionSummaryUpload" class="btn btn-default btn-sm">
+                    <i class="fa fa-upload"></i> 上传纪要
+                  </button>
+                  					<button id="targetConventionSummaryBatchDownload" class="btn btn-default btn-sm">
+                    <i class="fa fa-download"></i> 批量下载
+                  </button>
+                  <input type="hidden" id="batchFkey" value="" />
+								</div>
+							</div>
+							<!-- Grid内容体 -->
+							<div class="box-body">
+								<!-- 主体数据表格 -->
+								<table id="targetConventionSummaryTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>纪要名称</th>
+											<th>上传人员</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 上传纪要弹窗 -->
+<div id="uploadTargetConventionSummaryModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">上传纪要</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 编辑表单 -->
+				<form id="uploadTargetConventionSummaryForm" name="uploadTargetConventionSummaryForm" method="post">
+					<input type="hidden" name="meetingOid" value="" data-detail-fetch="oid" />
+					<dl class="dl-horizontal">
+						<dt>会议编号:</dt>
+						<dd>
+							<div data-detail-fetch="sn"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>会议主题:</dt>
+						<dd>
+							<div data-detail-fetch="title"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>会议时间:</dt>
+						<dd>
+							<div data-detail-fetch="conferenceTime"></div>
+						</dd>
+					</dl>
+					<input name="files" type="hidden" />
+				</form>
+				<div class="form-group" id="uploader"></div>
+				<table id="uploadTargetConventionSummaryTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>附件名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doUploadTargetConventionSummary" type="button" class="btn btn-primary btn-submit">上 传</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 会议确认弹窗 -->
+<div id="finishTargetConventionModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">会议确认</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<table id="finishTargetConventionTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>标的名称</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+				<form id="finishTargetConventionForm" name="finishTargetConventionForm" method="post">
+					<input type="hidden" id="finishOid" name="oid" value="" />
+					<div class="form-group">
+						<h6>备注</h6>
+						<textarea name="meetingRemark" rows="3" class="form-control input-sm" placeholder="备注"></textarea>
+					</div>
+					<input name="targets" type="hidden" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doFinishTargetConvention" type="button" class="btn btn-primary btn-submit">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 会议确认通过 添加检查项 弹窗 -->
+<div id="checkConditionsModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">确认通过 - 添加检查项</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<table id="checkConditionsTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>检查项名称</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取 消</button>
+				<button id="doAddCheckConditions" type="button" class="btn btn-primary btn-sm">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 会议确认驳回 驳回理由 弹窗 -->
+<div id="rejectCommentModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">驳回 - 填写理由</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="rejectForm" name="rejectForm">
+					<div class="form-group">
+						<h6>驳回理由</h6>
+						<textarea name="rejectComment" rows="3" class="form-control input-sm" placeholder="请填写驳回理由"></textarea>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取 消</button>
+				<button id="doAddRejectComment" type="button" class="btn btn-primary btn-sm">确 认</button>
+			</div>
+		</div>
+	</div>
+</div>

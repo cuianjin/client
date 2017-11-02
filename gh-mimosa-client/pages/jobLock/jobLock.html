@@ -1,0 +1,146 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    定时任务管理
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 定时任务管理</a>
+		</li>
+		
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="productDesignGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">定时任务列表</h3>
+				
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>任务id</label>
+									<input name="jobId" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索任务id">
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>执行日期</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input id="inDate" name="inDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="">
+								</div>
+								<input type="hidden" id="token" name="token" value=""/>  
+
+							</div>
+						</div>
+					</div>
+					<!-- 主体数据表格 -->
+					<table id="productDesignTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>任务名称</th>
+								<th>任务id</th>
+								<th>任务执行时间</th>
+								<th>任务状态</th>
+								<th>创建时间</th>
+								<th>修改时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- 提示信息弹窗 -->
+<div id="alertModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body" id="alertMessage">
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="productDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">定时任务日志</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchLogForm" name="searchLogForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>创建时间</label>
+									<input id="createTime" name="createTime" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>任务状态</label>
+									<select name="jobStatus" class="form-control input-sm">
+										<option value="">全部</option>
+										<option value="success">成功</option>
+										<option value="failed">失败</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="JobLogTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>任务名称</th>
+								<th>任务状态</th>
+								<th>本批次起始时间</th>
+								<th>批次结束时间</th>
+								<th>报错信息</th>
+								<th>IP</th>
+								<th>创建时间</th>
+								<th>更新时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,193 @@
+<link href="assets/js/jstree/themes/default/style.min.css" rel="stylesheet">
+<style>
+    .left {
+        float: left;
+        width: 23%;
+        margin-right: 2%;
+        height: 800px;
+        overflow: auto;
+    }
+
+    .right {
+        float: right;
+        width: 70%;
+        padding: 0 0;
+        margin: 0 0;
+        margin-right: 5%;
+    }
+
+    .div1 {
+        height: 60px;
+        background-color: #fafafa;
+    }
+
+    .p-line {
+        line-height: 40px;
+        float: left;
+    }
+
+    .p-select {
+        margin-top: 15px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .div2 {
+        border: 1px solid #eeeeee;
+        margin-top: 20px;
+    }
+
+    .span {
+        color: red;
+    }
+
+    .theader {
+        background-color: #fafafa;
+    }
+    section.content .table{min-width: 0;text-align: inherit;}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    模板管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> 内容管理</li>
+		<li class="active">模板管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="box box-primary clearfix">
+
+    <div class="left">
+       <div id="tree" class="jstree jstree-1 jstree-default jstree-default-large" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="j1_25" aria-busy="false"><ul class="jstree-container-ul jstree-children" role="group"><li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j1_1_anchor" aria-expanded="true" id="j1_1" class="jstree-node  jstree-open jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_1_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>根目录
+                    </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_2_anchor" aria-expanded="false" id="j1_2" class="jstree-node  jstree-closed"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_2_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>栏目
+                            </a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_8_anchor" aria-expanded="true" id="j1_8" class="jstree-node  jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_8_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>文章
+                            </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_9_anchor" id="j1_9" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_9_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>新闻公告</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_10_anchor" id="j1_10" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_10_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>公告文章</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_11_anchor" aria-expanded="true" id="j1_11" class="jstree-node jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_11_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>单页
+                            </a><ul role="group" class="jstree-children" style=""><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_12_anchor" id="j1_12" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_12_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>公告栏目_单页</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_13_anchor" id="j1_13" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_13_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>公告栏目_关于我们</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_14_anchor" id="j1_14" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_14_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>动态加载
+                        </a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_15_anchor" id="j1_15" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_15_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>自定义</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_16_anchor" aria-expanded="true" id="j1_16" class="jstree-node jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_16_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>公用
+                            </a><ul role="group" class="jstree-children" style=""><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_17_anchor" id="j1_17" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_17_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>样式</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_18_anchor" id="j1_18" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_18_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>导航栏</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_19_anchor" id="j1_19" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_19_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>分页</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_20_anchor" id="j1_20" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_20_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>信息大厅</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_21_anchor" id="j1_21" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_21_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>特殊</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_22_anchor" aria-expanded="true" id="j1_22" class="jstree-node jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_22_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>首页
+                            </a><ul role="group" class="jstree-children" style=""><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_23_anchor" id="j1_23" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_23_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>首页备份</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_24_anchor" id="j1_24" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_24_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>首页</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_25_anchor" id="j1_25" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_25_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>会员</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_26_anchor" aria-expanded="true" id="j1_26" class="jstree-node  jstree-last jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_26_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>嵌入
+                            </a><ul role="group" class="jstree-children" style=""><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_27_anchor" id="j1_27" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_27_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>顶部</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_28_anchor" id="j1_28" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_28_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>页脚</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_29_anchor" id="j1_29" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_29_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面7_投资平台</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_30_anchor" id="j1_30" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_30_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面6_合作金融机构</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_31_anchor" id="j1_31" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_31_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面5_资讯要闻</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_32_anchor" id="j1_32" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_32_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面4_投资平台</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_33_anchor" id="j1_33" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_33_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面3_右侧</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_34_anchor" id="j1_34" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_34_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面2_登录图片轮播</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_35_anchor" id="j1_35" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_35_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面1_头部</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_36_anchor" id="j1_36" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_36_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面12_当前栏目文职提示</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_37_anchor" id="j1_37" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_37_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面11_导航栏</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_38_anchor" id="j1_38" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_38_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>相关页面10_接口测试</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_39_anchor" id="j1_39" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_39_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>二级栏目</a></li></ul></li></ul></li></ul></div>
+    </div>
+    <div class="right">
+        <div class="div2">
+            <table class="table ">
+                <thead>
+                <tr class="theader">
+                    <td style="width: 50px"><input type="checkbox"></td>
+                    <td style="width: 50%">文件名</td>
+                    <td>最后修改时间</td>
+                    <td style="width: 150px">操作选项</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>栏目</td>
+                    <td>2016年9月24日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>文章</td>
+                    <td>2016年9月14日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>单页</td>
+                    <td>2016年9月20日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>动态加载</td>
+                    <td>2016年9月24日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>自定义</td>
+                    <td>2016年9月23日10:15:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>公用</td>
+                    <td>2016年9月22日15:35:50</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>特殊</td>
+                    <td>2016年9月24日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>单页</td>
+                    <td>2016年9月20日16:25:13</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>会员</td>
+                    <td>2016年9月24日12:35:53</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>嵌入</td>
+                    <td>2016年9月21日18:38:01</td>
+                    <td>
+                        <a>重命名</a>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</section>

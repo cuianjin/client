@@ -1,0 +1,324 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    SPV管理
+  </h1>
+	<ol class="breadcrumb">
+		<li class="active">SPV管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="spvGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">SPV列表</h3>
+					<div class="box-tools">
+						<button id="spvAdd" class="btn btn-default btn-sm">
+							<i class="fa fa-plus"></i> 新建
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label>关键字</label>
+									<input name="keyword" type="text" class="form-control input-sm" placeholder="搜索关键字">
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- 主体数据表格 -->
+					<table id="spvTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>公司简称</th>
+								<th>公司名称</th>
+								<th>账户类型</th>
+								<th>账户账号</th>
+								<th>企业网址</th>
+								<th>企业地址</th>
+								<th>联系人</th>
+								<th>联系电话</th>
+								<th>E-mail</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建订单弹窗 -->
+<div id="addSPVModal" class="modal fade bs-example-modal-mi" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mi" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="addSPVForm" name="addSPVForm" method="post">
+					<div class="form-group">
+						<label>公司简称</label>
+						<input name="name" type="text" class="form-control input-sm" placeholder="公司简称" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>公司名称</label>
+						<input name="companyName" type="text" class="form-control input-sm" placeholder="公司名称" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>账户类型</label>
+						<select name="accountType" class="form-control input-sm">
+							<option value="UPSPLAT" selected="selected">虚拟账户</option>
+							<option value="BNKCARD">银行结算账户</option>
+						</select>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>账户账号</label>
+						<input name="accountNo" type="text" class="form-control input-sm" placeholder="账户账号" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>企业网址</label>
+						<input name="website" type="text" class="form-control input-sm" placeholder="企业网址">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>企业地址</label>
+						<input name="address" type="text" class="form-control input-sm" placeholder="企业地址">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>联系人</label>
+						<input name="contact" type="text" class="form-control input-sm" placeholder="联系人">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>联系电话</label>
+						<input name="telephone" type="text" class="form-control input-sm" placeholder="联系电话">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>E-mail</label>
+						<input name="email" type="text" class="form-control input-sm" placeholder="E-mail">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>营业执照</label>
+						<input name="licenceNo" type="text" class="form-control input-sm" placeholder="营业执照">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addSPVSubmit" type="button" class="btn btn-primary btn-submit addSPVSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑订单弹窗 -->
+<div id="editSPVModal" class="modal fade bs-example-modal-mi" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mi" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="editSPVForm" name="editSPVForm" method="post">
+					<input name="oid" type="hidden" />
+					<input name="status" type="hidden" />
+					<div class="form-group">
+						<label>公司简称</label>
+						<input name="name" type="text" class="form-control input-sm" placeholder="公司简称" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>公司名称</label>
+						<input name="companyName" type="text" class="form-control input-sm" placeholder="公司名称" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>账户类型</label>
+						<select name="accountType" class="form-control input-sm">
+							<option value="UPSPLAT" selected="selected">虚拟账户</option>
+							<option value="BNKCARD">银行结算账户</option>
+						</select>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>账户账号</label>
+						<input name="accountNo" type="text" class="form-control input-sm" placeholder="账户账号" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>企业网址</label>
+						<input name="website" type="text" class="form-control input-sm" placeholder="企业网址">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>企业地址</label>
+						<input name="address" type="text" class="form-control input-sm" placeholder="企业地址">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>联系人</label>
+						<input name="contact" type="text" class="form-control input-sm" placeholder="联系人">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>联系电话</label>
+						<input name="telephone" type="text" class="form-control input-sm" placeholder="联系电话">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>E-mail</label>
+						<input name="email" type="text" class="form-control input-sm" placeholder="E-mail">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>营业执照</label>
+						<input name="licenceNo" type="text" class="form-control input-sm" placeholder="营业执照">
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editSPVSubmit" type="button" class="btn btn-primary btn-submit editSPVSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 订单审核确定弹窗 -->
+<div id="detailModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>公司简称:</dt>
+					<dd>
+						<div data-detail-fetch="name"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>公司名称:</dt>
+					<dd>
+						<div data-detail-fetch="companyName"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>账户类型:</dt>
+					<dd>
+						<div data-detail-fetch="accountType"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>账户账号:</dt>
+					<dd>
+						<div data-detail-fetch="accountNo"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>企业网址:</dt>
+					<dd>
+						<div data-detail-fetch="website"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>企业地址:</dt>
+					<dd>
+						<div data-detail-fetch="address"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>联系人:</dt>
+					<dd>
+						<div data-detail-fetch="contact"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>联系电话:</dt>
+					<dd>
+						<div data-detail-fetch="telephone"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>E-mail:</dt>
+					<dd>
+						<div data-detail-fetch="email"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>营业执照:</dt>
+					<dd>
+						<div data-detail-fetch="licenceNo"></div>
+					</dd>
+				</dl>
+				<dl class="dl-horizontal">
+					<dt>状态:</dt>
+					<dd>
+						<div data-detail-fetch="status"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="doConfirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定执行？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

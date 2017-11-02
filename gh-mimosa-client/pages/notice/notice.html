@@ -1,0 +1,621 @@
+<!-- 页面头部 -->
+<section class="content-header">
+  <h1>
+    公告管理
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+    <li class="active">公告管理</li>
+  </ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="noticeGrid" class="box box-primary">
+        <div class="box-header">
+        	<h3 class="box-title">公告列表</h3>
+          <div class="box-tools">
+            <button id="createNotice" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建公告
+            </button>            
+          </div>                  
+        </div>
+        <div class="box-body">
+        	<form id="searchForm" name="searchForm" method="post">
+	          <div class="row">
+	          	<div class="col-sm-3">
+	              <div class="form-group">
+	                <label>渠道</label>
+	               	<select name="channelOid" class="form-control input-sm" data-enum-fetch="channelTypes" data-enum-text="全部"></select>
+	              </div>
+	            </div>
+	            <div class="col-sm-3">
+	              <div class="form-group">
+	                <label>标题</label>
+	                <input name="title" type="text"
+	                       class="form-control input-sm"
+	                       placeholder="搜索标题">
+	              </div>
+	            </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>审核状态</label>
+                  <select name="approveStatus" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="toApprove">待审批</option>
+                    <option value="pass">通过</option>
+                    <option value="refused">驳回</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>上架状态</label>
+                  <select name="releaseStatus" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="wait">待上架</option>
+                    <option value="ok">已上架</option>
+                    <option value="no">已下架</option>                   
+                  </select>
+                </div>
+              </div>  
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>角标</label>
+                  <select name="subscript" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="New">New</option>
+                    <option value="Hot">Hot</option>  
+                    <option value="无">无</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>上架时间:</label>
+                  <div class="input-group input-group-sm">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input name="reqTimeBegin" type="text"
+                           class="form-control datepicker input-sm"
+                           placeholder="从"
+                           data-date-format="YYYY-MM-DD" data-date-end="reqTimeEnd">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>&nbsp;</label>
+                  <div class="input-group daterange input-group-sm">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input name="reqTimeEnd" type="text"
+                           class="form-control datepicker input-sm"
+                           placeholder="到"
+                           data-date-format="YYYY-MM-DD" data-date-begin="reqTimeBegin">
+                  </div>
+                </div>
+              </div>
+	          </div>
+	        </form>
+        	
+          <table id="noticeTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>标题</th>                
+                <th>链接</th>
+                <th>角标</th>
+                <th>首页推荐</th> 
+                <th>置顶</th>
+                <th>发布来源</th>
+                <th>审核状态</th>              
+                <th>上架状态</th>
+                <th>发布人</th>   
+                <th>上架时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="createModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<ul class="nav nav-tabs" role="tablist">
+			    <li id="li1" role="presentation" class="presentation active"><a href="#tabcon1" aria-controls="转发公告" role="tab" data-toggle="tab">转发公告</a></li>
+			    <li id="li2" role="presentation" class="presentation"><a href="#tabcon2" aria-controls="自建公告" role="tab" data-toggle="tab">自建公告</a></li>
+			    <li role="presentation" class="presentation"><a href="#tabcon3" aria-controls="图片管理" role="tab" data-toggle="tab">图片管理</a></li>
+			  </ul>
+			  <div class="tab-content">
+			    <div role="tabpanel" class="tab-pane active" id="tabcon1">
+			    	<form id="create1Form" name="create1Form" method="post">
+		         	<div class="form-group col-sm-4">
+			          <label>所属渠道</label>
+			            <select name="channelOid" class="form-control input-sm" data-enum-fetch="channelTypes" required></select>
+		          </div>
+		         	<div class="form-group col-sm-4">
+		            <label>标题</label>
+		            <input name="title" type="text"
+		                   class="form-control"
+		                   placeholder="请输入标题" required maxlength="60">
+		          </div>
+		          <div class="form-group col-sm-4">
+		            <label>链接地址</label>
+		            <input name="linkUrl" type="text"
+		                   class="form-control"
+		                   placeholder="例如：http://www.baidu.com" required maxlength="250">
+		          </div>
+		          <div class="form-group col-sm-4">
+		            <label>角标</label>
+		            <select name="subscript" class="form-control" required>                    
+		                    <option value="New">New</option>
+		                    <option value="Hot">Hot</option>  
+		                    <option value="无">无</option>
+		            </select>
+		          </div>
+		          <div class="form-group col-sm-4">
+		            <label>发布来源</label>
+		            <input name="sourceFrom" type="text"
+		                   class="form-control"
+		                   placeholder="请输入发布来源" required maxlength="60">
+		          </div>
+		          <input name="oid" type="hidden" />        
+		          <input name="linkHtml" type="hidden" />
+		        </form>
+		        <div class="modal-footer box bt0">
+			        <button id="create1Submit" type="button" class="btn btn-primary btn-submit create1Submit">确 定</button>
+			        <button id="" type="button" class="btn btn-default cancel" data-dismiss="modal">取 消</button>
+			        <div id="refreshDiv1">
+					          <i id="refreshI1"></i>
+					    </div>
+			      </div>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="tabcon2">
+			    	<form id="create2Form" name="create2Form" method="post">
+		          <div class="form-group col-sm-4">
+			          <label>所属渠道</label>
+			            <select name="channelOid" class="form-control input-sm" data-enum-fetch="channelTypes" required></select>
+		          </div>
+		          <div class="form-group col-sm-4">
+		            <label>标题</label>
+		            <input name="title" type="text"
+		                   class="form-control"
+		                   placeholder="请输入标题" required maxlength="60">
+		          </div>
+		          <div class="form-group col-sm-4">
+		            <label>角标</label>
+		            <select name="subscript" class="form-control" required>                    
+		                    <option value="New">New</option>
+		                    <option value="Hot">Hot</option>  
+		                    <option value="无">无</option>
+		            </select>
+		          </div>
+		          <div class="form-group col-sm-12">
+		            <label>新建公告</label>
+		            <textarea id="editoraction2" name="" class="form-control">
+					    		
+						    </textarea>
+		          </div>
+		          
+		          <input name="oid" type="hidden" />        
+		          <input name="linkHtml" type="hidden" />
+		          <input name="linkUrl" type="hidden" />        
+		          <input name="sourceFrom" type="hidden" />
+		        </form>
+			    	<div class="modal-footer box bt0">
+			        <button id="create2Submit" type="button" class="btn btn-primary btn-submit create2Submit">确 定</button>
+			        <button id="" type="button" class="btn btn-default cancel" data-dismiss="modal">取 消</button>
+			        <div id="refreshDiv2">
+			              <i id="refreshI2"></i>
+			        </div>
+			      </div>
+			    </div>
+			    <div role="tabpanel" class="tab-pane" id="tabcon3">
+			    	<div class="row">
+					    <div class="col-xs-12">
+					      <div id="bannerGrid" class="box box-primary">
+					        <div class="box-header with-border">
+					        	<h3 class="box-title">&nbsp;</h3>
+					          <div class="box-tools">
+					            <button id="createImages" class="btn btn-primary btn-sm">
+					              <i class="fa fa-plus"></i> 新建
+					            </button>
+					          </div>
+					          
+					        	<form id="search1Form" name="search1Form" method="post">
+						          <div class="row">
+						            <div class="col-sm-3">
+						              <div class="form-group">
+						                <label>图片名称</label>
+						                <input name="imgName" type="text"
+						                       class="form-control"
+						                       placeholder="搜索图片名称">
+						              </div>
+						            </div>
+						            <div class="col-sm-3">
+					                <div class="form-group">
+					                  <label>创建时间:</label>
+					                  <div class="input-group">
+					                    <div class="input-group-addon">
+					                      <i class="fa fa-calendar"></i>
+					                    </div>
+					                    <input name="reqTimeBegin" type="text"
+					                           class="form-control datepicker"
+					                           placeholder="从"
+					                           data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="reqTimeEnd">
+					                  </div>
+					                </div>
+					              </div>
+					              <div class="col-sm-3">
+					                <div class="form-group">
+					                  <label>&nbsp;</label>
+					                  <div class="input-group daterange">
+					                    <div class="input-group-addon">
+					                      <i class="fa fa-calendar"></i>
+					                    </div>
+					                    <input name="reqTimeEnd" type="text"
+					                           class="form-control datepicker"
+					                           placeholder="到"
+					                           data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="reqTimeBegin">
+					                  </div>
+					                </div>
+					              </div>
+						          </div>
+						        </form>
+					        </div>
+					        <div class="box-body">
+					          <table id="imagesTable" class="table table-bordered table-striped">
+					            <thead>
+					              <tr>
+					                <th>序号</th>
+					                <th>图片名称</th>
+					                <th>访问地址</th>
+					                <th>图片</th>                                
+					                <th class="align-right">创建时间</th>
+					                <th>操作</th>
+					              </tr>
+					            </thead>
+					          </table>
+					        </div>
+					      </div>
+					    </div>
+					  </div>
+			    </div>
+			  </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="create1Modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close addIamgeModalClose">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">上传图片</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createForm" name="createForm" method="post">
+          <div class="form-group">
+            <label>图片名称</label>
+            <input name="imgName" type="text"
+                   class="form-control"
+                   placeholder="图片名称" required maxlength="60">
+          </div>
+         
+			    <input name="imgUrl" type="hidden" />			   
+        </form>
+        <!-- 图片上传表单 -->
+        <form id="picForm" name="picForm" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>图片</label>
+            <input name="imageFile" type="file"
+            				class="form-control"
+									 data-validjpgpng="jpgpng"
+									 data-validjpgpng-error="格式仅限JPG、PNG；只可上传一张" required>
+									 <div class="help-block with-errors text-red"></div>
+          </div>
+        </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+        <button type="button" class="btn btn-default cancel addIamgeModalClose">取消</button>
+        <div id="refreshDiv">
+              <i id="refreshI"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="confirmDiv" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p></p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">审核提示</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+          <form id="approveForm" name="approveForm" method="post">
+	          <div class="form-group">
+	            <label>公告标题：<span id="noticeTitle"></span></label>
+	            <textarea name="remark" class="form-control"placeholder="请输入审核意见" rows="3" required></textarea>	            
+	          </div>
+	          <input name="oid" type="hidden">	
+	          <input name="approveStatus" type="hidden">
+	        </form> 
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" id="refusedBut" class="btn btn-primary btn-submit approveSubmit">驳回</button>
+        <button type="button" id="passBut" class="btn btn-primary btn-submit approveSubmit">通过</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 公告上架模态窗 默认大小窗体 -->
+<div id="onShelfModal" class="modal fade item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">上架</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+          <form id="onShelfForm" name="onShelfForm" method="post">
+	          <div class="form-group">
+	             <div class="input-group daterange">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input name="onShelfTime" type="text"
+                           class="form-control datepicker"
+                           placeholder="请输入上架时间"
+                           data-date-format="YYYY-MM-DD" required>
+                  </div>	            
+	          </div>
+	          <input name="oid" type="hidden">
+	          <input name="releaseStatus" type="hidden" value="ok">	          
+	        </form> 
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" id="onShelfBut" class="btn btn-primary btn-submit onShelfSubmit">上架</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<form id="detailForm" name="detailForm" method="post">					
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>所属渠道</dt>
+								<dd>
+									<div data-detail-fetch="channelOid" data-enum-transform="channelTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标题</dt>
+								<dd>
+									<div data-detail-fetch="title"></div>
+								</dd>
+							</dl>
+						</div>
+
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>角标</dt>
+								<dd>
+									<div data-detail-fetch="subscript"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+		      	<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>链接</dt>
+								<dd>
+									<div class="break" data-detail-fetch="linkUrl"></div>
+								</dd>
+							</dl>
+						</div>
+						
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发布来源</dt>
+								<dd>
+									<div data-detail-fetch="sourceFrom"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>图文内容</dt>
+								<dd>
+									<div style="width: 85%;"><textarea id="linkHtml" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+								</dd>
+							</dl>
+						</div>
+						
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>首页推荐</dt>
+								<dd>
+									<div data-detail-fetch="page" data-enum-transform="pageStatus"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>置顶</dt>
+								<dd>
+									<div data-detail-fetch="top" data-enum-transform="topStatus"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑人</dt>
+								<dd>
+									<div data-detail-fetch="operator"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑时间</dt>
+								<dd>
+									<div id="updateTime"></div>
+								</dd>
+							</dl>
+						</div>
+      	
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核状态</dt>
+								<dd>
+									<div data-detail-fetch="approveStatus" data-enum-transform="approveStatus"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核人</dt>
+								<dd>
+									<div data-detail-fetch="approveOpe"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>审核意见</dt>
+								<dd>
+									<div><textarea id="detailRemark" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>审核时间</dt>
+								<dd>
+									<div id="approveTime"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>发布人</dt>
+								<dd>
+									<div data-detail-fetch="releaseOpe"></div>
+								</dd>
+							</dl>
+						</div>						
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>上架状态</dt>
+								<dd>
+									<div data-detail-fetch="releaseStatus" data-enum-transform="releaseStatus"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>上架时间</dt>
+								<dd>
+									<div id="onShelfTime"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>上下架操作时间</dt>
+								<dd>
+									<div id="releaseTime"></div>
+								</dd>
+							</dl>
+						</div>
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>
+</div>

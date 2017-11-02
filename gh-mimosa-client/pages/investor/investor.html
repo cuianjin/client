@@ -1,0 +1,1079 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    持有人名册管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 运营管理</a></li>
+		<li class="active">持有人名册管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="productAuditGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">持有人名册列表</h3>
+					<div class="box-tools">
+						<button id="generateFile" class="btn btn-primary btn-sm">
+							<i class="fa"></i> 持有人手册文件生成 	
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品名称</label>
+									<input name="productName" type="text" class="form-control input-sm" placeholder="搜索产品名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品编号</label>
+									<input name="productCode" type="text" class="form-control input-sm" placeholder="搜索产品编号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>产品类型</label>
+									<select name="productType" class="form-control input-sm" data-enum-fetch="checkProductType" data-enum-text="全部">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>持有状态</label>
+									<select name="holdStatus" class="form-control">
+										<option value="" selected="selected">全部</option>
+										<option value="toConfirm">待确认</option>
+										<option value="holding">持有中</option>
+										<option value="expired">已到期</option>
+										<option value="partHolding">部分持有</option>
+										<option value="closed">已结算</option>
+										<option value="abandoned">已作废</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户类型</label>
+									<select name="accountType" class="form-control input-sm" data-enum-fetch="accountType" data-enum-text="全部">
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资人账号</label>
+									<input name="phoneNum" type="text" class="form-control input-sm" placeholder="搜索投资人账号">
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>投资人账号</th>
+								<th>产品编号</th>
+								<th>产品名称</th>
+								<th>预期年化收益率(%)</th>
+								<th>总份额(份)</th>
+								<th>持有份额(份)</th>
+								<th>赎回待确认(份)</th>
+								<th>待确认投资份额(份)</th>
+								<th>累计投资(份)</th>
+								<th>可计息份额(份)</th>
+								<th>可赎回份额(份)</th>
+								<th>赎回锁定份额(份)</th>
+								<th>最新市值(元)</th>
+								<th>体验金(份)</th>
+								<th>累计收益(元)</th>
+								<th>累计基础收益(元)</th>
+								<th>累计奖励收益(元)</th>
+								<th>累计加息券收益(元)</th>
+								<th>昨日收益(元)</th>
+								<th>昨日基础收益(元)</th>
+								<th>昨日奖励收益(元)</th>
+								<th>昨日加息收益(元)</th>
+								<th>最近派息日</th>
+								<th>预期收益(元)</th>
+								<th>账户类型</th>
+								<th>单日赎回份额(份)</th>
+								<th>单日投资份额(份)</th>
+								<th>单日赎回次数(次)</th>
+								<th>最大持有份额(份)</th>
+								<th>持仓状态</th>
+								<th>最近投资时间</th>
+								<th>产品分期号</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 投资者详情弹窗 -->
+<div id="investorDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document" style="width: 1500px;">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          	<span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title">零售投资人名册详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- tabs -->
+				<div class="nav-tabs-custom">
+					<!-- tab页签定义，注意对应 href 对应的 id -->
+					<ul class="nav nav-tabs" role="tablist">
+						<!--<li role="presentation" class="active">
+							<a href="#currHoldtab" role="tab" data-toggle="tab">持仓明细</a>
+						</li>-->
+						<!--<li role="presentation">
+							<a href="#hisHoldtab" role="tab" data-toggle="tab">历史持仓明细</a>
+						</li>-->
+						<li role="presentation" class="active">
+							<a href="#ordertab" role="tab" data-toggle="tab">订单明细</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<!--当前持仓明细panel -->
+						<!--<div class="tab-pane active" role="tabpanel" id="currHoldtab">
+							<table id="currHoldTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>渠道名称</th>
+										<th>产品名称</th>
+										<th>本金份额(份)</th>
+										<th>持仓份额(份)</th>
+										<th>基础收益(元)</th>
+										<th>奖励收益(元)</th>
+										<th>起息日</th>
+										<th>计息状态</th>
+										<th>基础收益率(%)</th>
+										<th>奖励收益率(%)</th>
+										<th>奖励阶梯</th>
+										<th>持仓天数(天)</th>
+									</tr>
+								</thead>
+							</table>
+						</div>-->
+						<!-- 历史持仓明细panel -->
+						<!--<div class="tab-pane" role="tabpanel" id="hisHoldtab">
+							<table id="hisHoldTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>渠道名称</th>
+										<th>本金份额</th>
+										<th>基础收益</th>
+										<th>奖励收益</th>
+										<th>持仓天数</th>
+										<th>奖励收益率</th>
+									</tr>
+								</thead>
+							</table>
+						</div>-->
+						<!-- 订单明细panel -->
+						<div class="tab-pane active" role="tabpanel" id="ordertab">
+							<form id="orderForm" name="orderForm" method="post" class="">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>订单号</label>
+											<input name="orderCode" type="text"
+												   class="form-control"
+												   placeholder="搜索订单号">
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>订单类型</label>
+											<select name="orderType" class="form-control">
+												<option value="" selected="selected">全部</option>
+												<option value="invest">申购</option>
+												<option value="normalRedeem">赎回</option>
+												<option value="clearRedeem">清盘赎回</option>
+												<option value="cash">还本付息</option>
+												<option value="cashFailed">募集失败退款</option>
+												<option value="expGoldInvest">体验金投资</option>
+												<option value="expGoldRedeem">体验金赎回</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>订单状态</label>
+											<select name="orderStatus" class="form-control">
+												<option value="" selected>全部</option>
+												<option value="submitted">已提交</option>
+												<option value="submitFailed">提交失败</option>
+												<option value="toPay">待支付</option>
+												<option value="payFailed">支付失败</option>
+												<option value="paySuccess">已支付</option>
+												<option value="refused">已拒绝</option>
+												<option value="accepted">已受理</option>
+												<option value="confirmed">已确认</option>
+												<option value="confirmFailed">份额确认失败</option>
+												<!--<option value="done">成交</option>
+												<option value="toRefund">等待退款</option>
+												<option value="refunded">已退款</option>
+												<option value="abandoned">已作废</option>
+												<option value="payExpired">已过期</option>-->
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>创建时间</label>
+											<div class="input-group">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input name="createTimeBegin" type="text"
+													   class="form-control datepicker"
+													   placeholder="从"
+													   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="createTimeEnd">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label>&nbsp;</label>
+											<div class="input-group daterange">
+												<div class="input-group-addon">
+													<i class="fa fa-calendar"></i>
+												</div>
+												<input name="createTimeEnd" type="text"
+													   class="form-control datepicker"
+													   placeholder="到"
+													   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="createTimeBegin">
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+							<table id="orderTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>订单号</th>
+										<th>订单金额(元)</th>
+										<th>卡券类型</th>
+										<th>奖励</th>
+										<th>实付金额(元)</th>
+										<th>订单类型</th>
+										<th>订单状态</th>
+										<!--<th>产品编号</th>-->
+										<th>产品名称</th>
+										<th>创建时间</th>
+										<th>创建人</th>
+										<!--<th>投资人清算状态</th>
+										<th>投资人结算状态</th>-->
+										<th>发行人清算状态</th>
+										<th>发行人确认状态</th>
+										<th>发行人结算状态</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3> 
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 投资者详情弹窗 -->
+<div id="spvDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          	<span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title">发行人名册详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+		        <div class="row">
+		          	<div class="col-xs-12">
+		            <!-- 出入金明细Grid -->
+		            	<div class="box box-primary">
+		              		<div class="box-body">
+		                		<!-- 出入金明细数据表格 -->
+		                		<table id="spvDetailTable" class="table table-bordered table-striped">
+			                  		<thead>
+			                    		<tr>
+			                      			<th>订单号</th>
+			                      			<th>资产池名称</th>
+			                      			<th>交易类型</th>
+			                      			<th>订单类型</th>
+			                      			<th>订单金额(万元)</th>
+			                      			<th>订单日期</th>
+			                      			<th>订单状态</th>
+			                    		</tr>
+			                  		</thead>
+			                	</table>
+			              	</div>
+			            </div>
+			        </div>
+	        	</div>
+	      	</div>
+		</div>
+	</div>
+</div>
+
+<!-- 订单支付日志模态窗 默认大小 -->
+<div id="orderLogModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">订单支付日志明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<form id="orderLogSearchForm" name="orderLogSearchForm" method="post" class="box-header">
+									<div class="row">
+										<div class="col-sm-4 pcacha-input-1">
+											<div class="form-group">
+												<label>接口名称</label>
+												<input name="interfaceName" type="text" class="form-control input-sm" placeholder="搜索接口名称">
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="orderLogDataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>接口名称</th>
+											<th>订单号</th>
+											<th>支付流水号</th>
+											<th>交易类型</th>
+											<th>接口返回码</th>
+											<th>已发送次数</th>
+											<th>最多发送次数</th>
+											<th>下次调用时间</th>
+											<th>&nbsp;&nbsp;创建时间&nbsp;&nbsp;</th>
+											<th>&nbsp;&nbsp;更新时间&nbsp;&nbsp;</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 接口日志详情弹窗 -->
+<div id="interfaceDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">接口日志详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">结算系统接口日志详情</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>发送消息内容:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="content"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>接口错误消息:</dt>
+							<dd class="modal-break">
+								<div id="errorMessage"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 产品详情弹窗 -->
+<div id="productDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">产品详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">产品概况</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品编号:</dt>
+							<dd id="detcode">
+								<div data-detail-fetch="code"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品简称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品全称:</dt>
+							<dd>
+								<div data-detail-fetch="fullName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品类型:</dt>
+							<dd>
+								<div data-detail-fetch="typeName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品管理人:</dt>
+							<dd>
+								<div data-detail-fetch="administrator"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>预期年化收益率(%):</dt>
+							<dd>
+								<div data-detail-fetch="expectedRate"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资组合配置:</dt>
+							<dd>
+								<div data-detail-fetch="assetPoolName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>发行人:</dt>
+							<dd>
+								<div data-detail-fetch="spvName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>币种:</dt>
+							<dd>
+								<div data-detail-fetch="currencyStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>收益计算基础(天):</dt>
+							<dd>
+								<div data-detail-fetch="incomeCalcBasis"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>平台运营费率(%):</dt>
+							<dd>
+								<div data-detail-fetch="operationRate"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!-- 封闭式产品显示/隐藏层 -->
+				<div id="detailProductType01Area">
+					<p class="form-header">封闭式产品信息</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集开始时间:</dt>
+								<dd>
+									<div data-detail-fetch="raiseStartDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集总份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="raisedTotalNumber"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>认购确认日:</dt>
+								<dd>
+									<div data-detail-fetch="subscribeConfirmDaysStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>还本付息确认日:</dt>
+								<dd>
+									<div data-detail-fetch="redeemConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="raisePeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期预期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="recPeriodExpAnYield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期满后最晚成立日:</dt>
+								<dd>
+									<div data-detail-fetch="foundDaysStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起息日:</dt>
+								<dd>
+									<div data-detail-fetch="interestsFirstDateStr"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>存续期:</dt>
+								<dd>
+									<div data-detail-fetch="durationPeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集满额后是否自动触发成立:</dt>
+								<dd>
+									<div data-detail-fetch="raiseFullFoundTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>到期最晚还本付息日:</dt>
+								<dd>
+									<div data-detail-fetch="accrualDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMin"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investAdditional"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMax"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人持有份额上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxHold"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>奖励收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="rewardInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效投资日类型:</dt>
+								<dd>
+									<div data-detail-fetch="investDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单位份额净值(元):</dt>
+								<dd>
+									<div data-detail-fetch="netUnitShare"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基础标签:</dt>
+								<dd>
+									<div data-detail-fetch="basicProductLabelName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>扩展标签:</dt>
+								<dd>
+									<div data-detail-fetch="expandProductLabels"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<!-- 开放式产品显示/隐藏层 -->
+				<div id="detailProductType02Area">
+					<p class="form-header">开放式产品信息</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>成立时间:</dt>
+								<dd>
+									<div data-detail-fetch="setupDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益结转周期:</dt>
+								<dd>
+									<div data-detail-fetch="accrualCycleName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>锁定期:</dt>
+								<dd>
+									<div data-detail-fetch="lockPeriodStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>申购确认日:</dt>
+								<dd>
+									<div data-detail-fetch="purchaseConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起息日:</dt>
+								<dd>
+									<div data-detail-fetch="interestsDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回确认日:</dt>
+								<dd>
+									<div data-detail-fetch="redeemConfirmDateStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单位份额净值(元):</dt>
+								<dd>
+									<div data-detail-fetch="netUnitShare"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单日总赎回上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="netMaxRredeemDay"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人持有份额上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxHold"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人单日赎回上限(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="singleDailyMaxRedeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMin"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回最低份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="minRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investAdditional"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回递增份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="additionalRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔投资最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="investMax"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单笔赎回最高份额(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="maxRredeem"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>单人单日赎回次数(次):</dt>
+								<dd>
+									<div data-detail-fetch="singleDayRedeemCount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回占比开关:</dt>
+								<dd>
+									<div data-detail-fetch="isPreviousCurVolume"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回占上一交易日规模百分比(%):</dt>
+								<dd>
+									<div data-detail-fetch="previousCurVolumePercent"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>上一个交易日产品当前规模(份):</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="previousCurVolume"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>赎回是否立刻不计息:</dt>
+								<dd>
+									<div data-detail-fetch="redeemWithoutInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>奖励收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="rewardInterest"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效投资日类型(份):</dt>
+								<dd>
+									<div data-detail-fetch="investDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>有效赎回日类型(份):</dt>
+								<dd>
+									<div data-detail-fetch="rredeemDateTypeStr"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基础标签:</dt>
+								<dd>
+									<div data-detail-fetch="basicProductLabelName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>扩展标签:</dt>
+								<dd>
+									<div data-detail-fetch="expandProductLabels"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易开始时间:</dt>
+							<dd>
+								<div data-detail-fetch="dealStartTime"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易结束时间:</dt>
+							<dd>
+								<div data-detail-fetch="dealEndTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">其他信息</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>风险等级:</dt>
+							<dd>
+								<div data-detail-fetch="riskLevelStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资者类型:</dt>
+							<dd>
+								<div data-detail-fetch="investorLevelStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>额外增信:</dt>
+							<dd>
+								<div data-detail-fetch="revealStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>增信备注:</dt>
+							<dd>
+								<div data-detail-fetch="revealComment"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>产品说明:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="instruction"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资标的:</dt>
+							<dd class="modal-break">
+								<div data-detail-fetch="investComment"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>投资协议书:</dt>
+							<dd>
+								<table id="productDetailInvestFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>投资协议书</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>信息服务协议:</dt>
+							<dd>
+								<table id="productDetailServiceFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>信息服务协议</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>附件:</dt>
+							<dd>
+								<table id="productDetailFileTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>附件名称</th>
+											<th>上传人</th>
+											<th>上传时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+					<div id="rewardDetail" class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>奖励收益设置:</dt>
+							<dd>
+								<table id="productRewardTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>阶梯奖励名称</th>
+											<th>奖励天数</th>
+											<th>奖励收益率(%)</th>
+										</tr>
+									</thead>
+								</table>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

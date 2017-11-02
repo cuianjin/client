@@ -1,0 +1,856 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    投资组合审核
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-home"></i> 投资组合管理</a></li>
+		<li class="active">投资组合审核</li>
+	</ol>
+</section>
+
+<!-- =========================================主要内容 start============================================================ -->
+<section class="content">
+	<!-- tabs区域 -->
+	<div class="nav-tabs-custom">
+		<!-- tabs头部 -->
+		<ul id="mainTab" class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a href="#tabpanel1" role="tab" data-toggle="tab">投资组合审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel2" role="tab" data-toggle="tab">净值校准审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel3" role="tab" data-toggle="tab">资产交易审核</a>
+			</li>
+			<li role="presentation">
+				<a href="#tabpanel4" role="tab" data-toggle="tab">收益分配审核</a>
+			</li>
+			<!--<li role="presentation">
+				<a href="#tabpanel5" role="tab" data-toggle="tab">费金提取审核</a>
+			</li>-->
+		</ul>
+		<!-- tabs panels -->
+		<div class="tab-content">
+			
+			<div role="tabpanel" class="tab-pane active" id="tabpanel1">
+				<!-- 搜索项表单 -->
+				<form id="portfolioSearchFrom" name="portfolioSearchFrom" method="post" class="search-body">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div id='createTimeStart' class="form-group">
+								<label>创建时间</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input id='createTimeStartDate' name="createTimeStart" type="text" class="form-control datepicker" placeholder="开始时间" data-date-format="YYYY-MM-DD" data-date-end="createTimEnd">
+								</div>
+								<div id="createTimeStartErr" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div id='createTimeEnd' class="form-group">
+								<label>&nbsp;</label>
+								<div class="input-group input-group-sm range">
+									<div class="input-group-addon	">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input id='createTimeEndDate' name="createTimEnd" type="text" class="form-control datepicker" placeholder="结束时间" data-date-format="YYYY-MM-DD" data-date-begin="createTimeStart">
+								</div>
+								<div id="createTimeEndErr" class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- 投资组合审核数据表格 -->
+				<table id="portfolioAuditTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>创建时间</th>
+							<th>发行人</th>
+							<th>投资组合名称</th>
+							<th>管理费率(%)</th>
+							<th>托管费率(%)</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			
+			<!-- 净值校准审核 -->
+			<div role="tabpanel" class="tab-pane " id="tabpanel2">
+				<!-- 搜索项表单 -->
+				<form id="netValueSearchFrom" name="netValueSearchFrom" method="post" class="search-body">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="name" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- 净值校准审核数据表格 -->
+				<table id="netValueAuditTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>投资组合名称</th>
+							<th>净值校准日</th>
+							<th>单位净值</th>
+							<th>份额(份)</th>
+							<th>资产净值(元)</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			
+			<!-- 资产交易审核 -->
+			<div role="tabpanel" class="tab-pane " id="tabpanel3">
+				<!-- 搜索项表单 -->
+				<form id="assetSearchFrom" name="assetSearchFrom" method="post" class="search-body">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="portfolioName" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>标的名称</label>
+								<input name="assetName" type="text" class="form-control input-sm" placeholder="搜索标的名称">
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- 资产交易审核数据表格 -->
+				<table id="assetAuditTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>创建时间</th>
+							<th>投资组合名称</th>
+							<th>标的名称</th>
+							<th>标的类型</th>
+							<th>交易类型</th>
+							<th>交易金额(万元)</th>
+							<th>交易份额(万份)</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			
+			<!--收益分配 -->
+			<div role="tabpanel" class="tab-pane " id="tabpanel4">
+				<!-- 搜索项表单 -->
+				<form id="profitSearchFrom" name="profitSearchFrom" method="post" class="search-body">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="pname" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- 收益分配审核数据表格 -->
+				<table id="profitAuditTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>投资组合名称</th>
+							<th>产品名称</th>
+							<th>收益分配日</th>
+							<th>总分配收益(元)</th>
+							<th>产品总规模(元)</th>
+							<th>分配收益(元)</th>
+							<th>奖励收益(元)</th>
+							<th>加息收益(元)</th>
+						<!--	<th>成功分配收益(元)</th> 
+							<th>成功分配奖励收益(元)</th>
+							<th>成功分配加息收益(元)</th> -->
+							<th>剩余收益(元)</th>
+							<th>收益率(%)</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			
+		</div>
+	</div>
+</section>
+<!-- =========================================主要内容 end============================================================== -->
+<!-- =========================================tabpanel1 弹层区域 start================================================== -->
+<!-- 投资组合审核 按钮弹窗 start-->
+<div id="portfolioAuditModal_yes" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title" id="trustTitleName_yes">投资组合审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="portfolioAuditFrom_yes" name="portfolioAuditFrom_yes" method="post">
+					<input name="oid" type="hidden" value="" />
+					<input id="operate_yes" name="operate" type="hidden" value="YES" />
+					<p class="form-header">确定要通过投资组合的新建申请？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_yes" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doPortfolioAudit_yes" type="button" class="btn btn-primary btn-submit portfolioAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="portfolioAuditModal_no" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title" id="trustTitleName_no">投资组合审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="portfolioAuditFrom_no" name="portfolioAuditFrom_no" method="post">
+					<input name="oid" type="hidden" value="" />
+					<input id="operate_no" name="operate" type="hidden" value="NO" />
+					<p class="form-header">确定要驳回投资组合的新建申请？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_no" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer" >
+				<button id="doPortfolioAudit_no" type="button" class="btn btn-primary btn-submit portfolioAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 投资组合审核 按钮弹窗 end-->
+<!-- 投资组合详情 按钮弹窗 start-->
+<form id="detPortfolioForm" name="detPortfolioForm" method="post">
+	<div id="portfolioDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">投资组合详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">投资组合概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资组合名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人:</dt>
+								<dd>
+									<div data-detail-fetch="spvName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>投资范围:</dt>
+								<dd>
+									<div id="scopesDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行存款比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="cashRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>管理费率(%):</dt>
+								<dd>
+									<div data-detail-fetch="manageRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>现金类标的投资比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="liquidRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>托管费率(%):</dt>
+								<dd>
+									<div data-detail-fetch="trusteeRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>非现金类标的投资比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="illiquidRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>费用计算基础(天/年):</dt>
+								<dd>
+									<div data-detail-fetch="calcBasis"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资管机构名称:</dt>
+								<dd>
+									<div data-detail-fetch="organization"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资管计划名称:</dt>
+								<dd>
+									<div data-detail-fetch="planName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>托管银行:</dt>
+								<dd>
+									<div data-detail-fetch="bank"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行账号:</dt>
+								<dd>
+									<div data-detail-fetch="account"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>联系人:</dt>
+								<dd>
+									<div data-detail-fetch="contact"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>联系电话:</dt>
+								<dd>
+									<div data-detail-fetch="telephone"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 投资组合详情 按钮弹窗 end-->
+
+<!-- 净值校准审核 按钮弹窗 start-->
+<div id="netValueAuditModal_yes" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">净值校准审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="netValueAuditFrom_yes" name="netValueAuditFrom_yes" method="post">
+					<input name="oid" type="hidden" value="" />
+					<input id="operate_yes_2" name="operate" type="hidden" value="YES" />
+					<p class="form-header">确定要通过净值校准申请？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_yes_2" name="suggest" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doNetValueAudit_yes" type="button" class="btn btn-primary btn-submit netValueAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="netValueAuditModal_no" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">净值校准审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="netValueAuditFrom_no" name="netValueAuditFrom_no" method="post">
+					<input name="oid" type="hidden" value="" />
+					<input id="operate_no_2" name="operate" type="hidden" value="no" />
+					<p class="form-header">确定要驳回净值校准申请？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_no_2" name="suggest" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doNetValueAudit_no" type="button" class="btn btn-primary btn-submit netValueAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 净值校准审核 按钮弹窗 end-->	
+<!-- 净值校准详情 按钮弹窗 start-->
+<form id="detNetValueForm" name="detNetValueForm" method="post">
+	<div id="netValueDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">净值校准详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">净值校准详情</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>基准日:</dt>
+								<dd>
+									<div data-detail-fetch="netValueDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>单位净值:</dt>
+								<dd>
+									<div data-detail-fetch="net"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>持有份额:</dt>
+								<dd>
+									<div data-detail-fetch="share"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 净值校准详情 按钮弹窗 end-->
+
+<!-- 资产交易 审核弹窗 start -->
+<div id="assetAuditModal_yes" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title" id="trustTitleName_yes">资产交易审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="assetAuditFrom_yes" name="assetAuditFrom_yes" method="post">
+					<p class="form-header">确定要通过资产交易审核？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_yes" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doAssetAudit_yes" type="button" class="btn btn-primary btn-submit assetAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="assetAuditModal_no" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">资产交易审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="assetAuditFrom_no" name="assetAuditFrom_no" method="post">
+					<p class="form-header">确定要驳回资产交易申请？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_no" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doAssetAudit_no" type="button" class="btn btn-primary btn-submit assetAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 资产交易 审核弹窗 end -->
+<!-- 现金类资产交易详情 按钮弹窗 start-->
+<form id="detLiquidAssetDealForm" name="detLiquidAssetDealForm" method="post">
+	<div id="liquidAssetDealDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">现金类资产交易详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">现金类资产交易概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资组合名称:</dt>
+								<dd>
+									<div data-detail-fetch="portfolio.name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="liquidAsset.name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="liquidAsset.type"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易类型:</dt>
+								<dd>
+									<div data-detail-fetch="dealType"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易金额:</dt>
+								<dd>
+									<div data-detail-fetch="orderAmount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易份额:</dt>
+								<dd>
+									<div data-detail-fetch="tradeShare"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 现金类资产交易详情 按钮弹窗 end-->
+
+<!-- 资产交易详情 按钮弹窗 start-->
+<form id="assetDealForm" name="assetDealForm" method="post">
+	<div id="assetDealDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">资产交易详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">资产交易概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资组合名称:</dt>
+								<dd>
+									<div data-detail-fetch="portfolioName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="assetName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="assetType"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易类型:</dt>
+								<dd>
+									<div data-detail-fetch="dealType"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易金额(万元):</dt>
+								<dd>
+									<div data-detail-fetch="orderAmount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易份额(万份):</dt>
+								<dd>
+									<div data-detail-fetch="tradeShare"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+<!-- 资产交易详情 按钮弹窗 end-->
+
+<!-- 收益分配 审核弹窗 start -->
+<div id="profitAuditModal_yes" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">收益分配审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="profitAuditFrom_yes" name="profitAuditFrom_yes" method="post">
+					<input name="oid" type="hidden" value="" />
+					<p class="form-header">确定要通过收益分配？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_yes" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doProfitAudit_yes" type="button" class="btn btn-primary btn-submit profitAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="profitAuditModal_no" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">收益分配审核</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="profitAuditFrom_no" name="profitAuditFrom_no" method="post">
+					<input name="oid" type="hidden" value="" />
+					<p class="form-header">确定要驳回收益分配？</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>审核意见</label>
+								<textarea id="auditMark_no" name="auditMark" rows="3" class="form-control input-sm" placeholder="请输入审核意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doProfitAudit_no" type="button" class="btn btn-primary btn-submit profitAuditSubmit">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 收益分配 审核弹窗 end -->
+
+<!-- 审核记录 审核意见弹窗 start -->
+<div id="auditRecordModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          		<span aria-hidden="true">&times;</span>
+        		</button>
+				<h4 class="modal-title">审核意见</h4>
+			</div>
+			<!-- 审核意见 -->
+			<div class="modal-body">
+				<form id="auditRecordFrom" name="auditRecordFrom" method="post">
+					<input name="oid" type="hidden" value="" />
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dd>
+									<div data-detail-fetch="auditMark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 审核记录 审核意见弹窗 end -->
+
+
+

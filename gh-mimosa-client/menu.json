@@ -1,0 +1,233 @@
+[
+	{
+		"id": "Q3mYh4zrnerkExKB",
+		"text": "运营管理",
+		"children": [
+			{
+				"id": "NQBrXW8SRWQejyhN",
+				"text": "渠道管理",
+				"children": [
+					{
+						"id": "we5Y2KfA6ynxthN8",
+						"text": "全部渠道",
+						"pageId": "channel"
+					}, {
+						"id": "3fADJBAZZNQPkc4W",
+						"text": "渠道审批",
+						"pageId": "channelapply"
+					}, {
+						"id": "GBDXTsZ5wyNk26FM",
+						"text": "渠道详情",
+						"pageId": "channeldetail"
+					}
+				]
+			}, {
+				"id": "Bs4dRFRtj5erRN4n",
+				"text": "投资标的管理",
+				"children": [
+					{
+						"id": "KfHpNzrd3AcDse5b",
+						"text": "标的申请管理",
+						"pageId": "targetApply"
+					}, {
+						"id": "EHXBZcYD2fhSYkhB",
+						"text": "标的会前审查",
+						"pageId": "targetAccess"
+					}, {
+						"id": "z6W3TwC4sNGew6rw",
+						"text": "标的过会管理",
+						"pageId": "targetConvention"
+					}, {
+						"id": "M7SxHjfQczd5zfdA",
+						"text": "标的过会表决",
+						"pageId": "targetVote"
+					}, {
+						"id": "K5itRP24jMG7kenz",
+						"text": "投资标的备选库",
+						"pageId": "targetStorage"
+					}, {
+						"id": "3DQP5e5fn8rN2eYs",
+						"text": "持仓标的管理",
+						"pageId": "targetHold"
+					}, {
+						"id": "HfDCz6TfNfctBjRA",
+						"text": "未持仓标的管理",
+						"pageId": "targetNotHold"
+					}, {
+						"id": "Ftm7a8DtH8QeYsAW",
+						"text": "历史标的管理",
+						"pageId": "targetHistory"
+					}, {
+						"id": "JJPQcXhm8fFwYhXf",
+						"text": "风险预警管理",
+						"pageId": "targetCollect"
+					}, {
+						"id": "XrFRXadEZQpGwdAb",
+						"text": "风险处置管理",
+						"pageId": "targetHandle"
+					}
+				]
+			}, {
+				"id": "xW5cnWWh87bfhPNc",
+				"text": "现金管理类工具管理",
+				"children": [
+					{
+						"id": "tEeaknjiNy6yJtHx",
+						"text": "现金管理类工具申请",
+						"pageId": "cashtoolApply"
+					}, {
+						"id": "BJ7fkc2SNTwEea44",
+						"text": "现金管理类工具审查",
+						"pageId": "cashtoolAccess"
+					}, {
+						"id": "QbAAMp8s742JEkMr",
+						"text": "现金管理类工具备选库",
+						"pageId": "cashtoolStorage"
+					}, {
+						"id": "keaRBNDBFftszbMA",
+						"text": "历史现金管理类工具",
+						"pageId": "cashtoolHistory"
+					}
+				]
+			}, {
+				"id": "6nWZNkQFyXyAw7s3",
+				"text": "产品管理",
+				"children": [
+					{
+						"id": "PTehSf6nSWsHEjPa",
+						"text": "产品申请管理",
+						"pageId": "productDesign"
+					}, {
+						"id": "PrBXBk3CysPK8Ce2",
+						"text": "产品审核管理",
+						"pageId": "productAudit"
+					}, {
+						"id": "rMfezsN7SacMPt25",
+						"text": "产品复核管理",
+						"pageId": "productReview"
+					}, {
+						"id": "WNypkjRGASd8R5A8",
+						"text": "产品运营管理",
+						"pageId": "productDuration"
+					}, {
+						"id": "b4TYXE4kmHdNj5Pb",
+						"text": "产品运营工作台",
+						"pageId": "productDetail"
+					}
+				]
+			}, {
+				"id": "xKZH4wnbD3QCC6Jn",
+				"text": "运营管理",
+				"children": [
+					{
+						"id": "st5GztGDrzFbnjYS",
+						"text": "资产池管理",
+						"pageId": "AssetPool"
+					}, {
+						"id": "KCsrTxGeWwwRGTwJ",
+						"text": "资产池存续期管理",
+						"pageId": "AssetPoolDuration"
+					}, {
+						"id": "Cmz7k6A26aWZy6TH",
+						"text": "持有人名册管理",
+						"pageId": "investor"
+					}, {
+						"id": "6wWtSDmcSBkTwfBr",
+						"text": "未确认持有人订单管理",
+						"pageId": "inputOrder"
+					}, {
+						"id": "3kjFaezJKAfwAfwB",
+						"text": "SPV交易管理",
+						"pageId": "spvTrade"
+					}, {
+						"id": "ew22wtFFYWJXzNnX",
+						"text": "费金提取",
+						"pageId": "chargeFee"
+					}, {
+						"id": "CB8KMk5DKeBXmCXd",
+						"text": "轧差管理",
+						"pageId": "platform-publisherGacha"
+					}
+				]
+			}, {
+				"id": "xNPWQ5fQpterihQ4",
+				"text": "会计分录",
+				"children": [
+					{
+						"id": "hyBHkwemBfrtfpPJ",
+						"text": "凭证查询",
+						"pageId": "document"
+					}, {
+						"id": "6A6ErRddiG2WmQpn",
+						"text": "资产负债情况试算表",
+						"pageId": "bookBalance"
+					}
+				]
+			}, {
+				"id": "csAQHhr3sREtAPc4",
+				"text": "SPV管理",
+				"pageId": "spv"
+			}
+		]
+	}, {
+		"id": "nKKaixTZ82JYJRfm",
+		"text": "系统设置",
+		"children": [
+			{
+				"id": "4z7pxRnB3nKGsX5p",
+				"text": "权限管理",
+				"children": [
+					{
+						"id": "BnjPtJR2XAj63pMi",
+						"text": "菜单管理",
+						"pageId": "menu"
+					}, {
+						"id": "cjQd56mXnWAmzyeh",
+						"text": "角色管理",
+						"pageId": "role"
+					}, {
+						"id": "bJ6zjZxBWzSPhDkS",
+						"text": "用户管理",
+						"pageId": "user"
+					}
+				]
+			}, {
+				"id": "S34R7EzJjsJHdHf7",
+				"text": "风控引擎设置",
+				"children": [
+					{
+						"id": "k5SmhJXWmFhjZWGn",
+						"text": "资产准入评分模型",
+						"pageId": "ccpWarranty"
+					}, {
+						"id": "pQJNZJZ88E2naP2p",
+						"text": "风险关键指标维护",
+						"pageId": "riskIndicate"
+					}, {
+						"id": "N4HXH735aCDR74pB",
+						"text": "信用等级评分模型",
+						"pageId": "ccpRiskScore"
+					}, {
+						"id": "HrDxEHEBxJhPAeXC",
+						"text": "风险预警等级模型",
+						"pageId": "ccpWarning"
+					}
+				]
+			}, {
+				"id": "rmcrB24deEySC3wP",
+				"text": "会计分录设置",
+				"children": [
+					{
+						"id": "TKP6fN6A4WP7WsAy",
+						"text": "科目设置",
+						"pageId": "acctAccount"
+					}, {
+						"id": "SSw4wzewStE8T4By",
+						"text": "凭证模板",
+						"pageId": "docTemplate"
+					}
+				]
+			}
+		]
+	}
+]

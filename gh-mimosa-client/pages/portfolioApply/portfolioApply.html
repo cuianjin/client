@@ -1,0 +1,860 @@
+﻿<style>
+	.func-area {
+		display: inline;
+	}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>投资组合管理</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 投资组合管理</a>
+		</li>
+		<li class="active">新建投资组合</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">投资组合列表</h3>
+
+					<div class="box-tools">
+						<button id="portfolioAdd" class="btn btn-primary btn-sm">
+              			<i class="fa fa-plus"></i> 新建投资组合
+            			</button>
+					</div>
+				</div>
+
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资组合名称</label>
+									<input name="name" type="text" class="form-control input-sm" placeholder="搜索投资组合名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>投资组合状态</label>
+									<select name="state" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="CREATE">待审核</option>
+										<option value="DURATION">审核通过</option>
+										<option value="REJECT">驳回</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- 主体数据表格 -->
+					<table id="portfolioApplyTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>投资组合名称</th>
+								<th>发行人</th>
+								<th>银行存款比例(%)</th>
+								<th>现金类标的投资比例(%)</th>
+								<th>非现金类标的投资比例(%)</th>
+								<th>管理费率(%)</th>
+								<th>托管费率(%)</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--新建投资组合-->
+<div id="addPortfolioModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建投资组合</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addPortfolioForm" name="addPortfolioForm" method="post">
+					<p class="form-header">投资组合概况</p>
+
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="name" type="text" class="form-control input-sm" data-minlength="2" maxlength="50" data-error="投资组合名称必须在2-50个字符以内" placeholder="请输入投资组合名称" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>发行人</label>
+								<select id="addSPV" name="spvOid" class="form-control input-sm"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>银行存款比例</label>
+								<div class="input-group input-group-sm">
+									<input name="cashRate" type="text" class="form-control input-sm" placeholder="请输入银行存款比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>现金类标的投资比例</label>
+								<div class="input-group input-group-sm">
+									<input name="liquidRate" type="text" class="form-control input-sm" placeholder="请输入现金类标的投资比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>非现金类标的投资比例</label>
+								<div class="input-group input-group-sm">
+									<input name="illiquidRate" type="text" class="form-control input-sm" placeholder="请输入非现金类标的投资比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">投资范围</p>
+					<label>信托类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_05" />券商资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_06" />基金/基金子公司资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_07" />保险资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_04" />信托计划-房地产类
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_03" />信托计划-政信类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_12" />信托计划-工商企业类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_13" />信托计划-金融产品投资类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_01" />证券类
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_02" />股权投资类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_14" />银行理财类
+							</div>
+						</div>
+					</div>
+					<label>票据类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_16" />商票
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_15" />银票
+							</div>
+						</div>
+					</div>
+					<label>消费金融类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_17" />现金贷
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_18" />消费分期
+							</div>
+						</div>
+					</div>
+					<label>其他</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_19" />供应链金融产品类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_08" />债权及债权收益类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_20" />房抵贷
+							</div>
+						</div>
+					</div>
+					<p class="form-header">费用</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>管理费率</label>
+								<div class="input-group input-group-sm">
+									<input id="manageRate" name="manageRate" type="text" class="form-control input-sm" placeholder="管理费率"   data-validfloat="4.2" data-validpositive="true" maxlength="7" data-error="管理费率最大4位整数2位小数且大于等于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>托管费率</label>
+								<div class="input-group input-group-sm">
+									<input id="trusteeRate" name="trusteeRate" type="text" class="form-control input-sm" placeholder="托管费率"   data-validfloat="4.2" data-validpositive="true" maxlength="7" data-error="托管费率最大4位整数2位小数且大于等于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>费用计算基础</label>
+								<div class="row">
+									<div class="col-sm-4">
+										<input name="calcBasis" type="radio" value="365" class="icheck" checked>365天/年
+									</div>
+									<div class="col-sm-4">
+										<input name="calcBasis" type="radio" value="360" class="icheck">360天/年
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">其他</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>资管机构名称</label>
+								<input name="organization" type="text" class="form-control input-sm" placeholder="请输入资管机构名称"  data-error="资管机构名称不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>托管银行</label>
+								<input name="bank" type="text" class="form-control input-sm" placeholder="请输入托管银行"  data-error="托管银行不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系人</label>
+								<input name="contact" type="text" class="form-control input-sm" placeholder="请输入联系人"  data-error="联系人不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>资管计划名称</label>
+								<input name="planName" type="text" class="form-control input-sm" placeholder="请输入资管计划名称"  data-error="资管计划名称不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>银行账号</label>
+								<input name="account" type="text" class="form-control input-sm" placeholder="请输入银行账号"  data-error="银行账号不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系电话</label>
+								<input name="telephone" type="text" class="form-control input-sm" placeholder="请输入联系电话"  data-error="联系电话不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="savePortfolio" type="button" class="btn btn-primary btn-submit addportfolioSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 投资组合详情 -->
+<form id="detportfolioForm" name="detportfolioForm" method="post">
+	<div id="portfolioDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">投资组合详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">投资组合概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资组合名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发行人:</dt>
+								<dd>
+									<div data-detail-fetch="spvName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>投资范围:</dt>
+								<dd>
+									<div id="scopesDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行存款比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="cashRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>管理费率(%):</dt>
+								<dd>
+									<div data-detail-fetch="manageRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>现金类标的投资比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="liquidRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>托管费率(%):</dt>
+								<dd>
+									<div data-detail-fetch="trusteeRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>非现金类标的投资比例(%):</dt>
+								<dd>
+									<div data-detail-fetch="illiquidRate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>费用计算基础(天/年):</dt>
+								<dd>
+									<div data-detail-fetch="calcBasis"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资管机构名称:</dt>
+								<dd>
+									<div data-detail-fetch="organization"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资管计划名称:</dt>
+								<dd>
+									<div data-detail-fetch="planName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>托管银行:</dt>
+								<dd>
+									<div data-detail-fetch="bank"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>银行账号:</dt>
+								<dd>
+									<div data-detail-fetch="account"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>联系人:</dt>
+								<dd>
+									<div data-detail-fetch="contact"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>联系电话:</dt>
+								<dd>
+									<div data-detail-fetch="telephone"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核意见:</dt>
+								<dd>
+									<div data-detail-fetch="auditMark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- 编辑投资组合资产弹窗-->
+<div id="editPortfolioModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑投资组合</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="editPortfolioForm" name="editPortfolioForm" method="post">
+					<input type="hidden" name="oid" value="" />
+					<p class="form-header">投资组合概况</p>
+					
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>投资组合名称</label>
+								<input name="name" type="text" class="form-control input-sm" data-minlength="2" maxlength="50" data-error="投资组合名称必须在2-50个字符以内" placeholder="请输入投资组合名称" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>发行人</label>
+								<select id="editSPV" name="spvOid" class="form-control input-sm"></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>银行存款比例</label>
+								<div class="input-group input-group-sm">
+									<input name="cashRate" type="text" class="form-control input-sm" placeholder="请输入银行存款比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>现金类标的投资比例</label>
+								<div class="input-group input-group-sm">
+									<input name="liquidRate" type="text" class="form-control input-sm" placeholder="请输入现金类标的投资比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>非现金类标的投资比例</label>
+								<div class="input-group input-group-sm">
+									<input name="illiquidRate" type="text" class="form-control input-sm" placeholder="请输入非现金类标的投资比例" data-validfloat="3.4" maxlength="7" data-validpercentage="true" required>
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">投资范围</p>
+					<label>信托类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_05" />券商资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_06" />基金/基金子公司资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_07" />保险资管计划
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_04" />信托计划-房地产类
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_03" />信托计划-政信类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_12" />信托计划-工商企业类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_13" />信托计划-金融产品投资类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_01" />证券类
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_02" />股权投资类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_14" />银行理财类
+							</div>
+						</div>
+					</div>
+					<label>票据类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_16" />商票
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_15" />银票
+							</div>
+						</div>
+					</div>
+					<label>消费金融类</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_17" />现金贷
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_18" />消费分期
+							</div>
+						</div>
+					</div>
+					<label>其他</label>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_19" />供应链金融产品类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_08" />债权及债权收益类
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<input type="checkbox" name="scopes" value="TARGETTYPE_20" />房抵贷
+							</div>
+						</div>
+					</div>
+					<p class="form-header">其他</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>管理费率</label>
+								<div class="input-group input-group-sm">
+									<input id="manageRate" name="manageRate" type="text" class="form-control input-sm" placeholder="管理费率"   data-validfloat="4.2" data-validpositive="true" maxlength="7" data-error="管理费率最大4位整数2位小数且大于等于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>托管费率</label>
+								<div class="input-group input-group-sm">
+									<input id="trusteeRate" name="trusteeRate" type="text" class="form-control input-sm" placeholder="托管费率"   data-validfloat="4.2" data-validpositive="true" maxlength="7" data-error="管理费率最大4位整数2位小数且大于等于0">
+									<span class="input-group-addon">%</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>费用计算基础</label>
+								<div class="row">
+									<div class="col-sm-4">
+										<input name="calcBasis" type="radio" value="365" class="icheck" checked>365天/年
+									</div>
+									<div class="col-sm-4">
+										<input name="calcBasis" type="radio" value="360" class="icheck">360天/年
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>资管机构名称</label>
+								<input name="organization" type="text" class="form-control input-sm" placeholder="请输入资管机构名称"  data-error="资管机构名称不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>托管银行</label>
+								<input name="bank" type="text" class="form-control input-sm" placeholder="请输入托管银行"  data-error="托管银行不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系人</label>
+								<input name="contact" type="text" class="form-control input-sm" placeholder="请输入联系人"  data-error="联系人不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>资管计划名称</label>
+								<input name="planName" type="text" class="form-control input-sm" placeholder="请输入资管计划名称"  data-error="资管计划名称不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>银行账号</label>
+								<input name="account" type="text" class="form-control input-sm" placeholder="请输入银行账号"  data-error="银行账号不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系电话</label>
+								<input name="telephone" type="text" class="form-control input-sm" placeholder="请输入联系电话"  data-error="联系电话不能为空" maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editPortfolio" type="button" class="btn btn-primary btn-submit editPortfolioSubmit">修 改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定删除此条数据？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!---------------------------------------------------------------------------------------------------->
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="approveForm" name="approveForm" method="post">
+					<div class="form-group">
+						<label>确定要<span id="content"></span>申请？</label>
+						<textarea name="remark" class="form-control input-sm" placeholder="请输入审核意见" rows="3" required></textarea>
+					</div>
+					<input name="apprOid" type="hidden">
+					<input name="apprResult" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="remarkModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核意见</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div id="remark"></div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function() {
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+			// 获取已激活的标签页的名称
+			var activeTab = $(e.target).text();
+			if(activeTab == "投资组合") {
+				$("#tab_switch").val("0");
+			} else {
+				$("#tab_switch").val("1");
+			}
+		});
+	});
+</script>

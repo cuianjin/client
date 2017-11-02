@@ -1,0 +1,389 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    标的过会表决
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 投资标的管理</a></li>
+		<li class="active">标的过会表决</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="targetVoteGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">过会表决列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="targetVoteTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>标的编号</th>
+								<th>标的名称</th>
+								<th>会议主题</th>
+								<th>会议时间</th>
+								<th>会议状态</th>
+								<th>表决状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 标的详情弹窗 -->
+<div id="targetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="detTargetForm" name="detTargetForm" method="post">
+					<p class="form-header">标的概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资方向:</dt>
+								<dd>
+									<div data-detail-fetch="investment"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息周期方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualCycleType" data-enum-transform="accrualCycleType"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>逾期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="overdueRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起购金额(万):</dt>
+								<dd>
+									<div data-detail-fetch="floorVolume" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>拟成立日:</dt>
+								<dd>
+									<div data-detail-fetch="expSetDate"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="collectDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>主体评级:</dt>
+								<dd>
+									<div data-detail-fetch="subjectRating"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级机构:</dt>
+								<dd>
+									<div data-detail-fetch="ratingAgency"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级时间:</dt>
+								<dd>
+									<div data-detail-fetch="ratingTime"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>内部评级:</dt>
+								<dd>
+									<div data-detail-fetch="irb"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>优先级:</dt>
+								<dd>
+									<div data-detail-fetch="prior"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益说明:</dt>
+								<dd>
+									<div data-detail-fetch="expArorDesc"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的状态:</dt>
+								<dd>
+									<div data-detail-fetch="state" data-enum-transform="targetStates"></div>
+								</dd>
+							</dl>
+						</div>
+						<div id="rejectDesc" class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>驳回理由:</dt>
+								<dd>
+									<div data-detail-fetch="rejectDesc"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">优势说明</p>
+					<dl class="dl-horizontal">
+						<dt>优势说明:</dt>
+						<dd>
+							<div data-detail-fetch="superiority"></div>
+						</dd>
+					</dl>
+					<p class="form-header">标的实力</p>
+					<dl class="dl-horizontal">
+						<dt>融资方:</dt>
+						<dd>
+							<div data-detail-fetch="financer"></div>
+						</dd>
+						<dt>融资方简介:</dt>
+						<dd>
+							<div data-detail-fetch="financerDesc"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>担保方:</dt>
+						<dd>
+							<div data-detail-fetch="warrantor"></div>
+						</dd>
+						<dt>担保简介:</dt>
+						<dd>
+							<div data-detail-fetch="warrantorDesc"></div>
+						</dd>
+					</dl>
+					<p class="form-header">资金用途</p>
+					<dl class="dl-horizontal">
+						<dt>资金用途:</dt>
+						<dd>
+							<div data-detail-fetch="usages"></div>
+						</dd>
+					</dl>
+					<p class="form-header">还款说明</p>
+					<dl class="dl-horizontal">
+						<dt>还款说明:</dt>
+						<dd>
+							<div data-detail-fetch="repayment"></div>
+						</dd>
+					</dl>
+					<p class="form-header">风控措施</p>
+					<dl class="dl-horizontal">
+						<dt>风控措施:</dt>
+						<dd>
+							<div data-detail-fetch="risk"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>风控风险等级:</dt>
+						<dd>
+							<div data-detail-fetch="riskRate"></div>
+						</dd>
+					</dl>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 过会投票弹窗 -->
+<div id="voteModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">过会投票</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- tabs -->
+				<div class="nav-tabs-custom">
+					<!-- tab页签定义，注意对应 href 对应的 id -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#progresstab" role="tab" data-toggle="tab">过会进程</a>
+						</li>
+						<li role="presentation">
+							<a href="#summarytab" role="tab" data-toggle="tab">过会纪要</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<!--过会进程panel -->
+						<div class="tab-pane active" role="tabpanel" id="progresstab">
+							<table id="voteProgressTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>表决人</th>
+										<th>表决状态</th>
+										<th>表决时间</th>
+										<th>附件</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<!-- 过会纪要panel -->
+						<div class="tab-pane" role="tabpanel" id="summarytab">
+							<table id="voteSummaryTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>上传人</th>
+										<th>上传时间</th>
+										<th>操作</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<form id="voteForm" name="voteForm" method="post">
+							<input type="hidden" name="voteState" id="voteState" value="" />
+							<input type="hidden" name="meetingOid" id="meetingOid" value="" />
+							<input type="hidden" name="targetOid" id="targetOid" value="" />
+							<div class="form-group">
+								<h6>表决意见</h6>
+								<textarea name="suggest" rows="3" class="form-control input-sm" placeholder="表决意见" maxlength="1024"></textarea>
+							</div>
+							<div id="voteFile" class="form-group" style="display: none;">
+								<div class="row">
+									<div class="col-sm-4">
+										<h6>
+                        	表决附件
+                        <a id="fileA" href="#"><span id="fileSpan" class="pull-right"></span></a>
+                      </h6>
+									</div>
+								</div>
+							</div>
+							<input id="fileInput" name="file" type="hidden" />
+							<input id="fileNameInput" name="fileName" type="hidden" />
+							<input id="fileSizeInput" name="fileSize" type="hidden" />
+						</form>
+						<div class="form-group" id="voteUploader"></div>
+						<div class="btn-area">
+							<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+							<button id="doVoteReject" type="button" class="btn btn-warning btn-submit">不赞成</button>
+							<button id="doVoteAccept" type="button" class="btn btn-primary btn-submit">赞 成</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

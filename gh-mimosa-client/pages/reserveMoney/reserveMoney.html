@@ -1,0 +1,282 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		备用金管理
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 资金管理</a></li>
+		<li class="active">备用金管理</li>
+	</ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">&nbsp;</h3>
+					<div class="box-tools">
+						<button id="refresh" class="btn btn-default btn-sm">
+							<i class="fa fa-refresh"></i> 刷新
+						</button>
+					</div>
+				</div>
+				<div class="box-header with-border">
+					<div class="row" style="text-align: center;">
+						<div id="photo" class="col-sm-12">
+							<div class="item-block">
+								<div class="box-header text-align-left">
+									<div class="box-title">
+										备用金	
+									</div>
+									<!--<div class="box-tools">
+										<button id="" class="btn btn-default sync" style="padding:0;">
+											<i class="fa"></i> 刷新
+										</button>
+									</div>-->
+								</div>
+								<div class="item-details">
+									余额(万): <span id="balance" class="currency6"></span>
+								</div>
+							</div>
+							<div class="ab-bottom">
+								<button id="paysb">还款</button>
+								<img src="" alt="" />
+								<img src="" alt="" />
+								<button id="collectbs">借款</button>
+							</div>
+							<div class="ab-left">
+								<button id="paysuper">还款</button>
+								<img src="" alt="" />
+								<img src="" alt="" />
+								<button id="collectsuper">借款</button>
+							</div>
+							<div class="ab-right">
+								<button id="paybasic">还款</button>
+								<img src="" alt="" />
+								<img src="" alt="" />
+								<button id="collectbasic">借款</button>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin-top:110px;">
+						<div class="col-sm-6">
+							<div class="item-block2">
+								<div class="box-header text-align-left">
+									<div class="box-title">
+										超级户	
+									</div>
+									<button id="superDetail" style="position: absolute;top: 5px;right: 5px;">详情</button>
+									<!--<div class="box-tools">
+										<button id="" class="btn btn-default sync" style="padding:0;">
+											<i class="fa"></i> 刷新
+										</button>
+									</div>-->
+								</div>
+								<div class="item-details">
+									余额(万): <span id="superBalance" class="currency6"></span>
+								</div>
+								<div class="item-details">
+									备用金借款(万): <span id="superAccBorrowAmount" class="currency6"></span>
+								</div>
+								<div class="item-details">
+									基本户借款(万): <span id="sbBorrowAmount" class="currency6"></span>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="item-block3">
+								<div class="box-header text-align-left">
+									<div class="box-title">
+										基本户	
+									</div>
+									<!--<div class="box-tools">
+										<button id="" class="btn btn-default sync" style="padding:0;">
+											<i class="fa"></i> 刷新
+										</button>
+									</div>-->
+								</div>
+								<div class="item-details">
+									余额(万): <span id="basicBalance" class="currency6"></span>
+								</div>
+								<div class="item-details">
+									备用金借款(万): <span id="basicAccBorrowAmount" class="currency6"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-2"></div>
+						<div id="lastBorrowTime" class="col-sm-6">统计数据加载中…</div>
+						<div id="lastReturnTime" class="col-sm-4"></div>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#tabcon1" aria-controls="备用金" role="tab" data-toggle="tab">备用金</a></li>
+							<li role="presentation"><a href="#tabcon2" aria-controls="基本户" role="tab" data-toggle="tab">基本户</a></li>
+						</ul>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="tabcon1">
+								<form id="searchForm" name="searchForm" method="post" class="">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>交易类型</label>
+												<select name="orderType" class="form-control">
+													<option value="" selected>全部</option>
+													<option value="borrow">借款</option>
+													<option value="return">还款</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>交易时间</label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="createTimeEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>&nbsp;</label>
+												<div class="input-group daterange">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="createTimeBegin">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>流水号</label>
+												<input name="orderCode" type="text"
+													   class="form-control"
+													   placeholder="搜索流水号">
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="dataTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>流水号</th>
+											<th>交易时间</th>
+											<th>交易金额(元)</th>
+											<th>交易类型</th>
+											<th>操作账户</th>
+											<th>订单状态</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="tabcon2">
+								<form id="searchForm2" name="searchForm2" method="post" class="">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>交易时间</label>
+												<div class="input-group">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeBegin" type="text"
+														   class="form-control datepicker"
+														   placeholder="从"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="createTimeEnd">
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>&nbsp;</label>
+												<div class="input-group daterange">
+													<div class="input-group-addon">
+														<i class="fa fa-calendar"></i>
+													</div>
+													<input name="createTimeEnd" type="text"
+														   class="form-control datepicker"
+														   placeholder="到"
+														   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="createTimeBegin">
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
+								<table id="dataTable2" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>流水号</th>
+											<th>交易时间</th>
+											<th>交易金额(元)</th>
+											<th>交易类型</th>
+											<th>操作账户</th>
+											<th>订单状态</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="collectAndPayModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="collectAndPayForm" name="collectAndPayForm" method="post">
+					<div class="form-group">
+						<label>金额</label>
+						<div class="input-group input-group-sm">
+							<input name="moneyVolume" type="text"
+								   class="form-control"
+								   placeholder=""
+								   data-validfloat="10.2"
+								   data-validfloat-error="金额只能为前10位后2位小数"
+								   data-validpositive="non-zero"
+								   data-validpositive-error="金额不能小于零" required>
+							<span class="input-group-addon">元</span>
+						</div>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<input type="hidden" name="amount" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="collectAndPaySubmit" type="button" class="btn btn-primary btn-submit collectAndPaySubmit">确 定</button>
+				<div id="refreshDiv">
+					<i id="refreshI"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

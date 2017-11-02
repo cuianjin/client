@@ -1,0 +1,167 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		发行人首页
+	</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 首页</a>
+		</li>
+		<li class="active">发行人首页</li>
+	</ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">&nbsp;</h3>
+					<div class="box-tools" style="display: none;">
+						<button id="deposit" class="btn btn-default btn-sm">
+							<i class="fa fa-plus"></i> 充值
+						</button>
+						<button id="withdraw" class="btn btn-default btn-sm">
+							<i class="fa fa-minus"></i> 提现
+						</button>
+						<button id="pay" class="btn btn-default btn-sm">
+							<i class="fa fa-minus"></i> 还款
+						</button>
+					</div>
+				</div>
+				<div class="box-header with-border" id="statinfo">
+					<div class="row">
+						<div id="" class="col-sm-3">发行人借款总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalLoanAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">发行人还款总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalReturnAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">发行人付息总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalInterestAmount" class="currency"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<!--<div id="" class="col-sm-3">今日投资总额(元)
+							<div><span class="f22"><div data-detail-fetch="todayInvestAmount" class="currency"></div></span></div>
+						</div>-->
+						<div id="" class="col-sm-3">今日定期投资总额(元)
+							<div><span class="f22"><div data-detail-fetch="todayTnInvestAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">逾期次数(次)
+							<div><span class="f22"><div data-detail-fetch="overdueTimes" class="quantity"></div></span></div>
+						</div>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-xs-12 col-lg-12">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">在售产品募集进度统计</h3>
+								</div>
+								<div class="box-body">
+									<div id="raisePiesWap" style="margin: 0 auto;" align="center">
+										<div id="raisePies" style="margin: 0 auto;" align="center"></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-12 col-lg-12">
+							</div>
+							<div class="row">
+								<div class="col-xs-12 col-lg-6">
+									<div class="box box-primary">
+										<div class="box-header">
+											<h3 class="box-title">昨日产品投资额TOP5</h3>
+										</div>
+										<div class="box-body">
+											<div id="bar-horizontalWap">
+												<div id="bar-horizontal" style="max-height: 260px;width: 100%;" align="center"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-lg-6">
+									<div class="box box-primary">
+										<div class="box-header">
+											<h3 class="box-title">投资人质量分析</h3>
+										</div>
+										<div class="box-body">
+											<div id="pie-solid" style="min-height: 230px;max-height: 260px;margin: 0 auto;" align="center"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!--<div class="row">
+								<div class="col-xs-12 col-lg-6">
+									<div class="box box-primary">
+										<div class="box-header">
+											<h3 class="box-title">累计申购和累计赎回金额对比</h3>
+										</div>
+										<div class="box-body">
+											<div id="investAndRedeem" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+										</div>
+									</div>
+								</div>
+							</div>-->
+						</div>
+					</div>
+				</div>
+			</div>
+</section>
+
+<div id="moneyModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="moneyForm" name="moneyForm" method="post">
+					<div class="form-group">
+						<label>金额</label>
+						<input name="moneyVolume" type="text" class="form-control" placeholder="" data-validfloat="10.2" data-error="金额范围在0.00-9999999999.99之间" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="moneySubmit" type="button" class="btn btn-primary btn-submit moneySubmit" data-dismiss="modal">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="createPublisherModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">无发行人</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<h5>确认新建发行人？</h5>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="createPublisherSubmit" type="button" class="btn btn-primary btn-submit createPublisherSubmit">确 定</button>
+				<div id="refreshDiv">
+					<i id="refreshI"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

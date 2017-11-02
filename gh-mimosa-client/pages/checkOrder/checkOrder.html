@@ -1,0 +1,487 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>业务-结算对账</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 对账管理</a></li>
+		<li class="active">业务-结算对账</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">对账查询</h3>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>对账批次号：</label>
+				              <input name="checkCode" type="text"
+				                     class="form-control input-sm"
+				                     placeholder="搜索对账批次号">
+				            </div>
+				          </div>
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>对账状态：</label>
+				              <select name="checkStatus" class="form-control input-sm">
+				                <option value="" selected>全部</option>
+				                <option value="toCheck" >待对账</option>
+				                <option value="checking" >对账中</option>
+				                <option value="checkSuccess" >对账成功</option>
+				              </select>
+				            </div>
+				          </div>
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>对账日期:</label>
+				              <div class="input-group input-group-sm">
+				                <div class="input-group-addon">
+				                  <i class="fa fa-calendar"></i>
+				                </div>
+				                <input name="beginCheckDate" type="text"
+				                       class="form-control datepicker input-sm"
+				                       placeholder="从"
+				                       data-date-format="YYYY-MM-DD" data-date-end="endCheckDate">
+				              </div>
+				            </div>
+				          </div>
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>&nbsp;</label>
+				              <div class="input-group daterange input-group-sm">
+				                <div class="input-group-addon">
+				                  <i class="fa fa-calendar"></i>
+				                </div>
+				                <input name="endCheckDate" type="text"
+				                       class="form-control datepicker input-sm"
+				                       placeholder="到"
+				                       data-date-format="YYYY-MM-DD" data-date-begin="beginCheckDate">
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>对账批次号</th>
+								<th>对账日期</th>
+								<th>对账状态</th>
+								<th>轧帐状态</th>
+								<th>远程数据同步状态</th>
+								<th>本地数据准备</th>
+								<th>错账笔数</th>
+								<th>错账剩余笔数</th>
+								<th>对账起始时间</th>
+								<th>对账结束时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 对账结果窗口 -->
+<div id="chekResultModal" class="modal fade item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document" style="width: 90%;">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+				<h3 class="box-title"></h3>
+				<!--<div class="box-tools" style="top: -1px; right: auto; left: 15px;">
+					<button id="checkResultTableDown" class="btn btn-primary btn-sm">导出Excel</button>
+				</div>-->
+			</div>
+			<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="resultSearchForm" name="resultSearchForm" method="post">
+						<div class="row">
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>订单编号：</label>
+				              <input name="orderCode" type="text"
+				                     class="form-control"
+				                     placeholder="搜索订单编号">
+				            </div>
+				          </div>
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>支付订单号：</label>
+				              <input name="iPayNo" type="text"
+				                     class="form-control"
+				                     placeholder="搜索支付订单号">
+				            </div>
+				          </div>
+				          <div class="col-sm-3">
+				            <div class="form-group">
+				              <label>对账处理结果：</label>
+				              <select name="dealStatus" class="form-control">
+				                <option value="" selected>全部</option>
+				                <option value="toDeal" >待处理</option>
+				                <option value="dealing" >处理中</option>
+				                <option value="dealt" >已处理</option>
+				              </select>
+				            </div>
+				          </div>
+				        </div>
+					</form>
+				</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<table id="chekResultTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>订单号</th>
+							<th>支付订单号</th>
+							<th>订单类型</th>
+							<th>订单金额(元)</th>
+							<th>卡券金额(元)</th>
+							<th>手续费(元)</th>
+							<th>订单状态</th>
+							<th>订单时间</th>
+							<th>用户</th>
+							<th>用户类型</th>
+							<th>对账状态</th>
+							<th>外部订单号</th>
+							<th>外部订单类型</th>
+							<th>业务订单类型</th>
+							<th>外部交易金额(元)</th>
+							<th>外部卡券金额(元)</th>
+							<th>外部手续费(元)</th>
+							<th>外部订单状态</th>
+							<th>业务订单状态</th>
+							<th>外部订单时间</th>
+							<th>外部投资人</th>
+							<th>外部用户类型</th>
+							<th>业务用户类型</th>
+							<th>外部对账状态</th>
+							<th>处理状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--
+	作者：272000832@qq.com
+	时间：2017-03-14
+	描述：补充值提现订单
+-->
+<div id="addBankOrderModal" class="modal fade item_box" tabindex="1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addBankOrderForm" name="addBankOrderForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人Id</label>
+							<div class="form-group">
+								<input name="checkInvestorOid" type="text"  maxlength="50" class="form-control" disabled="disabled" placeholder="请输入投资人" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人</label>
+							<div class="form-group">
+								<input name="checkInvestorName" type="text"  maxlength="50" class="form-control" disabled="disabled" placeholder="请输入投资人" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>金额（元）</label>
+							<div class="form-group">
+								<input name="checkOrderAmount" type="text"  data-validfloat="8.2" maxlength="11" class="form-control" disabled="disabled" placeholder="请输金额" data-validpositive="non-zero" data-error="不能为空且值必须大于0，小于100000000.00!" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>	
+					<input name="oid" type="hidden">
+					<input name="checkOid" type="hidden">
+					<input name="checkOrderCode" type="hidden">
+					<input name="checkOrderType" type="hidden">
+					<input name="orderTime" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addBankOrderSubmit" type="button" class="btn btn-primary btn-submit addBankOrderSubmit">确定</button>
+				<div id="addBankOrderRefreshDiv">
+		              <i id="addBankOrderRefreshI"></i>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 补投资单窗口 -->
+<div id="addTradeOrderModal" class="modal fade item_box" tabindex="1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="addTradeOrderForm" name="addTradeOrderForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人</label>
+							<div class="form-group">
+								<input name="checkInvestorOid" type="text" id="checkInvestorOid" maxlength="50" class="form-control" disabled="disabled" >
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人</label>
+							<div class="form-group">
+								<input name="checkInvestorName" type="text"  maxlength="50" class="form-control" disabled="disabled" >
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>订单号</label>
+							<div class="form-group">
+								<input name="checkOrderCode" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<input name="oid" type="hidden">
+					<input name="checkOid" type="hidden">
+					<input name="checkOrderType" type="hidden">
+					<input name="checkOrderAmount" type="hidden">
+					<input name="orderTime" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="addTradeOrderSubmit" type="button" class="btn btn-primary btn-submit addTradeOrderSubmit">确定</button>
+				<div id="addTradeOrderRefreshDiv">
+		              <i id="addTradeOrderRefreshI"></i>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 废单Bank窗口 -->
+<div id="removeTradeOrderModal" class="modal fade item_box" tabindex="1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="removeTradeOrderForm" name="removeTradeOrderForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人Id</label>
+							<div class="form-group">
+								<input name="investorOid" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人</label>
+							<div class="form-group">
+								<input name="investorName" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>订单号</label>
+							<div class="form-group">
+								<input name="orderCode" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<input name="oid" type="hidden">
+					<input name="checkOid" type="hidden">
+					<input name="orderType" type="hidden">
+					<input name="orderAmount" type="hidden">
+					<input name="orderStatus" type="hidden">
+					<input name="orderTime" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="removeTradeOrderSubmit" type="button" class="btn btn-primary btn-submit removeTradeOrderSubmit">确定</button>
+				<div id="removeTradeOrderRefreshDiv">
+		              <i id="removeTradeOrderRefreshI"></i>
+		        </div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- 废单Bank窗口 -->
+<div id="removeBankOrderModal" class="modal fade item_box" tabindex="1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="removeBankOrderForm" name="removeBankOrderForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人Id</label>
+							<div class="form-group">
+								<input name="investorOid" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>投资人</label>
+							<div class="form-group">
+								<input name="investorName" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<label>订单号</label>
+							<div class="form-group">
+								<input name="orderCode" type="text"  maxlength="50" class="form-control" disabled="disabled" required>
+							</div>
+						</div>
+					</div>
+					<input name="oid" type="hidden">
+					<input name="checkOid" type="hidden">
+					<input name="orderType" type="hidden">
+					<input name="orderAmount" type="hidden">
+					<input name="orderStatus" type="hidden">
+					<input name="orderTime" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="removeBankOrderSubmit" type="button" class="btn btn-primary btn-submit removeBankOrderSubmit">确定</button>
+				<div id="removeBankOrderRefreshDiv">
+		              <i id="removeBankOrderRefreshI"></i>
+		        </div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<!-- 长款窗口 -->
+<div id="longModal" class="modal fade item_box" tabindex="1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+				<h4 class="modal-title"></h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="longForm" name="longForm" method="post">
+					<div class="row">
+						<div class="col-sm-12">
+							<label>长款原因</label>
+							<div class="form-group">
+								<textarea name="msg" class="form-control" placeholder="请输入长款原因" rows="3" required></textarea>
+							</div>
+						</div>
+					</div>
+					<input name="crOid" type="hidden">
+					<input name="outerOrderCode" type="hidden">
+					<input name="tradeAmount" type="hidden">
+					<input name="buzzOrderStatus" type="hidden">
+					<input name="outerOrderTime" type="hidden">
+					<input name="outerInvestorOid" type="hidden">
+					<input name="outerFee" type="hidden" id="fee">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="longSubmit" type="button" class="btn btn-primary btn-submit longSubmit">确定</button>
+				<div id="longRefreshDiv">
+		              <i id="longRefreshI"></i>
+		        </div>
+			</div>
+		</div>
+	</div>
+</div>

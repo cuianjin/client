@@ -1,0 +1,480 @@
+<!-- 页面头部 -->
+<section class="content-header">
+  <h1>
+    活动管理
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 内容管理</a></li>
+    <li class="active">活动管理</li>
+  </ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="bannerGrid" class="box box-primary">
+        <div class="box-header">
+        	<h3 class="box-title">活动列表</h3>
+          <div class="box-tools">
+            <button id="createActivity" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> 新建活动
+            </button>
+          </div>
+        </div>
+        <div class="box-body">
+        	<form id="searchForm" name="searchForm" method="post">
+	          <div class="row">
+	          	<div class="col-sm-3">
+	              <div class="form-group">
+	                <label>渠道</label>
+	               	<select name="channelOid" class="form-control input-sm" data-enum-fetch="channelTypes" data-enum-text="全部"></select>
+	              </div>
+	           </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label>状态</label>
+                  <select name="status" class="form-control input-sm">
+                    <option value="" selected>全部</option>
+                    <option value="on">已上架</option>
+                    <option value="off">已下架</option>
+                    <option value="reviewed">已审核</option>
+                    <option value="pending">待审核</option>
+                    <option value="reject">已驳回</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>发布时间</label>
+	                  <div class="input-group input-group-sm">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="publishTimeBegin" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="从"
+	                           data-date-format="YYYY-MM-DD " data-date-end="publishTimeEnd">
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-3">
+	                <div class="form-group">
+	                  <label>&nbsp;</label>
+	                  <div class="input-group daterange input-group-sm">
+	                    <div class="input-group-addon">
+	                      <i class="fa fa-calendar"></i>
+	                    </div>
+	                    <input name="publishTimeEnd" type="text"
+	                           class="form-control datepicker input-sm"
+	                           placeholder="到"
+	                           data-date-format="YYYY-MM-DD " data-date-begin="publishTimeBegin">
+	                  </div>
+	                </div>
+	              </div>
+	              <div class="col-sm-3">
+	              <div class="form-group">
+	                <label>标题</label>
+	                <input name="title" type="text"
+	                       class="form-control input-sm"
+	                       placeholder="搜索标题">
+	              </div>
+	            </div>
+	          </div>
+	        </form>
+	        
+          <table id="activityTable" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>序号</th>
+                <th>标题</th>
+                <th>位置</th>
+                <th>链接</th>
+                <th>图片</th>
+                <th>状态</th>
+                <th>发布日期</th>
+                <th>活动开始时间</th>
+                <th>活动结束时间</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="createModal" class="modal fade bs-example-modal-sm item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog bs-example-modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+        <form id="createForm1" name="createForm" method="post" style="min-height: 350px;">
+          <div class="form-group col-sm-6">
+	          <label>所属渠道</label>
+	            <select name="channelOid" class="form-control input-sm" data-enum-fetch="channelTypes" required></select>
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>标题</label>
+            <input name="title" type="text"
+                   class="form-control"
+                   placeholder="请输入标题" required maxlength="50">
+          </div>
+        
+          <div class="form-group col-sm-12">
+            <label>位置</label>
+            <select name="location" class="form-control input-sm" data-enum-fetch="locationTypes" required>
+            </select>
+          </div>
+          
+          <div class="form-group col-sm-12">
+            <label>链接类型</label>
+            <div class="row form-style">
+              <div class="col-sm-3">
+                <input id="activity_toUrl" name="linkType" value=0 type="radio" class="size-14"/> 链接
+              </div>
+              <div class="col-sm-3">
+                <input id="activity_toPage" name="linkType" value=1 type="radio"  class="size-14"/> 跳转
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group col-sm-12" id="activity_showUrl">
+            <label>链接地址</label>
+            <input name="linkUrl" type="text"
+                   class="form-control"
+                   placeholder="例如：http://www.baidu.com" maxlength="250">
+          </div>
+          <div class="form-group col-sm-12" id="activity_showtoPage" hidden>
+          	  <label>跳转页面</label>
+          	  <div class="row form-style">
+	              <div class="col-sm-3">
+	                <input name="toPage" type="radio" value="newcomer" class="size-14"> 新手
+	              </div>
+	              <div class="col-sm-3">
+	                <input name="toPage" type="radio" value="seckill" class="size-14"> 秒杀
+	              </div>
+	              <div class="col-sm-3">
+	                <input name="toPage" type="radio" value="other" class="size-14"> 其他
+	              </div>
+              </div>
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>活动开始时间</label>
+            <input name="beginTime" type="text" class="form-control datepicker input-sm" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime" required>
+          </div>
+          
+          <div class="form-group col-sm-6">
+            <label>活动结束时间</label>
+            <input name="endTime" type="text" class="form-control datepicker input-sm" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss"data-date-begin="beginTime" required>
+          </div>
+          
+          <input name="oid" type="hidden" />
+			    <input name="picUrl" type="hidden" />
+        </form>
+        <!-- 图片上传表单 -->
+        <form id="picForm" name="picForm" method="post" enctype="multipart/form-data">
+          <div class="form-group col-sm-12" id="picDiv">
+            <label>图片</label>
+            <input name="picFile" type="file"class="form-control"
+									 data-validjpgpng="jpgpng"
+									 data-validjpgpng-error="格式仅限JPG、PNG；只可上传一张，建议像素：325*181" required>
+									 <div class="help-block with-errors text-red"></div>
+						<p>格式仅限JPG、PNG；只可上传一张，建议像素：325*181</p>
+          </div>
+          
+          <table id="activityPicTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>图片</th>
+								<th>操作</th>
+							</tr>
+							<tr>
+								<th><img id="editImageUrl" src="" width="480" height="180"/></th>
+								<th><button class="btn btn-default btn-xs" id="picDelButton">删除</button></th>
+							</tr>
+						</thead>
+					</table>
+        </form>
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer box bt0">
+        <button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+        <button id="createReset" type="button" class="btn btn-default">重 置</button>
+        <div id="refreshDiv">
+              <i id="refreshI"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="deleteConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定删除此条数据？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="publishConfirm" class="popover func-delete-popover">
+  <div class="arrow"></div>
+    <h3 class="popover-title">提示</h3>
+    <div class="popover-content">
+    <p>确定<span id="isShelf"></span>此活动？</p>
+    <div class="popover-btn clearfix">
+      <div class="unit">
+        <button class="btn btn-block btn-primary accept">确 定</button>
+      </div>
+      <div class="unit">
+        <button class="btn btn-block btn-default cancel">取 消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">审核提示</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+        <!-- 新增/编辑事件表单 -->
+          <form id="approveForm" name="approveForm" method="post">
+	          <div class="form-group">
+	            <label>审核意见：</label>
+	            <textarea name="remark" class="form-control"placeholder="请输入审核意见" rows="3" required></textarea>	            
+	          </div>
+	          <input name="oid" type="hidden">
+	          <input name="apprResult" type="hidden">
+	        </form> 
+      </div>
+      <!-- 模态窗底部 -->
+      <div class="modal-footer">
+        <button type="button" id="approveRefuseBut" class="btn btn-primary btn-submit approveSubmit">驳回</button>
+        <button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">通过</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">详情</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<form id="detailForm" name="detailForm" method="post">					
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>所属渠道</dt>
+								<dd>
+									<div data-detail-fetch="channelOid" data-enum-transform="channelTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标题</dt>
+								<dd>
+									<div data-detail-fetch="title"></div>
+								</dd>
+							</dl>
+						</div>				    
+					
+					  <!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>参数</dt>
+								<dd>
+									<div data-detail-fetch="param"></div>
+								</dd>
+							</dl>
+						</div>-->
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>位置</dt>
+								<dd>
+									<div data-detail-fetch="location" data-enum-transform="locationTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>链接类型</dt>
+								<dd>
+									<div data-detail-fetch="linkType" data-enum-transform="linkTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>跳转的页面</dt>
+								<dd>
+									<div data-detail-fetch="toPage" data-enum-transform="activityPageTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>链接</dt>
+								<dd>
+									<div class="break" data-detail-fetch="linkUrl"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>图片</dt>
+								<dd>
+									<div><img id="picUrlDetail" src="" width="300" height="180"/></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑人</dt>
+								<dd>
+									<div data-detail-fetch="creator"></div>
+								</dd>
+							</dl>
+						</div>
+      			
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>编辑时间</dt>
+								<dd>
+									<div id="createTimeDetail"></div>
+								</dd>
+							</dl>
+						</div>
+      			
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核人</dt>
+								<dd>
+									<div data-detail-fetch="review"></div>
+								</dd>
+							</dl>
+						</div>
+      			
+      			<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>审核时间</dt>
+								<dd>
+									<div id="reviewTimeDetail"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>审核意见</dt>
+								<dd>
+									<div><textarea id="reviewRemarkDetail" rows="3" cols="80" readonly="true" style="resize: none;"></textarea></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发布人</dt>
+								<dd>
+									<div data-detail-fetch="publisher"></div>
+								</dd>
+							</dl>
+						</div>						
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>发布时间</dt>
+								<dd>
+									<div id="publishTimeDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>活动开始时间</dt>
+								<dd>
+									<div data-detail-fetch="beginTime"></div>
+								</dd>
+							</dl>
+						</div>
+						
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>活动结束时间</dt>
+								<dd>
+									<div data-detail-fetch="endTime"></div>
+								</dd>
+							</dl>
+						</div>
+        </div>
+      </form>
+    </div>
+  </div>
+ </div>
+</div>
+<!--  图片模态窗 默认大小 -->
+<div id="viewModal" class="modal fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <!-- 模态窗头部 -->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">图片预览</h4>
+      </div>
+      <!-- 模态窗内容体 -->
+      <div class="modal-body">
+      	<img src="" id="viewImage" style="max-width: 870px;margin: auto;display: block;"/>
+      </div>
+      <!-- 模态窗底部 -->
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+	  </div>
+  </div>
+ </div>
+</div>

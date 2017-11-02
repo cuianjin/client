@@ -1,0 +1,215 @@
+<link href="assets/js/jstree/themes/default/style.min.css" rel="stylesheet">
+<style>
+    .left {
+        float: left;
+        width: 23%;
+        margin-right: 2%;
+        height: 800px;
+        overflow: auto;
+    }
+
+    .right {
+        float: right;
+        width: 70%;
+        padding: 0 0;
+        margin: 0 0;
+        margin-right: 5%;
+    }
+
+    .div1 {
+        height: 60px;
+        background-color: #fafafa;
+    }
+
+    .p-line {
+        line-height: 40px;
+        float: left;
+    }
+
+    .p-select {
+        margin-top: 15px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .div2 {
+        
+        margin-top: 20px;
+    }
+
+    .span {
+        color: red;
+    }
+
+    .theader {
+        background-color: #fafafa;
+    }
+    section.content .table{min-width: 0;text-align: inherit;}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    栏目管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> 内容管理</li>
+		<li class="active">栏目管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="box box-primary clearfix">
+    <div class="box-header">
+		<!-- 统计数据 -->
+		<form id="searchForm" name="searchForm" method="post">
+			<div class="row">
+				<div class="col-sm-3">
+					<div class="form-group">
+						<select class="form-control input-sm">
+			                <option>--添加子栏目--</option>
+			                <option>--新闻信息--</option>
+			                <option>--公告--</option>
+			            </select>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div class="left">
+    	<div id="tree" class="jstree jstree-1 jstree-default jstree-default-large" role="tree" aria-multiselectable="true" tabindex="0" aria-activedescendant="j1_9" aria-busy="false"><ul class="jstree-container-ul jstree-children" role="group"><li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j1_1_anchor" aria-expanded="true" id="j1_1" class="jstree-node  jstree-open jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_1_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>根目录
+                    </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_2_anchor" id="j1_2" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_2_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>投资理财</a></li><li role="treeitem" aria-selected="true" aria-level="2" aria-labelledby="j1_3_anchor" id="j1_3" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor jstree-clicked" href="#" tabindex="-1" id="j1_3_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>资产交易</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_4_anchor" id="j1_4" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_4_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>国有产权</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_5_anchor" id="j1_5" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_5_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>转让专区</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_6_anchor" id="j1_6" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_6_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>投融信息</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_7_anchor" id="j1_7" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_7_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>土地流转</a></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_8_anchor" aria-expanded="true" id="j1_8" class="jstree-node jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_8_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>会员中心
+                            </a><ul role="group" class="jstree-children" style=""><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_9_anchor" id="j1_9" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_9_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>入会须知</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_10_anchor" id="j1_10" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_10_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>入会流程</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_11_anchor" id="j1_11" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_11_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>会员公告</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_12_anchor" id="j1_12" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_12_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>用户回答</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_13_anchor" aria-expanded="true" id="j1_13" class="jstree-node  jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_13_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>关于我们
+                            </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_14_anchor" id="j1_14" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_14_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>简介</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_15_anchor" id="j1_15" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_15_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>公司动态</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_16_anchor" id="j1_16" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_16_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>行业动态</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_17_anchor" id="j1_17" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_17_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>合作伙伴</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_18_anchor" id="j1_18" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_18_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>联系我们</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_19_anchor" id="j1_19" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_19_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>平台公告</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_20_anchor" id="j1_20" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_20_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>媒体报道</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_21_anchor" id="j1_21" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_21_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>帮助中心</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_22_anchor" id="j1_22" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_22_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>客服中心</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_23_anchor" id="j1_23" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_23_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>中心公告</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_24_anchor" id="j1_24" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_24_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>变更补遗</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_25_anchor" aria-expanded="true" id="j1_25" class="jstree-node  jstree-open"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_25_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>其他栏目
+                            </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_26_anchor" id="j1_26" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_26_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>组织机构</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_27_anchor" id="j1_27" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_27_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>领导致辞</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_28_anchor" id="j1_28" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_28_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>法律条款</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_29_anchor" id="j1_29" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_29_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>版权声明</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_30_anchor" id="j1_30" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_30_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>法律咨询</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_31_anchor" id="j1_31" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_31_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>政策法规</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_32_anchor" id="j1_32" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_32_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>滚动新闻</a></li></ul></li><li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j1_33_anchor" aria-expanded="true" id="j1_33" class="jstree-node  jstree-open jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_33_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>资讯要闻
+                            </a><ul role="group" class="jstree-children"><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_34_anchor" id="j1_34" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_34_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>平台动态</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_35_anchor" id="j1_35" class="jstree-node  jstree-leaf"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_35_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>宏观政策</a></li><li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j1_36_anchor" id="j1_36" class="jstree-node  jstree-leaf jstree-last"><i class="jstree-icon jstree-ocl" role="presentation"></i><a class="jstree-anchor" href="#" tabindex="-1" id="j1_36_anchor"><i class="jstree-icon jstree-themeicon" role="presentation"></i>市场咨询</a></li></ul></li></ul></li></ul></div>
+    </div>
+    <div class="right">
+        <div class="div2">
+        	<table id="dataTable" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>栏目名称</th>
+						<th>访问路径</th>
+						<th>显示</th>
+						<th>排序</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+                <tbody>
+                <tr>
+                    <td>125</td>
+                    <td>投资理财<span class="span">[公告]</span></td>
+                    <td>xdfs</td>
+                    <td>是</td>
+                    <td>1</td>
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>158</td>
+                    <td>资产交易<span class="span">[公告]</span></td>
+                    <td>dss</td>
+                    <td>是</td>
+                    <td>2</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>535</td>
+                    <td>国有产权<span class="span">[公告]</span></td>
+                    <td>fgr</td>
+                    <td>否</td>
+                    <td>3</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>542</td>
+                    <td>转让专区<span class="span">[公告]</span></td>
+                    <td>sdffa</td>
+                    <td>是</td>
+                    <td>4</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>345</td>
+                    <td>投融信息<span class="span">[公告]</span></td>
+                    <td>thhdx</td>
+                    <td>否</td>
+                    <td>5</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>104</td>
+                    <td>土地流转<span class="span">[公告]</span></td>
+                    <td>mklm</td>
+                    <td>否</td>
+                    <td>6</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>201</td>
+                    <td>会员中心<span class="span">[公告]</span></td>
+                    <td>okl</td>
+                    <td>是</td>
+                    <td>7</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>621</td>
+                    <td>其他栏目<span class="span">[公告]</span></td>
+                    <td>mope</td>
+                    <td>是</td>
+                    <td>8</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>224</td>
+                    <td>咨询要闻<span class="span">[公告]</span></td>
+                    <td>jhil</td>
+                    <td>是</td>
+                    <td>9</td>
+
+                    <td>
+                        <a>修改</a>
+                        <a>删除</a>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</section>

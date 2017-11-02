@@ -1,0 +1,667 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		发行人账户管理
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 账户管理</a></li>
+		<li class="active">发行人账户管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">&nbsp;</h3>
+					<div class="box-tools">
+						<button id="createCaccount" class="btn btn-primary btn-sm">
+							<i class="fa fa-plus"></i> 新建发行人
+						</button>
+						<button id="doExport" class="btn btn-primary btn-sm">
+							<i class="fa"></i> 导出Excel
+						</button>
+					</div>
+				</div>
+				<div class="box-header with-border">
+					<!-- 搜索条件 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>手机号：</label>
+									<input name="phone" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索手机号">
+								</div>
+							</div>
+							
+							<!--<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户号：</label>
+									<input name="account" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索账户号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户状态：</label>
+									<select name="status" class="form-control input-sm">
+										<option value="0" selected>全部</option>
+										<option value="1">启用</option>
+										<option value="2">锁定</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>注册时间:</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="begin" type="text"
+											   class="form-control datepicker input-sm"
+											   placeholder="从"
+											   data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group daterange input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="end" type="text"
+											   class="form-control datepicker input-sm"
+											   placeholder="到"
+											   data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+								</div>
+							</div>-->
+							
+						</div>
+					</form>
+				</div>	
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 原搜索位 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>手机号</th>
+								<th>姓名</th>
+								<th>证件号</th>
+								<th>银行名称</th>
+								<th>银行账号</th>
+								<th>余额(元)</th>
+								<th>归集清算户余额(元)</th>
+								<th>可用金户余额(元)</th>
+								<th>冻结户余额(元)</th>
+								<th>提现可用金余额(元)</th>
+								<th>状态</th>
+								<th>更新时间</th>
+								<th>创建时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="openAndLockConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 新增/编辑模态窗 默认大小窗体 -->
+<div id="createCaccountModal" data-backdrop="static" class="modal fade fade bs-example-modal-lg item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新建发行人</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="createForm" name="createForm" method="post">
+					<!--<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>账号</label>
+								<input name="account" type="text"
+									   class="form-control"
+									   placeholder="请输入账号" required maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>发行人名称</label>
+								<input name="name" type="text"
+									   class="form-control"
+									   placeholder="请输入发行人名称" required maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>简称拼音</label>
+								<input name="phonetic" type="text"
+									   class="form-control"
+									   placeholder="请输入简称拼音" required maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>-->
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>手机号</label>
+								<input name="phone" type="text"
+									   class="form-control"
+									   placeholder="请输入手机号"
+									   data-validmobileno="mobileno" required maxlength="11">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>管理员</label>
+								<select name="adminInvestorOids" class="form-control input-sm origin-select"
+										multiple="multiple"
+										style="width: 100%;"
+										data-enum-fetch="ADMINACCLIST"
+										required></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<!--<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业全称</label>
+								<input name="companyName" type="text"
+									   class="form-control"
+									   placeholder="请输入企业全称" required maxlength="128">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业网址</label>
+								<input name="website" type="url"
+									   class="form-control"
+									   placeholder="请输入企业网址"
+									   data-error="请输入正确格式的网址" required maxlength="128">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业地址</label>
+								<input name="address" type="text"
+									   class="form-control"
+									   placeholder="请输入企业地址" required maxlength="128">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系人</label>
+								<input name="contact" type="text"
+									   class="form-control"
+									   placeholder="请输入联系人" required maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系电话</label>
+								<input name="telephone" type="text"
+									   class="form-control"
+									   placeholder="请输入联系电话"
+									   data-validphoneno="phoneno" required maxlength="12">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>联系邮箱</label>
+								<input name="email" type="email"
+									   class="form-control"
+									   placeholder="请输入联系邮箱"
+									   data-error="请输入正确格式的电子邮箱" required maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>营业执照号</label>
+								<input name="licenseNo" type="text"
+									   class="form-control"
+									   placeholder="请输入营业执照号" required maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>执照所在地</label>
+								<input name="licenseAddress" type="text"
+									   class="form-control"
+									   placeholder="请输入执照所在地" required maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>营业期限</label>
+								<input name="licenseExpireDate" type="text"
+									   class="form-control datepicker"
+									   data-date-format="YYYY-MM-DD" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>管理员</label>
+								<select name="userOids" class="form-control input-sm origin-select"
+										multiple="multiple"
+										style="width: 100%;"
+										data-enum-fetch="ADMINACCLIST"
+										required></select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>营业范围</label>
+								<textarea name="businessScope" type="text"
+										  class="form-control"
+										  placeholder="请输入营业范围" required maxlength="256"></textarea>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>组织机构代码</label>
+								<input name="organizationNo" type="text"
+									   class="form-control"
+									   placeholder="请输入组织机构代码" required maxlength="32">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group">
+								<label>企业简介</label>
+								<textarea name="summary" type="text"
+										  class="form-control"
+										  placeholder="请输入企业简介" required maxlength="512"></textarea>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业法人</label>
+								<input name="legalPerson" type="text"
+									   class="form-control"
+									   placeholder="请输入企业法人" required maxlength="64">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>法人身份证号</label>
+								<input name="certNo" type="text"
+									   class="form-control"
+									   placeholder="请输入法人身份证号"
+									   data-valididno="idno" required maxlength="18">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>法人手机号</label>
+								<input name="legalPersonPhone" type="text"
+									   class="form-control"
+									   placeholder="请输入法人手机号"
+									   data-validmobileno="mobileno" required maxlength="11">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>开户银行</label>
+								<select id="bankCode" name="bankCode" class="form-control" required>
+									<option value="ABC">农业银行</option>
+									<option value="BOC">中国银行</option>
+									<option value="CCB">建设银行</option>
+									<option value="CIB">兴业银行</option>
+									<option value="CMB">招商银行</option>
+									<option value="ICBC">工商银行</option>
+									<option value="超出">第一银行</option>
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>开户行省份</label>
+								<input name="province" type="text"
+									   class="form-control"
+									   placeholder="请输入开户行省份" required maxlength="128">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>开户行城市</label>
+								<input name="city" type="text"
+									   class="form-control"
+									   placeholder="请输入开户行城市" required maxlength="128">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>银行卡号</label>
+								<input name="bankAccountNo" type="text"
+									   class="form-control"
+									   placeholder="请输入银行卡号"
+									   data-validbank="bankno"
+									   required maxlength="19">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>支行名称</label>
+								<input name="bankBranch" type="text"
+									   class="form-control"
+									   placeholder="请输入支行名称" required maxlength="256">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<input name="fileName" type="hidden" />
+					<input name="digest" type="hidden" />
+					<input name="digestType" type="hidden" />
+					<input name="certType" type="hidden" />
+					<input name="cardType" type="hidden" />
+					<input name="cardAttribute" type="hidden" />
+				</form>
+				<div class="col-sm-12" style="padding: 30px 15px 20px 15px;">相关证照上传，格式仅限JPG、PNG；建议尺寸220*150</div>
+				<form id="picForm" name="picForm" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业营业执照</label>
+								<input name="yyzz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>组织机构代码证</label>
+								<input name="zzjgz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>税务登记证</label>
+								<input name="swdjz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>开户许可证</label>
+								<input name="jsxkz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业法人证件正面</label>
+								<input name="frzjz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>企业法人证件反面</label>
+								<input name="frzjf" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>机构信用代码证</label>
+								<input name="jgxyz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   data-validjpgpng-error="图片格式仅限JPG、PNG,只可上传一张">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>ICP备案许可</label>
+								<input name="icp" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   data-validjpgpng-error="图片格式仅限JPG、PNG,只可上传一张">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>行业许可证</label>
+								<input name="hyxkz" type="file"
+									   class="form-control"
+									   data-validjpgpng="jpgpng"
+									   data-validjpgpng-error="图片格式仅限JPG、PNG,只可上传一张">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<input name="fileName" type="hidden" />-->
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer box">
+				<button id="createSubmit" type="button" class="btn btn-primary btn-submit createSubmit">确 定</button>
+				<!--<button id="reset" type="button" class="btn btn-default">重 置</button>-->
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<div id="refreshDiv">
+					<i id="refreshI"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="accModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">修改管理员</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="accForm" name="accForm" method="post">
+					<div class="form-group">
+						<label>管理员</label>
+						<select id="acc" name="userOids" class="form-control input-sm origin-select"
+								multiple="multiple"
+								style="width: 100%;"
+								data-enum-fetch="ADMINUPDATELIST"
+								required></select>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<input type="hidden" name="baseAccountOid" />
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="accSubmit" type="button" class="btn btn-primary btn-submit accSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 绑卡模态窗 默认大小窗体 -->
+<div id="bindCardModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">绑卡</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="bindCardForm" name="bindCardForm" method="post">
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label>姓名</label>
+							<input name="realName" type="text" class="form-control input-sm" placeholder="请输入姓名" minlength="2" maxlength="6" required>
+							<div class="help-block with-errors text-red"></div>
+						</div>
+						<div class="form-group col-sm-6">
+							<label>身份证号</label>
+							<input name="certificateNo" type="text" class="form-control input-sm" placeholder="请输入身份证号" data-valididno="idno" maxlength="18" required>
+							<div class="help-block with-errors text-red"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label>银行名称</label>
+							<select name="bankName" class="form-control" required></select>
+							<div class="help-block with-errors text-red"></div>
+						</div>
+						<div id="cardNoDiv" class="form-group col-sm-6">
+							<label>银行账号</label>
+							<input name="cardNo" type="text" class="form-control input-sm" placeholder="请输入银行账号" data-validbank="bankno" maxlength="19" required>
+							<div id="cardNoError" class="help-block with-errors text-red"></div>
+						</div>
+						<input name="baseAccountOid" type="hidden" />
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="bindCardSubmit" type="button" class="btn btn-primary btn-submit bindCardSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 绑卡输入验证码模态窗 默认大小窗体 -->
+<div id="bindCardConfirmModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">绑卡验证码</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="bindCardConfirmForm" name="bindCardConfirmForm" method="post">
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label>验证码</label>
+							<input name="smsCode" type="text" class="form-control input-sm" placeholder="请输入验证码" maxlength="6" required>
+							<div class="help-block with-errors text-red"></div>
+						</div>
+						<input name="baseAccountOid" type="hidden" />
+						<input name="cardOrderId" type="hidden" />
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="bindCardConfirmSubmit" type="button" class="btn btn-primary btn-submit bindCardConfirmSubmit">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>

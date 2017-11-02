@@ -1,0 +1,197 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		平台首页
+	</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 首页</a>
+		</li>
+		<li class="active">平台首页</li>
+	</ol>
+</section>
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<div id="" class="box box-primary">
+				<div id="platformCountDiv" class="box-header with-border">
+					<h3 class="box-title">&nbsp;</h3>
+					<div class="row">
+						<div id="" class="col-sm-3">平台累计交易额(元)
+							<div><span class="f22"><div data-detail-fetch="totalTradeAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">平台累计借款金额(元)
+							<div><span class="f22"><div data-detail-fetch="totalLoanAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">平台累计还款总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalReturnAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">平台累计付息总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalInterestAmount" class="currency"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-3">用户充值总额(元)
+							<div><span class="f22"><div data-detail-fetch="investorTotalDepositAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">用户提现总额(元)
+							<div><span class="f22"><div data-detail-fetch="investorTotalWithdrawAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">累计注册用户数(人)
+							<div><span class="f22"><div data-detail-fetch="registerAmount" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">累计实名认证用户数(人)
+							<div><span class="f22"><div data-detail-fetch="verifiedInvestorAmount" class="quantity"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-3">发行人数(人)
+							<div><span class="f22"><div data-detail-fetch="publisherAmount" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">发行人充值总额(元)
+							<div><span class="f22"><div data-detail-fetch="publisherTotalDepositAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">发行人提现总额(元)
+							<div><span class="f22"><div data-detail-fetch="publisherTotalWithdrawAmount" class="currency"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">逾期次数(次)
+							<div><span class="f22"><div data-detail-fetch="overdueTimes" class="quantity"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-3">募集期产品数(个)
+							<div><span class="f22"><div data-detail-fetch="raisingNum" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">募集结束产品数(个)
+							<div><span class="f22"><div data-detail-fetch="raiseendNum" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">存续期产品数(个)
+							<div><span class="f22"><div data-detail-fetch="durationingNum" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">存续期结束产品数(个)
+							<div><span class="f22"><div data-detail-fetch="durationendNum" class="quantity"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-3">清算中产品数(个)
+							<div><span class="f22"><div data-detail-fetch="clearingNum" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">已清算产品数(个)
+							<div><span class="f22"><div data-detail-fetch="clearedNum" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">代金券数量(个)
+							<div><span class="f22"><div data-detail-fetch="totalCoupon" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">代金券总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalCouponAmount" class="quantity"></div></span></div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div id="" class="col-sm-3">加息券数量(个)
+							<div><span class="f22"><div data-detail-fetch="totalRateCoupon" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">体验金卡券数量(个)
+							<div><span class="f22"><div data-detail-fetch="totalTasteCoupon" class="quantity"></div></span></div>
+						</div>
+						<div id="" class="col-sm-3">体验金卡券总额(元)
+							<div><span class="f22"><div data-detail-fetch="totalTasteCouponAmount" class="quantity"></div></span></div>
+						</div>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="row">
+						<div class="col-xs-12 col-lg-12">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">平台用户数近一个月变化</h3>
+								</div>
+								<div class="box-body">
+									<div id="todayAndYesterdayUser" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>
+						<!--<div class="col-xs-12 col-lg-5" style="height: 100%;">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">昨日和今日投资额统计</h3>
+								</div>
+								<div class="box-body">
+									<div id="todayAndYesterdayInvest" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>-->
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">昨日各渠道投资额排序前5位</h3>
+								</div>
+								<div class="box-body">
+									<div id="bar-vertical" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">昨日产品新增投资额TOP5</h3>
+								</div>
+								<div class="box-body">
+									<div id="bar-horizontalWap">
+										<div id="bar-horizontal" style="max-height: 260px;width: 100%;" align="center"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">平台交易额占比分析</h3>
+								</div>
+								<div class="box-body">
+									<div id="pie-hollow" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">投资人质量分析</h3>
+								</div>
+								<div class="box-body">
+									<div id="pie-solid2" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>
+						<!--<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">平台交易总额各渠道占比</h3>
+								</div>
+								<div class="box-body">
+									<div id="pie-solid1" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>-->
+					</div>
+					<!--<div class="row">
+						<div class="col-xs-12 col-lg-6">
+							<div class="box box-primary">
+								<div class="box-header">
+									<h3 class="box-title">累计申购和累计赎回金额对比</h3>
+								</div>
+								<div class="box-body">
+									<div id="investAndRedeem" style="min-height: 130px;max-height: 260px;margin: 0 auto;" align="center"></div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

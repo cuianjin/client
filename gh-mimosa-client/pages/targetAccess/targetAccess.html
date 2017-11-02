@@ -1,0 +1,927 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    标的审核管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 投资标的管理</a></li>
+		<li class="active">标的审核管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="targetAccessGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">标的审核列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="targetAccessTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>标的编号</th>
+								<th>标的名称</th>
+								<th>付息方式</th>
+								<th>拟成立日</th>
+								<th>标的类型</th>
+								<th>资产规模</th>
+								<th>资产期限</th>
+								<th>预期年化收益</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 标的详情弹窗 -->
+<div id="targetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="detTargetForm" name="detTargetForm" method="post">
+					<p class="form-header">标的概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资方向:</dt>
+								<dd>
+									<div data-detail-fetch="investment"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息周期方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualCycleType" data-enum-transform="accrualCycleType"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="TARGETHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="trustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>剩余授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="restTrustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>逾期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="overdueRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起购金额(万):</dt>
+								<dd>
+									<div data-detail-fetch="floorVolume" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>拟成立日:</dt>
+								<dd>
+									<div data-detail-fetch="expSetDate"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="collectDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>主体评级:</dt>
+								<dd>
+									<div data-detail-fetch="subjectRating"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级机构:</dt>
+								<dd>
+									<div data-detail-fetch="ratingAgency"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级时间:</dt>
+								<dd>
+									<div data-detail-fetch="ratingTime"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>内部评级:</dt>
+								<dd>
+									<div data-detail-fetch="irb"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>优先级:</dt>
+								<dd>
+									<div data-detail-fetch="prior"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益说明:</dt>
+								<dd>
+									<div data-detail-fetch="expArorDesc"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的状态:</dt>
+								<dd>
+									<div data-detail-fetch="state" data-enum-transform="targetStates"></div>
+								</dd>
+							</dl>
+						</div>
+						<div id="rejectDesc" class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>驳回理由:</dt>
+								<dd>
+									<div data-detail-fetch="rejectDesc"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">优势说明</p>
+					<dl class="dl-horizontal">
+						<dt>优势说明:</dt>
+						<dd>
+							<div data-detail-fetch="superiority"></div>
+						</dd>
+					</dl>
+					<p class="form-header">标的实力</p>
+					<dl class="dl-horizontal">
+						<dt>融资方:</dt>
+						<dd>
+							<div data-detail-fetch="financer"></div>
+						</dd>
+						<dt>融资方简介:</dt>
+						<dd>
+							<div data-detail-fetch="financerDesc"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>担保方:</dt>
+						<dd>
+							<div data-detail-fetch="warrantor"></div>
+						</dd>
+						<dt>担保简介:</dt>
+						<dd>
+							<div data-detail-fetch="warrantorDesc"></div>
+						</dd>
+					</dl>
+					<p class="form-header">资金用途</p>
+					<dl class="dl-horizontal">
+						<dt>资金用途:</dt>
+						<dd>
+							<div data-detail-fetch="usages"></div>
+						</dd>
+					</dl>
+					<p class="form-header">还款说明</p>
+					<dl class="dl-horizontal">
+						<dt>还款说明:</dt>
+						<dd>
+							<div data-detail-fetch="repayment"></div>
+						</dd>
+					</dl>
+					<p class="form-header">风控措施</p>
+					<dl class="dl-horizontal">
+						<dt>风控措施:</dt>
+						<dd>
+							<div data-detail-fetch="risk"></div>
+						</dd>
+					</dl>
+					<dl class="dl-horizontal">
+						<dt>风控风险等级:</dt>
+						<dd>
+							<div data-detail-fetch="riskRate"></div>
+						</dd>
+					</dl>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 底层资产管理弹窗 -->
+<div id="projectDataModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">底层项目管理</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<!-- 主体Grid -->
+						<div id="assetGrid" class="box box-primary">
+							<!-- Grid头部 -->
+							<div class="box-header">
+
+							</div>
+							<!-- Grid内容体 -->
+							<div class="box-body">
+								<!-- 搜索项表单 -->
+								<form id="projectSearchForm" name="projectSearchForm" method="post" class="search-body">
+									<div class="row">
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>项目名称</label>
+												<input name="projectName" type="text" class="form-control input-sm" placeholder="搜索项目名称">
+											</div>
+										</div>
+										<div class="col-sm-3">
+											<div class="form-group">
+												<label>项目经理</label>
+												<input name="projectManager" type="text" class="form-control input-sm" placeholder="搜索项目经理">
+											</div>
+										</div>
+									</div>
+								</form>
+								<!-- 主体数据表格 -->
+								<table id="projectTable" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>编号</th>
+											<th>名称</th>
+											<th>项目经理</th>
+											<th>类型</th>
+											<th>城市</th>
+											<th>创建时间</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 底层项目详情  弹窗 -->
+<div id="projectDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">底层项目</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">标的概况</p>
+				<div id="targetDetail_2">
+					<div class="row">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<!-- 新增/编辑事件表单 -->
+				</div>
+				<p class="form-header">项目概况</p>
+				<div id="projectDetail">
+					<div class="row">
+						<!--<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>项目编号:</dt>
+							<dd>
+								<div data-detail-fetch="sn"></div>
+							</dd>
+						</dl>
+					</div>-->
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>项目名称:</dt>
+								<dd>
+									<div data-detail-fetch="projectName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>项目经理:</dt>
+								<dd>
+									<div data-detail-fetch="projectManager"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>项目类型:</dt>
+								<dd>
+									<div data-detail-fetch="projectType" data-enum-transform="PROJECTTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>城市:</dt>
+								<dd>
+									<div data-detail-fetch="projectCity"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div id="financeDetai">
+						<p class="form-header">金融类项目信息</p>
+						<div class="row">
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>资金方所在地:</dt>
+									<dd>
+										<div data-detail-fetch="funderAddr"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>资金用途:</dt>
+									<dd>
+										<div data-detail-fetch="fundUsage"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>项目还款来源:</dt>
+									<dd>
+										<div data-detail-fetch="payment"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>外部项目增信措施:</dt>
+									<dd>
+										<div data-detail-fetch="trustMeasures"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>其他外部项目增信措施:</dt>
+									<dd>
+										<div data-detail-fetch="trustMeasuresName"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+
+					<div id="estateDetail">
+						<p class="form-header">房地产类项目信息</p>
+						<div class="row">
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>房地产项目所在地:</dt>
+									<dd>
+										<div data-detail-fetch="projectAddr"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>开发商排名:</dt>
+									<dd>
+										<div data-detail-fetch="developerRank"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>房地产项目属性:</dt>
+									<dd>
+										<div data-detail-fetch="estateProp" data-enum-transform="ESTATEPROPTYPE"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>完工情况:</dt>
+									<dd>
+										<div data-detail-fetch="estateCompletion"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<div id="warrantorDetail">
+						<p class="form-header">担保人信息</p>
+						<div class="row">
+							<!--<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>是否有担保:</dt>
+									<dd>
+										<div data-detail-fetch="warrantor"></div>
+									</dd>
+								</dl>
+							</div>-->
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>担保人所在地:</dt>
+									<dd>
+										<div data-detail-fetch="warrantorAddr"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>担保人总资产(万):</dt>
+									<dd>
+										<div data-detail-fetch="warrantorCapital" class="decimal4"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>担保人负债(万):</dt>
+									<dd>
+										<div data-detail-fetch="warrantorDebt" class="decimal4"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>保证方式:</dt>
+									<dd>
+										<div data-detail-fetch="guaranteeModeTitle"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>保证方式担保期:</dt>
+									<dd>
+										<div data-detail-fetch="guaranteeModeExpireTitle"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+
+					<div id="pledgeDetail">
+						<p class="form-header">抵押人信息</p>
+						<div class="row">
+							<!--<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>是否有抵押:</dt>
+									<dd>
+										<div data-detail-fetch="pledge"></div>
+									</dd>
+								</dl>
+							</div>-->
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>抵押人:</dt>
+									<dd>
+										<div data-detail-fetch="mortgager"></div>
+									</dd>
+								</dl>
+							</div>
+
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>抵押物所在地:</dt>
+									<dd>
+										<div data-detail-fetch="pledgeAddr"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>抵押物形态:</dt>
+									<dd>
+										<div data-detail-fetch="pledgeType"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>数量或面积:</dt>
+									<dd>
+										<div data-detail-fetch="pledgeWeight"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>抵押物名称坐落:</dt>
+									<dd>
+										<div data-detail-fetch="pledgeName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>抵押物评估机构:</dt>
+									<dd>
+										<div data-detail-fetch="pledgeAssessment"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>评估价值(万):</dt>
+									<dd>
+										<div data-detail-fetch="pledgeValuation" class="decimal4"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>抵押顺位:</dt>
+									<dd>
+										<div data-detail-fetch="pledgePriority"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>抵押率(%):</dt>
+									<dd>
+										<div data-detail-fetch="pledgeRatio" class="decimal2"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>保证金(万):</dt>
+									<dd>
+										<div data-detail-fetch="margin" class="decimal4"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>抵押方式:</dt>
+									<dd>
+										<div data-detail-fetch="mortgageModeTitle"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>抵押方式担保期限:</dt>
+									<dd>
+										<div data-detail-fetch="mortgageModeExpireTitle"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+
+					<div id="hypothecationDetail">
+						<p class="form-header">质押人信息</p>
+						<div class="row">
+							<!--<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>是否有质押:</dt>
+									<dd>
+										<div data-detail-fetch="hypothecation"></div>
+									</dd>
+								</dl>
+							</div>-->
+							<div class="col-sm-4">
+								<dl class="dl-horizontal">
+									<dt>出质人:</dt>
+									<dd>
+										<div data-detail-fetch="pledgor"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>质押方式:</dt>
+									<dd>
+										<div data-detail-fetch="hypothecationModeTitle"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-6">
+								<dl class="dl-horizontal">
+									<dt>质押方式担保期限:</dt>
+									<dd>
+										<div data-detail-fetch="hypothecationModeExpireTitle"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</div>
+					<p class="form-header">其他信息</p>
+					<div class="row">
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>政府层级:</dt>
+								<dd>
+									<div data-detail-fetch="govLevel"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>项目规模:</dt>
+								<dd>
+									<div data-detail-fetch="projectScale"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>融资成本:</dt>
+								<dd>
+									<div data-detail-fetch="financeCosts"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>受托采购主体(SPV):</dt>
+								<dd>
+									<div data-detail-fetch="spv"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>SPV通道费率(%):</dt>
+								<dd>
+									<div data-detail-fetch="spvTariff" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>项目评级:</dt>
+								<dd>
+									<div data-detail-fetch="projectGrade"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-4">
+							<dl class="dl-horizontal">
+								<dt>评级机构:</dt>
+								<dd>
+									<div data-detail-fetch="gradeAssessment"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级时间:</dt>
+								<dd>
+									<div data-detail-fetch="gradeTime"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 预审弹窗 -->
+<div id="accessModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">标的审查</h4>
+			</div>
+			<!-- 预审意见 -->
+			<div class="modal-body">
+				<form id="accessFrom" name="accessFrom" method="post">
+					<input name="oid" type="hidden" value="" />
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>标的规模</label>
+								<div class="input-group input-group-sm">
+									<input name="assetAmount" type="text" class="form-control input-sm" readonly="readonly">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>授信额度</label>
+								<div class="input-group input-group-sm">
+									<input name="trustAmount" type="text" class="form-control input-sm" placeholder="授信额度" data-validpositive="non-zero" data-validfloat="6.4" maxlength="11" data-error="授信额度最大6位整数4位小数且大于0">
+									<span class="input-group-addon">万</span>
+								</div>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>预审意见</label>
+								<textarea name="suggest" rows="3" class="form-control input-sm" placeholder="请输入预审意见" maxlength="1024"></textarea>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="checkreject" type="button" class="btn btn-warning btn-submit accessSubmit">驳 回</button>
+				<button id="checkpass" type="button" class="btn btn-primary btn-submit accessSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,156 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>凭证查询</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 会计分录</a></li>
+		<li class="active">凭证查询</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">凭证列表</h3>
+					<div class="box-tools"></div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>资产池</label>
+									<select name="relative" class="form-control input-sm">
+										<option value="">全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>凭证登记日</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="startDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="从" data-date-end="endDate">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endDate" type="text" class="form-control datepicker" data-date-format="YYYY-MM-DD" placeholder="到" data-date-begin="startDate">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped table-hover">
+						<thead>
+							<tr>
+								<th>日期</th>
+								<th>凭证字号</th>
+								<th>摘要</th>
+								<th>科目</th>
+								<th>借方金额(元)</th>
+								<th>贷方金额(元)</th>
+								<th>录入时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="detailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" style="overflow-x: auto;">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">凭证明细</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="doc-grid">
+					<div class="doc-grid-title">
+						<h2 class="doc-title"></h2>
+						<span class="doc-info doc-number"></span>
+						<span class="doc-info doc-date"></span>
+						<span class="doc-info doc-term"></span>
+						<span class="doc-info doc-attach">附单据 5 张</span>
+					</div>
+					<table class="main-table">
+						<thead>
+							<tr>
+								<td class="lsize" style="width: 280px;">摘要</td>
+								<td class="lsize" style="width: 325px;">会计项目</td>
+								<td>
+									<p class="number-header">借方金额</p>
+									<ul class="number-body">
+										<li>亿</li>
+										<li>千</li>
+										<li>百</li>
+										<li>十</li>
+										<li>万</li>
+										<li>千</li>
+										<li>百</li>
+										<li>十</li>
+										<li>元</li>
+										<li>角</li>
+										<li>分</li>
+									</ul>
+								</td>
+								<td>
+									<table class="inside-table">
+										<p class="number-header">贷方金额</p>
+										<ul class="number-body">
+											<li>亿</li>
+											<li>千</li>
+											<li>百</li>
+											<li>十</li>
+											<li>万</li>
+											<li>千</li>
+											<li>百</li>
+											<li>十</li>
+											<li>元</li>
+											<li>角</li>
+											<li>分</li>
+										</ul>
+									</table>
+								</td>
+							</tr>
+						</thead>
+						<tbody class="doc-detail">
+
+						</tbody>
+					</table>
+					<div class="doc-grid-footer">
+						<p class="doc-creator">&nbsp;</p>
+						<span class="doc-createtime">&nbsp;</span>
+						<span class="doc-updatetime">最后修改时间：2016-08-23 11:32:00</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">确 定</button>
+			</div>
+		</div>
+	</div>
+</div>

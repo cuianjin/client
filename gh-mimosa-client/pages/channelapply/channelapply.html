@@ -1,0 +1,319 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>渠道审批</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 渠道管理</a></li>
+		<li class="active">渠道审批</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div class="nav-tabs-custom">
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#tabcon1" aria-controls="待审核列表" role="tab" data-toggle="tab">待审核列表</a></li>
+					<li role="presentation"><a href="#tabcon2" aria-controls="已审核" role="tab" data-toggle="tab">已审核</a></li>
+				</ul>
+
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active" id="tabcon1">
+						<form id="waitSearchForm" name="waitSearchForm" method="post" class="search-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>渠道名称</label>
+										<input name="channelName" type="text" class="form-control input-sm" placeholder="搜索渠道名称">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>申请类型</label>
+										<select name="requestType" class="form-control input-sm">
+											<option value="" selected>全部</option>
+											<option value="on">启用</option>
+											<option value="off">停用</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>申请时间</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="reqTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="reqTimeEnd">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="input-group input-group-sm range"> 
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="reqTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="reqTimeBegin">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- 数据表格 -->
+						<table id="waitTable" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>渠道名称</th>
+									<th>渠道审批编号</th>
+									<th>申请类型</th>
+									<th>申请人</th>
+									<th>申请时间</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<!--已审核列表-->
+					<div role="tabpanel" class="tab-pane" id="tabcon2">
+						<form id="okSearchForm" name="okSearchForm" method="post" class="search-body">
+							<div class="row">
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>渠道名称</label>
+										<input name="channelName" type="text" class="form-control input-sm" placeholder="搜索渠道名称">
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>申请类型</label>
+										<select name="requestType" class="form-control input-sm">
+											<option value="" selected>全部</option>
+											<option value="on">启用</option>
+											<option value="off">停用</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>申请时间</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="reqTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="reqTimeEnd">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div class="input-group input-group-sm range">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input name="reqTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="reqTimeBegin">
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+						<!-- 数据表格 -->
+						<table id="okTable" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>渠道名称</th>
+									<th>渠道审批编号</th>
+									<th>申请类型</th>
+									<th>申请人</th>
+									<th>申请时间</th>
+									<th>审核时间</th>
+									<th>审核人</th>
+									<th>审核结果</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="approvetModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="approveForm" name="approveForm" method="post">
+					<div class="form-group">
+						<label>确定要<span id="content"></span>申请？</label>
+						<textarea name="remark" class="form-control input-sm" placeholder="请输入审核意见" rows="3" required></textarea>
+					</div>
+					<input name="apprOid" type="hidden">
+					<input name="apprResult" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button type="button" id="approveBut" class="btn btn-primary btn-submit approveSubmit">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="remarkModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">审核意见</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div id="remark"></div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="detailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="detailForm" name="detailForm" method="post">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>CID</dt>
+								<dd>
+									<div data-detail-fetch="cid"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>CKEY</dt>
+								<dd>
+									<div data-detail-fetch="ckey"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道名称</dt>
+								<dd>
+									<div data-detail-fetch="channelName"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--
+      					<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>接入方式</dt>
+								<dd>
+									<div data-detail-fetch="joinType" data-enum-transform="joinTypes"></div>
+								</dd>
+							</dl>
+						</div>
+						-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道费率(%)</dt>
+								<dd>
+									<div class="decimal2" data-detail-fetch="channelFee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道机构</dt>
+								<dd>
+									<div data-detail-fetch="partner"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道联系人</dt>
+								<dd>
+									<div data-detail-fetch="channelContactName"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道联系人邮件</dt>
+								<dd>
+									<div data-detail-fetch="channelEmail"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道联系人电话</dt>
+								<dd>
+									<div data-detail-fetch="channelPhone"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>渠道状态</dt>
+								<dd>
+									<div data-detail-fetch="channelStatus" data-enum-transform="channelStatus"></div>
+								</dd>
+							</dl>
+						</div>
+
+						<div class="col-sm-6">
+							<dl class="dl-horizontal channel-status">
+								<dt>审核状态</dt>
+								<dd>
+									<div data-detail-fetch="approvelStatus" data-enum-transform="approveStatus"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>

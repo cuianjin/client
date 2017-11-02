@@ -1,0 +1,294 @@
+<link href="assets/js/jstree/themes/default/style.min.css" rel="stylesheet">
+<style>
+    .left {
+        float: left;
+        width: 25%;
+    }
+
+    .right {
+        float: right;
+        width: 70%;
+        padding: 0 0;
+        margin: 0 0;
+        margin-right: 5%;
+    }
+
+    .div1 {
+        height: 60px;
+        background-color: #fafafa;
+    }
+
+    .p-line {
+        line-height: 40px;
+        float: left;
+    }
+
+    .p-select {
+        margin-top: 15px;
+        margin-right: 20px;
+        float: right;
+    }
+
+    .div2 {
+        border: 1px solid #eeeeee;
+        margin-top: 20px;
+    }
+
+    .span {
+        color: red;
+    }
+
+    .theader {
+        background-color: #fafafa;
+    }
+    section.content .table{min-width: 0;text-align: inherit;}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+     表单属性管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><i class="fa fa-dashboard"></i> 动态表单管理</li>
+		<li class="active">表单属性管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="box box-primary clearfix">
+    <div class="box-header">
+        <div>
+            <div style="font-size: 16px;padding: 10px;border-bottom: 1px solid #eeeeee">
+            	<div style="float: right;margin-top: -10px;">
+            		<button class="btn btn-default">新增</button>
+            		<button class="btn btn-default">排序管理</button></div>
+            	表单属性搜索</div>
+            <form class="form-horizontal" style="margin-top: 10px">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">属性Key:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="">
+                    </div>
+
+                    <label class="col-sm-1 control-label">属性名称:</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="">
+                    </div>
+
+                    <label class="col-sm-1 control-label">种类:</label>
+                    <div class="col-xs-2">
+                        <select class="form-control">
+                            <option>下拉选择</option>
+                            <option>单行文本</option>
+                            <option>密码</option>
+                            <option>多行文本</option>
+                            <option>单选</option>
+                            <option>多选</option>
+                            <option>图片</option>
+                            <option>日期</option>
+                            <option>隐藏域</option>
+                            <option>文本</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">属性类型:</label>
+                    <div class="col-xs-2">
+                        <select class="form-control">
+                            <option>固定属性</option>
+                            <option>动态属性</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-1 control-label">状态:</label>
+                    <div class="col-xs-2">
+                        <select class="form-control">
+                            <option>起用</option>
+                            <option>禁用</option>
+
+                        </select>
+                    </div>
+
+                    <button class="btn btn-default">搜索</button>
+                    <button class="btn btn-default">清空</button>
+                </div>
+
+            </form>
+
+        </div>
+        <table class="table table-bordered table-striped table-hover" style="margin-top: 20px;">
+            <thead>
+            <tr>
+                <th>属性Key</th>
+                <th>属性名称</th>
+                <th>属性类型</th>
+                <th>种类</th>
+                <th>属性状态</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>partFullName</td>
+                <td>机构全称</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>partCode</td>
+                <td>会员编号</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>partShortName</td>
+                <td>机构简称</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>mainUserCode</td>
+                <td>操作员编号</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>partCategories1</td>
+                <td>会员类别</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>openMchtAccount</td>
+                <td>用户名</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>cellPhone</td>
+                <td>手机号</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>registeredCapital</td>
+                <td>注册资金</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>account</td>
+                <td>用户名</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>partSince</td>
+                <td>入会时间</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>accountName</td>
+                <td>经办人姓名</td>
+                <td>单行文本</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>登录密码</td>
+                <td>密码</td>
+                <td>固定属性</td>
+                <td>启用</td>
+                <td>2016年9月24日14:30:26</td>
+                <td><a data-toggle="modal" data-target=".bs-example-modal-sm">修改</a> &nbsp;&nbsp;<a>禁用</a>
+                </td>
+            </tr>
+
+
+            </tbody>
+
+        </table>
+        <nav style="float: right">
+            <ul class="pagination">
+                <li class="disabled"><a href="#">«</a></li>
+                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li><a href="#">»</a></li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">属性组分配</h4>
+            </div>
+
+            <div class="modal-body">
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>

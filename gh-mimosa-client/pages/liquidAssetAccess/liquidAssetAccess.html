@@ -1,0 +1,343 @@
+<style>
+	.func-area {
+		display: inline;
+	}
+	
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    现金类标的审查
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 现金类标的管理</a></li>
+		<li class="active">现金类标的审查</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="liquidAssetAccessGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">审查列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="liquidAssetAccessTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>标的代码</th>
+								<th>标的名称</th>
+								<th>标的类型</th>
+								<th>创建时间</th>
+								<th>风险等级</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 预审弹窗 -->
+<div id="accessModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金类标的审核</h4>
+			</div>
+			<div class="modal-body">
+				<form id="accessFrom" name="accessFrom" method="post">
+					<textarea name="suggest" rows="3" class="form-control input-sm" placeholder="请输入审查意见" maxlength="500"></textarea>
+					<input id="coid" name="oid" type="hidden" value="" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="checkreject" type="button" class="btn btn-warning btn-submit accessSubmit">驳 回</button>
+				<button id="checkpass" type="button" class="btn btn-primary btn-submit accessSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 现金管理类工具详情弹窗 -->
+<form id="detLiquidAssetForm" name="detLiquidAssetForm" method="post">
+	<div id="liquidAssetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">现金管理类工具详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">货币基金概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金代码:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="CASHTOOLTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>运作模式:</dt>
+								<dd>
+									<div data-detail-fetch="operationMode"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>业绩比较基准:</dt>
+								<dd>
+									<div data-detail-fetch="perfBenchmark"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>申赎确认日:</dt>
+								<dd>
+									<div data-detail-fetch="confirmDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益结转方式:</dt>
+								<dd>
+									<div data-detail-fetch="incomeSchedule" data-enum-transform="incomeSchedule"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>交易所代码:</dt>
+								<dd>
+									<div data-detail-fetch="exchangeCd"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">基金相关人员信息</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人编码:</dt>
+								<dd>
+									<div data-detail-fetch="managementCompany"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金管理人名称:</dt>
+								<dd>
+									<div data-detail-fetch="managementFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人编码:</dt>
+								<dd>
+									<div data-detail-fetch="custodian"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金托管人名称:</dt>
+								<dd>
+									<div data-detail-fetch="custodianFullName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基金经理:</dt>
+								<dd>
+									<div data-detail-fetch="managerName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">风控措施</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资目标:</dt>
+								<dd>
+									<div data-detail-fetch="investTarget"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资领域:</dt>
+								<dd>
+									<div data-detail-fetch="investField"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="CASHTOOLHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">风控措施</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>风险等级:</dt>
+								<dd>
+									<div data-detail-fetch="riskLevel"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 协定存款详情 -->
+<form id="detLiquidAsset_treatyForm" name="detLiquidAsset_treatyForm" method="post">
+	<div id="LiquidAsset_treatyDetailModal" data-backdrop="static" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<!-- 模态窗头部 -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">协定存款详情</h4>
+				</div>
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<p class="form-header">协定存款概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基本额度(万元):</dt>
+								<dd>
+									<!--<div data-detail-fetch="baseAmount" data-enum-transform="CASHTOOLTYPE"></div>-->
+									<div data-detail-fetch="baseAmount"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>基本年利率(%):</dt>
+								<dd>
+									<div data-detail-fetch="baseYield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>协定存款年利率(%):</dt>
+								<dd>
+									<div data-detail-fetch="yield"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<p class="form-header">风控措施</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>风险等级:</dt>
+								<dd>
+									<div data-detail-fetch="riskLevel"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

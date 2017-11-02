@@ -1,0 +1,522 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    现金类标的备选库
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 现金类标的管理</a></li>
+		<li class="active">现金类标的备选库</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">现金类标的备选列表</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的代码</label>
+									<input name="sn" type="text" class="form-control input-sm" placeholder="搜索基金代码">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的名称</label>
+									<input name="name" type="text" class="form-control input-sm" placeholder="搜索基金名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>标的类型</label>
+									<select name="type" class="form-control input-sm" >
+										<option value="" selected>全部</option>
+										<option value="CASHTOOLTYPE_01">货币基金</option>
+										<option value="CASHTOOLTYPE_02">协定存款</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>7日年化收益率</label>
+									<select name="weeklyYield" class="form-control input-sm">
+										<option value="" selected>不限</option>
+										<option value="-0.03">小于3%</option>
+										<option value=":0.03-0.06">3% - 6%</option>
+										<option value=":0.06-0.10">6% - 10%</option>
+										<option value=":0.10-0.15">10% - 15%</option>
+										<option value=":0.15-">大于15%</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>标的代码</th>
+								<th>标的名称</th>
+								<th>标的类型</th>
+								<th>7日年化收益率(%)</th>
+								<th>万份收益(元)</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 收益采集 默认大小 -->
+<div id="liquidAssetYieldModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">收益采集</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">现金类标的概况</p>
+				<div class="row" id="liquidAssetYieldDetail">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal dl_minbox">
+							<dt>基金代码:</dt>
+							<dd id="detsn">
+								<div data-detail-fetch="sn"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal dl_minbox">
+							<dt>基金名称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<input type="hidden" name="type" value="CASHTOOLTYPE_01" />
+				<table id="yieldTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>编号</th>
+							<th>收益日</th>
+							<th>万份收益(元)</th>
+							<th>7日年化收益率(%)</th>
+							<th>录入时间</th>
+							<th>操作员</th>
+						</tr>
+					</thead>
+				</table>
+				
+				<!-- 滚动div-->
+					<!-- 编辑表单 -->
+					<div id="liquidAssetYieldDiv">
+						<p class="form-header"></p>
+						<form id="liquidAssetYieldForm" name="liquidAssetYieldForm" method="post">
+							<!--        	<p class="form-header">现金类标的概况</p>-->
+							<input type="hidden" id="liquidAsset_oid" name="oid"/>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label>收益开始日</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input id="profitStartDate"  name="profitStartDate" type="text" class="form-control datepicker" placeholder="请选择日期" data-date-format="YYYY-MM-DD" required data-error="交易日期不能为空" data-date-end="profitDeadlineDate">
+										</div>
+										<div class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label>收益截止日</label>
+										<div class="input-group input-group-sm">
+											<div class="input-group-addon">
+												<i class="fa fa-calendar"></i>
+											</div>
+											<input id="profitDeadlineDate" name="profitDeadlineDate" type="text" class="form-control datepicker" placeholder="请选择日期" data-date-format="YYYY-MM-DD" required data-error="截止日期不能为空" data-date-begin="profitStartDate">
+										</div>
+										<div id="endError" class="help-block with-errors text-red"></div>
+									</div>
+								</div>
+							</div>
+							<input id="liquidAssetOid" name="liquidAssetOid" type="hidden">
+						</form>
+						<div id="autoHtml">
+							
+						</div>
+					</div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="liquidAssetYieldSubmit" type="button" class="btn btn-primary btn-submit liquidAssetYieldSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 现金类标的详情弹窗 -->
+<div id="liquidAssetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金类标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">货币基金概况</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金代码:</dt>
+							<dd>
+								<div data-detail-fetch="sn"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金名称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金类型:</dt>
+							<dd>
+								<div data-detail-fetch="type"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>运作模式:</dt>
+							<dd>
+								<div data-detail-fetch="operationMode"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>业绩比较基准:</dt>
+							<dd>
+								<div data-detail-fetch="perfBenchmark"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>申赎确认日:</dt>
+							<dd>
+								<div data-detail-fetch="confirmDays"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>收益结转方式:</dt>
+							<dd>
+								<div data-detail-fetch="incomeSchedule" data-enum-transform="incomeSchedule"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>交易所代码:</dt>
+							<dd>
+								<div data-detail-fetch="exchangeCd"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>7日年化收益率(%):</dt>
+							<dd>
+								<div data-detail-fetch="weeklyYield"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>万份收益(元):</dt>
+							<dd>
+								<div data-detail-fetch="dailyProfit"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">基金相关联系人信息</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金管理人编码:</dt>
+							<dd>
+								<div data-detail-fetch="managementCompany"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金管理人名称:</dt>
+							<dd>
+								<div data-detail-fetch="managementFullName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金托管人编码:</dt>
+							<dd>
+								<div data-detail-fetch="custodian"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金托管人名称:</dt>
+							<dd>
+								<div data-detail-fetch="custodianFullName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基金经理:</dt>
+							<dd>
+								<div data-detail-fetch="managerName"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">投资措施</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资目标:</dt>
+							<dd>
+								<div data-detail-fetch="investTarget"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>投资领域:</dt>
+							<dd>
+								<div data-detail-fetch="investField"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>持有目的:</dt>
+							<dd>
+								<div data-detail-fetch="holdPorpush" data-enum-transform="CASHTOOLHOLDPORPUSH"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">风控措施</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>风险等级:</dt>
+							<dd>
+								<div data-detail-fetch="riskLevel"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!--<div id="assetPoolDet">
+					<p class="form-header">投资组合信息</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="assetPoolTable" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>编号</th>
+										<th>投资组合名称</th>
+										<th>投资组合净值</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 现金类标的协定存款详情 -->
+<div id="liquidAssetDetailModal_treaty" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">现金类标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">协定存款概况</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>协定存款编号:</dt>
+							<dd>
+								<div data-detail-fetch="sn"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>协定存款名称:</dt>
+							<dd>
+								<div data-detail-fetch="name"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>标的类型:</dt>
+							<dd>
+								<div data-detail-fetch="type" ></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基本额度(万元):</dt>
+							<dd>
+								<div data-detail-fetch="baseAmount"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>基本利率(%):</dt>
+							<dd>
+								<div data-detail-fetch="baseYield"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>协定存款年利率(%):</dt>
+							<dd>
+								<div data-detail-fetch="yield"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>7日年化收益率(%):</dt>
+							<dd>
+								<div data-detail-fetch="weeklyYield"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>万份收益(元):</dt>
+							<dd>
+								<div data-detail-fetch="dailyProfit"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">风控措施</p>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>风险等级:</dt>
+							<dd>
+								<div data-detail-fetch="riskLevel"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<!--<div id="assetPoolDet_treaty">
+					<p class="form-header">投资组合信息</p>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="assetPoolTable_treaty" class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th>编号</th>
+										<th>投资组合名称</th>
+										<th>投资组合价值</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

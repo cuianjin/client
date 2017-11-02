@@ -1,0 +1,371 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    风险处置管理
+  </h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>  投资标的管理</a></li>
+		<li class="active">风险处置管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="nav-tabs-custom">
+		<ul class="nav nav-tabs" role="tablist">
+			<li role="presentation" class="active">
+				<a id="a1" href="#fundpanel1" role="tab" data-toggle="tab">风险处置列表</a>
+			</li>
+			<li role="presentation">
+				<a id="a2" href="#fundpanel2" role="tab" data-toggle="tab">历史处置列表</a>
+			</li>
+		</ul>
+		<div class="tab-content">
+			<div class="tab-pane active" role="tabpanel" id="fundpanel1">
+				<!-- 搜索项表单 -->
+				<form id="targetSearchForm" name="targetSearchForm" method="post" class="search-body">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>标的名称</label>
+								<select name="relative" class="form-control input-sm">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>指标名称</label>
+								<input name="riskName" type="text" class="form-control input-sm" placeholder="搜索指标名称">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>风险等级</label>
+								<select name="wlevel" class="form-control input-sm" data-enum-fetch="riskLevel" data-enum-text="全部">
+									<option value="" selected>全部</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- 风险处置列表 -->
+				<table id="riskWarningHandleTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>标的名称</th>
+							<th>指标分类</th>
+							<th>指标名称</th>
+							<th>指标描述</th>
+							<th>处置状态</th>
+							<th>指标数据</th>
+							<th>风险等级</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="tab-pane" role="tabpanel" id="fundpanel2">
+				<!-- 历史处置列表 -->
+				<table id="riskWarningHandleHisTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>标的名称</th>
+							<th>指标分类</th>
+							<th>指标名称</th>
+							<th>指标描述</th>
+							<th>处置结果</th>
+							<th>处置时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="summaryDetailModal" class="modal fade bs-example-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">风险处置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<dl class="dl-horizontal">
+					<dt>风险建议备忘录:</dt>
+					<dd>
+						<div id="summary"></div>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 标的详情弹窗 -->
+<div id="targetDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">标的详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="detTargetForm" name="detTargetForm" method="post">
+					<p class="form-header">标的概况</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的编号:</dt>
+								<dd>
+									<div data-detail-fetch="sn"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的名称:</dt>
+								<dd>
+									<div data-detail-fetch="name"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>标的类型:</dt>
+								<dd>
+									<div data-detail-fetch="type" data-enum-transform="TARGETTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>投资方向:</dt>
+								<dd>
+									<div data-detail-fetch="investment"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产规模(万):</dt>
+								<dd>
+									<div data-detail-fetch="raiseScope" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>资产期限:</dt>
+								<dd>
+									<div data-detail-fetch="life"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>付息方式:</dt>
+								<dd>
+									<div data-detail-fetch="accrualType" data-enum-transform="ACCRUALTYPE"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>持有目的:</dt>
+								<dd>
+									<div data-detail-fetch="holdPorpush" data-enum-transform="TARGETHOLDPORPUSH"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="trustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>剩余授信额度(万):</dt>
+								<dd>
+									<div data-detail-fetch="restTrustAmount" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>预计年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="expAror" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="collectIncomeRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>逾期年化收益率(%):</dt>
+								<dd>
+									<div data-detail-fetch="overdueRate" class="decimal2"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>起购金额(万):</dt>
+								<dd>
+									<div data-detail-fetch="floorVolume" class="decimal4"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>募集期:</dt>
+								<dd>
+									<div data-detail-fetch="collectDate"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>主体评级:</dt>
+								<dd>
+									<div data-detail-fetch="subjectRating"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级机构:</dt>
+								<dd>
+									<div data-detail-fetch="ratingAgency"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>评级时间:</dt>
+								<dd>
+									<div data-detail-fetch="ratingTime"></div>
+								</dd>
+							</dl>
+						</div>
+						<!--<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>内部评级:</dt>
+								<dd>
+									<div data-detail-fetch="irb"></div>
+								</dd>
+							</dl>
+						</div>-->
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>优先级:</dt>
+								<dd>
+									<div data-detail-fetch="prior"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>合同年天数:</dt>
+								<dd>
+									<div data-detail-fetch="contractDays"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>收益说明:</dt>
+								<dd>
+									<div data-detail-fetch="expArorDesc"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</form>
+				<form id="riskHandleForm" name="riskHandleForm" method="post">
+					<p class="form-header">风险处置</p>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>处置结果</label>
+								<div class="row">
+									<div class="col-sm-4">
+										<input name="handle" type="radio" value="KEEP" class="icheck" checked> 保留风险等级
+									</div>
+									<div class="col-sm-4">
+										<input name="handle" type="radio" value="CLEAR" class="icheck"> 风险已处置
+									</div>
+									<div class="col-sm-4">
+										<input name="handle" type="radio" value="DOWN" class="icheck"> 风险降级
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>处置建议备忘录</label>
+								<textarea name="summary" rows="3" class="form-control input-sm" placeholder="处置建议备忘录" style="resize:none"></textarea>
+							</div>
+						</div>
+					</div>
+					<input id="reportInput" name="report" type="hidden" />
+					<input id="reportSizeInput" name="reportSize" type="hidden" />
+					<input id="reportNameInput" name="reportName" type="hidden" />
+					<input id="meetingInput" name="meeting" type="hidden" />
+					<input id="meetingSizeInput" name="meetingSize" type="hidden" />
+					<input id="meetingNameInput" name="meetingName" type="hidden" />
+					<input id="oid" name="oid" type="hidden" />
+				</form>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>风险预警信号报告</label>
+							<div id="reportFile" class="form-group" style="display: none;">
+								<a id="reportA" href="#"><span id="reportSpan" class="pull-right"></span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" id="reportUploader"></div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label>会议纪要</label>
+							<div id="meetingFile" class="form-group" style="display: none;">
+								<a id="meetingA" href="#"><span id="meetingSpan" class="pull-right"></span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group" id="meetingUploader"></div>
+				<!-- 模态窗底部 -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+					<button id="riskHandleSubmit" type="button" class="btn btn-primary btn-submit riskHandleSubmit">处 置</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
